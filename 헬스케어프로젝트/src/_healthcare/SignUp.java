@@ -19,6 +19,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 
 public class SignUp extends JFrame {
+	
 	private JTextField idField;
 	private JTextField pwField;
 	private JTextField ageField;

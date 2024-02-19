@@ -70,6 +70,7 @@ public class Login extends JFrame {
 			}
 		});
 
+		
 		setSize(360, 530);
 		setVisible(true);
 	}
