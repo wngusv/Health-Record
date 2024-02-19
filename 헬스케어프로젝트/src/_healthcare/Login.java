@@ -19,6 +19,7 @@ public class Login extends JFrame {
 	private JTextField txtID;
 	private JTextField txtPW;
 	private JButton loginButton;
+	private String loginId;
 
 	public Login() {
 		SpringLayout springLayout = new SpringLayout();
@@ -64,13 +65,16 @@ public class Login extends JFrame {
 
 				if (login(id, pw)) {
 					System.out.println("로그인성공");
+					loginId = id;
+					System.out.println(loginId);
+					dispose();
+					new Main(loginId);
 				} else {
 					System.out.println("로그인실패");
 				}
 			}
 		});
 
-		
 		setSize(360, 530);
 		setVisible(true);
 	}
@@ -97,4 +101,3 @@ public class Login extends JFrame {
 		new Login();
 	}
 }
-
