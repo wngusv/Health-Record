@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.DefaultCellEditor;
@@ -29,13 +30,19 @@ public class MessageBoard extends JFrame {
 	private DefaultTableModel tableModel;
 	private JTable table;
 	private String loginId;
-	
+
 	public MessageBoard(String loginId) {
 		this.loginId = loginId;
 		setTitle("게시판");
 		setSize(600, 400);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("로그인한 ID:" + loginId);
+		initializeTable();
+		addComponents();
+		loadMessagesFromDatabase();
+	}
+
+	private void initializeTable() {
 		tableModel = new DefaultTableModel(new Object[] { "", "아이디", "내용", "날짜", "좋아요", "" }, 0) {
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
@@ -63,9 +70,10 @@ public class MessageBoard extends JFrame {
 
 		table.getColumnModel().getColumn(5).setCellRenderer(new ToggleButtonRenderer());
 		table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
+	}
 
+	private void addComponents() {
 		JScrollPane scrollPane = new JScrollPane(table);
-
 		add(scrollPane, BorderLayout.CENTER);
 
 		JButton addButton = new JButton("글쓰기");
@@ -79,22 +87,40 @@ public class MessageBoard extends JFrame {
 		add(addButton, BorderLayout.SOUTH);
 	}
 
+	private void loadMessagesFromDatabase() {
+		try (Connection connection = MySqlConnectionProvider.getConnection()) {
+			String sql = "SELECT * FROM messageboard";
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			ResultSet resultSet = preparedStatement.executeQuery();
+
+			while (resultSet.next()) {
+				String id = resultSet.getString("member_id");
+				String content = resultSet.getString("content");
+				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업을 수행
+				Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
+				tableModel.addRow(rowData);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void addMessage() {
 		String id = loginId; // 아이디 가져와야됨
 		String content = JOptionPane.showInputDialog(this, "Enter Content:");
 		if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
 			Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
 			tableModel.addRow(rowData);
-		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String sql = "INSERT INTO messageboard (member_id, content, date) VALUES ((SELECT id FROM member WHERE id = ?), ?, CURDATE())";
-;
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, id);
-			preparedStatement.setString(2, content);
-			preparedStatement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			try (Connection connection = MySqlConnectionProvider.getConnection()) {
+				String sql = "INSERT INTO messageboard (member_id, content, date) VALUES ((SELECT id FROM member WHERE id = ?), ?, CURDATE())";
+				;
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				preparedStatement.setString(1, id);
+				preparedStatement.setString(2, content);
+				preparedStatement.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
