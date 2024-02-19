@@ -39,10 +39,10 @@ public class MessageBoard extends JFrame {
 		System.out.println("로그인한 ID:" + loginId);
 		initializeTable();
 		addComponents();
-		loadMessagesFromDatabase();
+		loadMessage();
 	}
 
-	private void initializeTable() {
+	private void initializeTable() { //테이블 설정 메서드
 		tableModel = new DefaultTableModel(new Object[] { "", "아이디", "내용", "날짜", "좋아요", "" }, 0) {
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
@@ -72,7 +72,7 @@ public class MessageBoard extends JFrame {
 		table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
 	}
 
-	private void addComponents() {
+	private void addComponents() { // 프레임에 컴포넌트 추가  글쓰기 등록
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 
@@ -87,7 +87,7 @@ public class MessageBoard extends JFrame {
 		add(addButton, BorderLayout.SOUTH);
 	}
 
-	private void loadMessagesFromDatabase() {
+	private void loadMessage() { // 데이터베이스에서 게시글 불러오기
 		try (Connection connection = MySqlConnectionProvider.getConnection()) {
 			String sql = "SELECT * FROM messageboard";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -96,7 +96,7 @@ public class MessageBoard extends JFrame {
 			while (resultSet.next()) {
 				String id = resultSet.getString("member_id");
 				String content = resultSet.getString("content");
-				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업을 수행
+				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업
 				Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
 				tableModel.addRow(rowData);
 			}
@@ -106,7 +106,7 @@ public class MessageBoard extends JFrame {
 	}
 
 	private void addMessage() {
-		String id = loginId; // 아이디 가져와야됨
+		String id = loginId; // 로그인한 아이디 
 		String content = JOptionPane.showInputDialog(this, "Enter Content:");
 		if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
 			Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
