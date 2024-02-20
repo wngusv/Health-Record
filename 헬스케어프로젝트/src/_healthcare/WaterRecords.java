@@ -36,12 +36,10 @@ public class WaterRecords extends JFrame {
 	// sql에 넣기 위해 날짜를 date형식으로 변경
 	Date sqlDate = new Date(currentDate.getTime());
 
-	Login login = new Login();
-	// 로그인한 유저 아이디
-	String user_id = login.loginId;
+	private String user_id;
 	
-	public WaterRecords() { // 오늘 데이트와 아이디로 select해보고/ 행이 없다면 행 insert./ 행이 있다면 행 update.
-		
+	public WaterRecords(String loginId) { // 오늘 데이트와 아이디로 select해보고/ 행이 없다면 행 insert./ 행이 있다면 행 update.
+		this.user_id = loginId;
 		try (Connection conn = MySqlConnectionProvider.getConnection()) {
 			String selectQuery = "SELECT * FROM waterrecords WHERE user_id = ? AND date = ?";
 			try (PreparedStatement pst = conn.prepareStatement(selectQuery)) {
@@ -223,9 +221,4 @@ public class WaterRecords extends JFrame {
 	}
 	
 	
-	
-
-	public static void main(String[] args) {
-		new WaterRecords();
-	}
 }
