@@ -121,7 +121,7 @@ public class ExerciseRecords extends JFrame {
 		try {
 			Connection connection = MySqlConnectionProvider.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT hours_exercise FROM exerciserecords");
+			ResultSet resultSet = statement.executeQuery("SELECT hours_exercise FROM exericserecords");
 
 			// 결과를 JLabel에 설정
 			if (resultSet.next()) {
@@ -147,7 +147,7 @@ public class ExerciseRecords extends JFrame {
 		try {
 			Connection connection = MySqlConnectionProvider.getConnection();
 			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery("SELECT kcal_exercise FROM exerciserecords");
+			ResultSet resultSet = statement.executeQuery("SELECT kcal_exercise FROM exericserecords");
 
 			// 결과를 JLabel에 설정
 			if (resultSet.next()) {
@@ -208,7 +208,7 @@ public class ExerciseRecords extends JFrame {
 			// 데이터베이스 연결
 			Connection connection = MySqlConnectionProvider.getConnection();
 			// 삽입 쿼리 작성
-			String query = "INSERT INTO exerciserecords (start_time) VALUES (?)";
+			String query = "INSERT INTO exericserecords (start_time) VALUES (?)";
 			// PreparedStatement 생성
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			// 파라미터 설정
@@ -228,7 +228,7 @@ public class ExerciseRecords extends JFrame {
 			// 데이터베이스 연결
 			Connection connection = MySqlConnectionProvider.getConnection();
 			// 삽입 쿼리 작성
-			String query = "INSERT INTO exerciserecords (end_time) VALUES (?)";
+			String query = "INSERT INTO exericserecords (end_time) VALUES (?)";
 			// PreparedStatement 생성
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 			// 파라미터 설정
