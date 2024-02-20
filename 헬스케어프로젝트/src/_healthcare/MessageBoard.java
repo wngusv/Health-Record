@@ -218,6 +218,7 @@ public class MessageBoard extends JFrame {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	    
 	}
 
 	private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
