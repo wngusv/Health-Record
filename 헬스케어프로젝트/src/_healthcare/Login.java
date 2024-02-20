@@ -82,7 +82,7 @@ public class Login extends JFrame {
 	private boolean login(String id, String pw) {
 
 		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String query = "SELECT * FROM member WHERE id = ? AND pw = ?";
+			String query = "SELECT * FROM users WHERE id = ? AND pw = ?";
 			try (PreparedStatement statement = connection.prepareStatement(query)) {
 				statement.setString(1, id);
 				statement.setString(2, pw);

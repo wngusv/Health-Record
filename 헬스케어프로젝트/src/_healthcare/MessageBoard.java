@@ -42,7 +42,7 @@ public class MessageBoard extends JFrame {
 		loadMessage();
 	}
 
-	private void initializeTable() { //테이블 설정 메서드
+	private void initializeTable() { //테이블 설정 메서드 테이블은 게시물 등록되는
 		tableModel = new DefaultTableModel(new Object[] { "", "아이디", "내용", "날짜", "좋아요", "" }, 0) {
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
@@ -112,7 +112,7 @@ public class MessageBoard extends JFrame {
 			Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
 			tableModel.addRow(rowData);
 			try (Connection connection = MySqlConnectionProvider.getConnection()) {
-				String sql = "INSERT INTO messageboard (member_id, content, date) VALUES ((SELECT id FROM member WHERE id = ?), ?, CURDATE())";
+				String sql = "INSERT INTO messageboard (member_id, content, like, date) VALUES ((SELECT id FROM member WHERE id = ?), ?, ?, CURDATE())";
 				;
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, id);
@@ -126,6 +126,7 @@ public class MessageBoard extends JFrame {
 
 	private class ToggleButtonEditor extends DefaultCellEditor implements TableCellEditor {
 		private JToggleButton button;
+		private int likes;
 
 		public ToggleButtonEditor() {
 			super(new JCheckBox());
@@ -151,13 +152,12 @@ public class MessageBoard extends JFrame {
 		// 좋아요 토글버튼 좋아요 횟수
 		@Override
 		public Object getCellEditorValue() {
+			likes = (int) tableModel.getValueAt(table.getSelectedRow(), 4);
 			if (button.isSelected()) {
-				int Likes = (int) tableModel.getValueAt(table.getSelectedRow(), 4); // "좋아요 횟수" 열의 인덱스 4
-				tableModel.setValueAt(Likes + 1, table.getSelectedRow(), 4); // 좋아요 숫자 증가
+				tableModel.setValueAt(likes + 1, table.getSelectedRow(), 4); // 좋아요 숫자 증가
 			} else if (!button.isSelected()) {
-				int Likes = (int) tableModel.getValueAt(table.getSelectedRow(), 4);
-				if (Likes > 0) {
-					tableModel.setValueAt(Likes - 1, table.getSelectedRow(), 4);
+				if (likes > 0) {
+					tableModel.setValueAt(likes - 1, table.getSelectedRow(), 4);
 				}
 			}
 
