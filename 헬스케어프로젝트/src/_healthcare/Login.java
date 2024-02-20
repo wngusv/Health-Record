@@ -19,7 +19,7 @@ public class Login extends JFrame {
 	private JTextField txtID;
 	private JTextField txtPW;
 	private JButton loginButton;
-	private String loginId;
+	public String loginId; 
 
 	public Login() {
 		SpringLayout springLayout = new SpringLayout();
