@@ -36,6 +36,19 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, exerciseButton, 109, SpringLayout.SOUTH, boardButton);
         springLayout.putConstraint(SpringLayout.WEST, exerciseButton, 102, SpringLayout.WEST, getContentPane());
         getContentPane().add(exerciseButton);
+        
+        JButton btnNewButton = new JButton("물 기록");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		// 물 기록 창 열기
+        		WaterRecords waterRecords = new WaterRecords(loginId);
+        		waterRecords.setVisible(true);
+        		dispose(); // 현재 창 닫기
+        	}
+        });
+        springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 36, SpringLayout.SOUTH, exerciseButton);
+        springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 104, SpringLayout.WEST, getContentPane());
+        getContentPane().add(btnNewButton);
 
         exerciseButton.addActionListener(new ActionListener() {
             @Override
