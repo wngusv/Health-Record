@@ -69,7 +69,7 @@ public class Login extends JFrame {
 					System.out.println(loginId);
 					dispose();
 					new Main(loginId);
-					new WaterRecords(loginId);
+					//new WaterRecords(loginId);
 				} else {
 					System.out.println("로그인실패");
 				}
