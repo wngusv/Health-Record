@@ -94,7 +94,7 @@ public class MessageBoard extends JFrame {
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
-				String id = resultSet.getString("member_id");
+				String id = resultSet.getString("user_id");
 				String content = resultSet.getString("content");
 				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업
 				Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
