@@ -42,7 +42,7 @@ public class MessageBoard extends JFrame {
 		loadMessage();
 	}
 
-	private void initializeTable() { //테이블 설정 메서드 테이블은 게시물 등록되는
+	private void initializeTable() { // 테이블 설정 메서드 테이블은 게시물 등록되는
 		tableModel = new DefaultTableModel(new Object[] { "", "아이디", "내용", "날짜", "좋아요", "" }, 0) {
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
@@ -72,7 +72,7 @@ public class MessageBoard extends JFrame {
 		table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
 	}
 
-	private void addComponents() { // 프레임에 컴포넌트 추가  글쓰기 등록
+	private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 
@@ -87,17 +87,24 @@ public class MessageBoard extends JFrame {
 		add(addButton, BorderLayout.SOUTH);
 	}
 
-	private void loadMessage() { // 데이터베이스에서 게시글 불러오기
+	private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
 		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String sql = "SELECT * FROM messageboard";
+			String sql = "SELECT messageboard.*, user_likes.is_liked " +
+                    "FROM messageboard " +
+                    "LEFT JOIN user_likes " +
+                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setString(1, loginId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
 				String id = resultSet.getString("user_id");
 				String content = resultSet.getString("content");
+				String date = resultSet.getString("date");
+				int likes = resultSet.getInt("likes");
+				boolean isLiked = resultSet.getBoolean("is_liked");
 				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업
-				Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
+				Object[] rowData = { tableModel.getRowCount() + 1, id, content, date, likes, isLiked };
 				tableModel.addRow(rowData);
 			}
 		} catch (SQLException e) {
@@ -105,19 +112,24 @@ public class MessageBoard extends JFrame {
 		}
 	}
 
+	// 글쓰기
 	private void addMessage() {
-		String id = loginId; // 로그인한 아이디 
+		String id = loginId; // 로그인한 아이디
 		String content = JOptionPane.showInputDialog(this, "Enter Content:");
 		if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
 			Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
 			tableModel.addRow(rowData);
 			try (Connection connection = MySqlConnectionProvider.getConnection()) {
-				String sql = "INSERT INTO messageboard (member_id, content, like, date) VALUES ((SELECT id FROM member WHERE id = ?), ?, ?, CURDATE())";
-				;
+				String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
+				String sql2 = "INSERT INTO user_likes (user_id, user_content) VALUES (?, ?)";
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				PreparedStatement preparedStatement2 = connection.prepareStatement(sql2);
 				preparedStatement.setString(1, id);
 				preparedStatement.setString(2, content);
+				preparedStatement2.setString(1, id);
+				preparedStatement2.setString(2, content);
 				preparedStatement.executeUpdate();
+				preparedStatement2.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -127,14 +139,22 @@ public class MessageBoard extends JFrame {
 	private class ToggleButtonEditor extends DefaultCellEditor implements TableCellEditor {
 		private JToggleButton button;
 		private int likes;
-
 		public ToggleButtonEditor() {
 			super(new JCheckBox());
-			button = new JToggleButton();
+			button = new JToggleButton("좋아요");
 			button.addItemListener(new ItemListener() {
 				@Override
 				public void itemStateChanged(ItemEvent e) {
-					fireEditingStopped();
+					
+					if (button.isSelected()) { 
+						 String content = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
+						 System.out.println(tableModel.getValueAt(table.getSelectedRow(), 2));
+						saveButton(loginId, content, true); // 버튼 상태 저장
+					} else if (!button.isSelected()) { 
+						 String content = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
+						saveButton(loginId, content, false); // 버튼 상태 저장
+					}
+					fireEditingStopped(); // 셀 편집 종료
 				}
 			});
 		}
@@ -152,17 +172,54 @@ public class MessageBoard extends JFrame {
 		// 좋아요 토글버튼 좋아요 횟수
 		@Override
 		public Object getCellEditorValue() {
+			String content = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
 			likes = (int) tableModel.getValueAt(table.getSelectedRow(), 4);
 			if (button.isSelected()) {
 				tableModel.setValueAt(likes + 1, table.getSelectedRow(), 4); // 좋아요 숫자 증가
+				updateLikes(content, likes + 1);
 			} else if (!button.isSelected()) {
 				if (likes > 0) {
 					tableModel.setValueAt(likes - 1, table.getSelectedRow(), 4);
+					updateLikes(content, likes - 1);
 				}
 			}
-
 			return button.isSelected();
 		}
+	}
+
+	// 좋아요 숫자 해당 행이 저장
+	private void updateLikes(String content, int likes) {
+		try (Connection conn = MySqlConnectionProvider.getConnection()) {
+			String sql = "UPDATE messageboard SET likes = ? WHERE content = ?";
+			PreparedStatement preparedStatement = conn.prepareStatement(sql);
+			preparedStatement.setInt(1, likes);
+			preparedStatement.setString(2, content);
+			preparedStatement.executeUpdate();
+			System.out.println(likes);
+			System.out.println(preparedStatement.executeUpdate());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 좋아요 버튼 누른 아이디 버튼 상태 저장
+	private void saveButton(String userId, String content, boolean isLiked) {
+	    try (Connection conn = MySqlConnectionProvider.getConnection()) {
+	        String sql = "UPDATE user_likes SET is_liked = ? WHERE user_id = ? AND user_content = ?";
+	        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	        preparedStatement.setBoolean(1, isLiked);
+	        preparedStatement.setString(2, userId);
+	        preparedStatement.setString(3, content);
+	        preparedStatement.executeUpdate(); 
+	        
+	        System.out.println("버튼상태" + isLiked);
+	        System.out.println("버튼저장 아이디"  + userId);
+	        System.out.println("버튼저장 내용" + content);
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    
 	}
 
 	private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
