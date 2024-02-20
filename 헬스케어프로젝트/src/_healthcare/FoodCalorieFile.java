@@ -1,4 +1,4 @@
-/* 엑셀파일이 가영컴퓨터에만 있어서 다른 컴퓨터에는 이 코드가 실행이 안 될 것 같아서 주석처리 했어요. 하지만 팀플디비에는 음식칼로리데이터들이 들어갔어요.
+// 엑셀파일이 가영컴퓨터에만 있어서 다른 컴퓨터에는 이 코드가 실행이 안 될 것 같아서 주석처리 했어요. 하지만 팀플디비에는 음식칼로리데이터들이 들어갔어요.
  
 package _healthcare;
 
@@ -29,6 +29,7 @@ import dbutil.MySqlConnectionProvider;
 
 // 1. 메이븐 추가
 public class FoodCalorieFile {
+	
 	public static void output(String excel) { // 엑셀파일들을 csv 파일형식으로 만들어주는 메소드
 		InputStream is = null;
 		Workbook workbook = null;
@@ -78,7 +79,7 @@ public class FoodCalorieFile {
 	}
 
 	public static void main(String[] args) {
-
+/*
 		File file = new File("D:\\KimGayoung\\식품영양성분\\output.csv");
 		if (!file.exists()) {
 			String food = "D:\\KimGayoung\\식품영양성분\\통합 식품영양성분DB_음식_20240216.xlsx";
@@ -153,7 +154,8 @@ public class FoodCalorieFile {
 				e.printStackTrace();
 			}
 		}
-
-	}
-}
 */
+	}
+	
+}
+
