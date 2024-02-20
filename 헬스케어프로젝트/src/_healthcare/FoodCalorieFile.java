@@ -1,4 +1,4 @@
-
+/*
  
 package _healthcare;
 
@@ -155,7 +155,5 @@ public class FoodCalorieFile {
 			}
 		}
 */
-	}
-	
-}
+
 
