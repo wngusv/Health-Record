@@ -154,7 +154,7 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_7, -429, SpringLayout.EAST, getContentPane());
 		getContentPane().add(lblNewLabel_7);
 
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("음식 추가");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Morning_FindFoodCalories m = new Morning_FindFoodCalories(user_id);
@@ -166,7 +166,7 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 6, SpringLayout.EAST, lblNewLabel_4);
 		getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("New button");
+		JButton btnNewButton_1 = new JButton("음식 추가");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Lunch_FindFoodCalories l = new Lunch_FindFoodCalories(user_id);
@@ -179,7 +179,7 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, 0, SpringLayout.EAST, btnNewButton);
 		getContentPane().add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("New button");
+		JButton btnNewButton_2 = new JButton("음식 추가");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Dinner_FindFoodCalories d = new Dinner_FindFoodCalories(user_id);
@@ -191,7 +191,7 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_2, 258, SpringLayout.WEST, getContentPane());
 		getContentPane().add(btnNewButton_2);
 
-		JButton btnNewButton_3 = new JButton("New button");
+		JButton btnNewButton_3 = new JButton("음식 추가");
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Snack_FindFoodCalories s = new Snack_FindFoodCalories(user_id);
@@ -272,6 +272,8 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("New label");
+		// TODO 금일 칼로리들 합 가져오기
+		
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_9, 46, SpringLayout.EAST, lblNewLabel_8);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_9, -87, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_9, -18, SpringLayout.EAST, lblNewLabel_5);
