@@ -21,23 +21,26 @@ import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-public class FindFoodCalories extends JFrame {
+public class Lunch_FindFoodCalories extends JFrame {
 	private JTextField textField;
 	private JButton btnNewButton;
 	private JTable resultTable;
 	private DefaultTableModel tableModel;
 	private JButton btnNewButton_1;
 	private String user_id;
+	private String foodName; // 사용자가 선택한 음식명
+	private double lunch_kcal;
+	
+	
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
 	// sql에 넣기 위해 날짜를 date형식으로 변경
 	Date sqlDate = new Date(currentDate.getTime());
 
-	public FindFoodCalories(String loginId) {
+	public Lunch_FindFoodCalories(String loginId) {
 		this.user_id = loginId;
 		extracted();
 		showGUI();
@@ -117,7 +120,7 @@ public class FindFoodCalories extends JFrame {
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.EAST, textField);
 		getContentPane().add(btnNewButton);
 
-		JLabel lblNewLabel = new JLabel("아침 :");
+		JLabel lblNewLabel = new JLabel("점심 :");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 80, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -49, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -351, SpringLayout.EAST, getContentPane());
@@ -144,14 +147,19 @@ public class FindFoodCalories extends JFrame {
 
 		// JTable에 ListSelectionListener 추가
 		resultTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+
+			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (!e.getValueIsAdjusting()) {
 					int selectedRow = resultTable.getSelectedRow();
 					if (selectedRow >= 0) {
-						String foodName = resultTable.getValueAt(selectedRow, 0).toString();
+						foodName = resultTable.getValueAt(selectedRow, 0).toString();
 						String oneServing = resultTable.getValueAt(selectedRow, 1).toString();
 						String calories = resultTable.getValueAt(selectedRow, 2).toString();
+						lunch_kcal = (Double) resultTable.getValueAt(selectedRow, 2); // 더블형식의 아침 칼로리
 
 						System.out.println("선택된 항목: " + foodName + ", " + oneServing + ", " + calories);
 
@@ -175,36 +183,31 @@ public class FindFoodCalories extends JFrame {
 		btnNewButton_1 = new JButton("확인");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO 확인버튼을 누르면 디비 dietrecords테이블에 저장(DietRecords 클래스에서 디비(dietrecords테이블)로 저장할 수 있게 작성 후 여기서 호출하여 저장.)
-//				
-//				String selectQuery = "SELCT * FROM dietrecords WHERE user_id = ? AND date = ?";
-//				try (Connection conn = MySqlConnectionProvider.getConnection();
-//						PreparedStatement pst = conn.prepareStatement(selectQuery);) {
-//					pst.setString(1, user_id);
-//					pst.setDate(2, sqlDate);
-//					
-//					try (ResultSet rs = pst.executeQuery()) {
-//						if (!rs.next()) { // 그 데이터가 없는 경우. INSERT사용
-//							String insertQuery = "INSERT INTO dietrecords (user_id, date) VALUES (?,?)";
-//							try (PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
-//								insertPst.setString(1, user_id);
-//								insertPst.setDate(2, sqlDate);
-//
-//								// INSERT 실행
-//								int insertRow = insertPst.executeUpdate();
-//								if (insertRow == 1) {
-//									System.out.println("INSERT 성공");
-//								}
-//							}
-//
-//						} else { // 행이 있는 경우, UPDATE (아침만)
-//							
-//						}
-//					}
-//				} catch (SQLException e) {
-//					e.printStackTrace();
-//				}
+				// TODO 확인버튼을 누르면 디비 아침다이어트 테이블에 생성
+				String lunch_meal = foodName;
+				
+				String insertQeury = "INSERT INTO lunchdiet (user_id, date, lunch_meal, lunch_kcal) VALUES (?,?,?,?)";
+				try(Connection conn = MySqlConnectionProvider.getConnection();
+						PreparedStatement pst = conn.prepareStatement(insertQeury)){
+					pst.setString(1, user_id);
+					pst.setDate(2, sqlDate);
+					pst.setString(3, lunch_meal);
+					pst.setDouble(4, lunch_kcal);
+					
+					 // executeUpdate()를 사용하여 DML 쿼리 실행
+		            int affectedRows = pst.executeUpdate();
 
+		            if (affectedRows > 0) {
+		                System.out.println("데이터가 성공적으로 삽입되었습니다.");
+		            } else {
+		                System.out.println("데이터 삽입에 실패했습니다.");
+		            }
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+		
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -2, SpringLayout.NORTH, lblNewLabel);
@@ -213,31 +216,8 @@ public class FindFoodCalories extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		new FindFoodCalories("asd");
+		new Lunch_FindFoodCalories("asd");
 	}
 }
 
-class FoodData {
-	private String foodName;
-	private String oneServing;
-	private double calories;
 
-	public FoodData(String foodName, String oneServing, double calories) {
-		this.foodName = foodName;
-		this.oneServing = oneServing;
-		this.calories = calories;
-	}
-
-	public String getFoodName() {
-		return foodName;
-	}
-
-	public String getOneServing() {
-		return oneServing;
-	}
-
-	public double getCalories() {
-		return calories;
-	}
-
-}
