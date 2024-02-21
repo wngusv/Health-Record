@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.toedter.calendar.IDayChooser;
+//import com.toedter.calendar.IDayChooser;
 import com.toedter.calendar.JCalendar;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Font;
 
 public class ExerciseCalendar extends JFrame {
 
@@ -36,13 +39,17 @@ public class ExerciseCalendar extends JFrame {
     public ExerciseCalendar() {
         setTitle("Exercise Calendar");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 450, 300);
+        setBounds(100, 100, 641, 477);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
 
         calendar = new JCalendar();
+        calendar.getYearChooser().getSpinner().setFont(new Font("맑은 고딕", Font.BOLD, 12));
+        calendar.getMonthChooser().getComboBox().setFont(new Font("맑은 고딕", Font.BOLD, 12));
+        calendar.getDayChooser().setDecorationBackgroundColor(SystemColor.menu);
+        calendar.getDayChooser().getDayPanel().setBackground(Color.WHITE);
         calendar.getDayChooser().addPropertyChangeListener("day", e -> highlightSelectedDate());
         contentPane.add(calendar, BorderLayout.CENTER);
 
