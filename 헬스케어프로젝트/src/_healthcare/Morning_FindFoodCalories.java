@@ -206,6 +206,7 @@ public class Morning_FindFoodCalories extends JFrame {
 					e.printStackTrace();
 				}
 				
+				
 		
 			}
 		});
@@ -214,8 +215,5 @@ public class Morning_FindFoodCalories extends JFrame {
 		getContentPane().add(btnNewButton_1);
 	}
 
-	public static void main(String[] args) {
-		new Morning_FindFoodCalories("asd");
-	}
 }
 

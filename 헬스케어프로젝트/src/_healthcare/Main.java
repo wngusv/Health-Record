@@ -11,6 +11,9 @@ import javax.swing.JLabel;
 
 public class Main extends JFrame {
     private String loginId;
+    
+    
+    
 
     public Main(String loginId) {
         this.loginId = loginId;
@@ -52,6 +55,20 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, waterButton, 36, SpringLayout.SOUTH, exerciseButton);
         springLayout.putConstraint(SpringLayout.WEST, waterButton, 104, SpringLayout.WEST, getContentPane());
         getContentPane().add(waterButton);
+        
+        JButton btnNewButton = new JButton("식단 기록");
+        btnNewButton.addActionListener(new ActionListener() {
+        	
+
+			public void actionPerformed(ActionEvent e) {
+        		DietRecord dietRecord = new DietRecord(loginId);
+        		dietRecord.setVisible(true);
+        		dispose();
+        	}
+        });
+        springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, exerciseButton);
+        springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.NORTH, exerciseButton);
+        getContentPane().add(btnNewButton);
         waterButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		// 물 기록 창 열기

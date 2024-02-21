@@ -207,7 +207,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 					e.printStackTrace();
 				}
 				
-		
+				
 			}
 		});
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -2, SpringLayout.NORTH, lblNewLabel);
@@ -215,9 +215,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 		getContentPane().add(btnNewButton_1);
 	}
 
-	public static void main(String[] args) {
-		new Snack_FindFoodCalories("asd");
-	}
+	
 }
 
 
