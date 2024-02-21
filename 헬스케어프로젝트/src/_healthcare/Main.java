@@ -32,13 +32,27 @@ public class Main extends JFrame {
             }
         });
 
+        
         JButton exerciseButton = new JButton("운동기록");
         springLayout.putConstraint(SpringLayout.NORTH, exerciseButton, 109, SpringLayout.SOUTH, boardButton);
         springLayout.putConstraint(SpringLayout.WEST, exerciseButton, 102, SpringLayout.WEST, getContentPane());
         getContentPane().add(exerciseButton);
+        exerciseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // 운동기록 창 열기
+                ExerciseRecords exerciseRecords = new ExerciseRecords(loginId);
+                exerciseRecords.setVisible(true);
+                dispose(); // 현재 창 닫기
+            }
+        });
         
-        JButton btnNewButton = new JButton("물 기록");
-        btnNewButton.addActionListener(new ActionListener() {
+        
+        JButton waterButton = new JButton("물 기록");
+        springLayout.putConstraint(SpringLayout.NORTH, waterButton, 36, SpringLayout.SOUTH, exerciseButton);
+        springLayout.putConstraint(SpringLayout.WEST, waterButton, 104, SpringLayout.WEST, getContentPane());
+        getContentPane().add(waterButton);
+        waterButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		// 물 기록 창 열기
         		WaterRecords waterRecords = new WaterRecords(loginId);
@@ -46,19 +60,9 @@ public class Main extends JFrame {
         		dispose(); // 현재 창 닫기
         	}
         });
-        springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 36, SpringLayout.SOUTH, exerciseButton);
-        springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 104, SpringLayout.WEST, getContentPane());
-        getContentPane().add(btnNewButton);
+        
 
-        exerciseButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // 운동기록 창 열기
-                ExerciseRecords exerciseRecords = new ExerciseRecords();
-                exerciseRecords.setVisible(true);
-                dispose(); // 현재 창 닫기
-            }
-        });
+
 
         setSize(360, 530);
         setVisible(true);
