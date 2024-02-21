@@ -69,6 +69,17 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, exerciseButton);
         springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.NORTH, exerciseButton);
         getContentPane().add(btnNewButton);
+        
+        JButton calButton = new JButton("캘린더");
+        calButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		ExerciseCalendar calendar = new ExerciseCalendar(loginId);
+        		calendar.setVisible(true);
+        	}
+        });
+        springLayout.putConstraint(SpringLayout.NORTH, calButton, 26, SpringLayout.SOUTH, waterButton);
+        springLayout.putConstraint(SpringLayout.EAST, calButton, 0, SpringLayout.EAST, boardButton);
+        getContentPane().add(calButton);
         waterButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		// 물 기록 창 열기

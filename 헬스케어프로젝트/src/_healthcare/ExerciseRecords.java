@@ -27,9 +27,13 @@ public class ExerciseRecords extends JFrame {
    private String loginId;
    private String startTime; // 추가: 운동 시작 시간을 저장할 변수
    private String selectedExercise; // 추가: 선택된 운동을 저장할 변수
+   ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
+   
+   
    
    public ExerciseRecords(String loginId) {
       this.loginId = loginId;
+      System.out.println(loginId);
       setTitle("운동기록");
       getContentPane().setLayout(null);
       
@@ -113,6 +117,9 @@ public class ExerciseRecords extends JFrame {
                stmt.setString(3, formattedDateTime);
                stmt.setString(4, formattedDateTime); // 시작 시간과 종료 시간은 동일하게 설정
                stmt.executeUpdate();
+               
+               exerciseCalendar.updateCalendarImage(now.getDayOfMonth());
+//               System.out.println(now.getDayOfMonth());
             } catch (SQLException ex) {
                ex.printStackTrace();
             }
@@ -127,6 +134,16 @@ public class ExerciseRecords extends JFrame {
       JLabel lbl_end = new JLabel("");
       lbl_end.setBounds(423, 261, 163, 15);
       getContentPane().add(lbl_end);
+      
+      JButton btnNewButton = new JButton("뒤로가기");
+      btnNewButton.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      		dispose();
+			new Main(loginId);
+      	}
+      });
+      btnNewButton.setBounds(296, 228, 97, 23);
+      getContentPane().add(btnNewButton);
       
       // 운동종료 버튼 클릭 시 이벤트 리스너
       btn_end.addActionListener(new ActionListener() {
@@ -150,6 +167,7 @@ public class ExerciseRecords extends JFrame {
                stmt.setString(3, startTime); // 시작 시간 사용
                stmt.setString(4, startTime); // 종료 시간을 시작 시간과 동일하게 설정
                stmt.executeUpdate();
+               
             } catch (SQLException ex) {
                ex.printStackTrace();
             }
