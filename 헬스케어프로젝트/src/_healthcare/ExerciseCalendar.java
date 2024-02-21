@@ -32,7 +32,7 @@ public class ExerciseCalendar extends JFrame {
             }
         });
     }
-
+                
     public ExerciseCalendar() {
         setTitle("Exercise Calendar");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +59,7 @@ public class ExerciseCalendar extends JFrame {
         if (isExerciseDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH))) {
             JLabel label = new JLabel(new ImageIcon("image/circle.png")); // Path to your image
             label.setHorizontalAlignment(SwingConstants.CENTER);
-            calendar.getDayChooser().add(label, IDayChooser.DAYS_OF_WEEK * (cal.get(Calendar.WEEK_OF_MONTH) - 1) + cal.get(Calendar.DAY_OF_WEEK));
+           // calendar.getDayChooser().add(label, IDayChooser.DAYS_OF_WEEK * (cal.get(Calendar.WEEK_OF_MONTH) - 1) + cal.get(Calendar.DAY_OF_WEEK));
         }
     }
 
