@@ -23,6 +23,9 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Color;
 
 public class Morning_FindFoodCalories extends JFrame {
 	private JTextField textField;
@@ -40,8 +43,12 @@ public class Morning_FindFoodCalories extends JFrame {
 	// sql에 넣기 위해 날짜를 date형식으로 변경
 	Date sqlDate = new Date(currentDate.getTime());
 	private JButton btnNewButton_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_4;
 
 	public Morning_FindFoodCalories(String loginId) {
+		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();
 		showGUI();
@@ -90,23 +97,23 @@ public class Morning_FindFoodCalories extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(484, 592);
+		setSize(494, 472);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
 	private void extracted() {
 		setTitle("음식칼로리");
-		SpringLayout springLayout = new SpringLayout();
-		getContentPane().setLayout(springLayout);
+		getContentPane().setLayout(null);
 
 		textField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField, 10, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, textField, 97, SpringLayout.WEST, getContentPane());
+		textField.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		textField.setBounds(163, 78, 116, 21);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 
 		btnNewButton = new JButton("검색");
+		btnNewButton.setBounds(291, 77, 67, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			private String findFoodName;
 
@@ -117,21 +124,16 @@ public class Morning_FindFoodCalories extends JFrame {
 
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 0, SpringLayout.NORTH, textField);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.EAST, textField);
 		getContentPane().add(btnNewButton);
 
 		JLabel lblNewLabel = new JLabel("아침 :");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 80, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -49, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -351, SpringLayout.EAST, getContentPane());
+		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel.setBounds(111, 385, 44, 19);
 		getContentPane().add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 0, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 6, SpringLayout.EAST, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -56, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_1, -131, SpringLayout.EAST, getContentPane());
+		JLabel lblNewLabel_1 = new JLabel("아침먹은거");
+		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
+		lblNewLabel_1.setBounds(155, 385, 158, 21);
 		getContentPane().add(lblNewLabel_1);
 
 		// 테이블 모델 초기화
@@ -173,15 +175,11 @@ public class Morning_FindFoodCalories extends JFrame {
 
 		// JScrollPane에 JTable 추가하여 스크롤 가능하도록 설정
 		JScrollPane scrollPane = new JScrollPane(resultTable);
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 187, SpringLayout.SOUTH, scrollPane);
-
-		// 컨테이너에 컴포넌트들 추가
-		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 10, SpringLayout.SOUTH, textField);
-		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 267, SpringLayout.SOUTH, textField);
+		scrollPane.setBounds(12, 117, 452, 257);
 		getContentPane().add(scrollPane);
 
 		btnNewButton_1 = new JButton("확인");
+		btnNewButton_1.setBounds(315, 384, 57, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String breakfast_meal = foodName;
@@ -211,20 +209,39 @@ public class Morning_FindFoodCalories extends JFrame {
 		
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -2, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 5, SpringLayout.EAST, lblNewLabel_1);
 		getContentPane().add(btnNewButton_1);
 		
-		btnNewButton_2 = new JButton("뒤로가기");
+		btnNewButton_2 = new JButton("");
+		btnNewButton_2.setToolTipText("뒤로가기");
+		btnNewButton_2.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/뒤로가기.png")));
+		btnNewButton_2.setBounds(0, 1, 57, 33);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
 				new DietRecord(user_id);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, -1, SpringLayout.NORTH, textField);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_2, 0, SpringLayout.WEST, getContentPane());
+		// 버튼 투명 메소드------
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setFocusPainted(false);
+		//------------------
 		getContentPane().add(btnNewButton_2);
+		
+		lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/음식칼로리.png")));
+		lblNewLabel_3.setBounds(58, 0, 105, 33);
+		getContentPane().add(lblNewLabel_3);
+		
+		lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/큰초록바.png")));
+		lblNewLabel_2.setBounds(0, 0, 479, 38);
+		getContentPane().add(lblNewLabel_2);
+		
+		lblNewLabel_4 = new JLabel("음식명: ");
+		lblNewLabel_4.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel_4.setBounds(110, 81, 52, 15);
+		getContentPane().add(lblNewLabel_4);
 	}
 
 }
