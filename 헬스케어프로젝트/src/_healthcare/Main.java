@@ -55,11 +55,18 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, waterButton, 36, SpringLayout.SOUTH, exerciseButton);
         springLayout.putConstraint(SpringLayout.WEST, waterButton, 104, SpringLayout.WEST, getContentPane());
         getContentPane().add(waterButton);
+        waterButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		// 물 기록 창 열기
+        		WaterRecords waterRecords = new WaterRecords(loginId);
+        		waterRecords.setVisible(true);
+        		dispose(); // 현재 창 닫기
+        	}
+        });
+        
         
         JButton btnNewButton = new JButton("식단 기록");
         btnNewButton.addActionListener(new ActionListener() {
-        	
-
 			public void actionPerformed(ActionEvent e) {
         		DietRecord dietRecord = new DietRecord(loginId);
         		dietRecord.setVisible(true);
@@ -69,6 +76,7 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, exerciseButton);
         springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.NORTH, exerciseButton);
         getContentPane().add(btnNewButton);
+        
         
         JButton calButton = new JButton("캘린더");
         calButton.addActionListener(new ActionListener() {
@@ -80,14 +88,7 @@ public class Main extends JFrame {
         springLayout.putConstraint(SpringLayout.NORTH, calButton, 26, SpringLayout.SOUTH, waterButton);
         springLayout.putConstraint(SpringLayout.EAST, calButton, 0, SpringLayout.EAST, boardButton);
         getContentPane().add(calButton);
-        waterButton.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent arg0) {
-        		// 물 기록 창 열기
-        		WaterRecords waterRecords = new WaterRecords(loginId);
-        		waterRecords.setVisible(true);
-        		dispose(); // 현재 창 닫기
-        	}
-        });
+        
         
 
 
