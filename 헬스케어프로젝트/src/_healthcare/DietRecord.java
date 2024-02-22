@@ -21,7 +21,6 @@ public class DietRecord extends JFrame {
 	private JLabel lblNewLabel_4;
 	private JLabel lblNewLabel_5;
 	private JLabel lblNewLabel_6;
-	private JLabel lblNewLabel_7;
 	private String user_id;
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
@@ -31,6 +30,7 @@ public class DietRecord extends JFrame {
 	private double lunchSumKcal;
 	private double dinnerSumKcal;
 	private double snackSumKcal;
+	private JLabel lblNewLabel_7;
 
 	public DietRecord(String loginId) {
 		this.user_id = loginId;
@@ -55,83 +55,90 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("점심: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 0, SpringLayout.WEST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 141, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 45, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("저녁: ");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 0, SpringLayout.WEST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_2, 218, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 45, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("간식: ");
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_3, 0, SpringLayout.EAST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 282, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 45, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_3);
 
 		lblNewLabel_4 = new JLabel(" ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_4, 89, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 83, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_4, 234, SpringLayout.WEST, getContentPane());
 		String breakfastKcal_sql = "SELECT SUM(breakfast_kcal) FROM morningdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(breakfastKcal_sql);) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
-			
+
 			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				breakfastSumKcal = rs.getDouble("SUM(breakfast_kcal)");
-				
+
 			}
 			lblNewLabel_4.setText(String.valueOf(breakfastSumKcal));
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_4, 89, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 6, SpringLayout.EAST, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_4, 157, SpringLayout.EAST, lblNewLabel);
 		getContentPane().add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel(" ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 141, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_5, 83, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, 222, SpringLayout.WEST, getContentPane());
 		String lunchKcal_sql = "SELECT SUM(lunch_kcal) FROM lunchdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(lunchKcal_sql);) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
-			
+
 			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				lunchSumKcal = rs.getDouble("SUM(lunch_kcal)");
-				
+
 			}
 			lblNewLabel_5.setText(String.valueOf(lunchSumKcal));
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 0, SpringLayout.NORTH, lblNewLabel_1);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_5, 6, SpringLayout.EAST, lblNewLabel_1);
 		getContentPane().add(lblNewLabel_5);
 
 		lblNewLabel_6 = new JLabel(" ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 218, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_6, 83, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, 155, SpringLayout.WEST, getContentPane());
 		String dinnerKcal_sql = "SELECT SUM(dinner_kcal) FROM dinnerdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(dinnerKcal_sql);) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
-			
+
 			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				dinnerSumKcal = rs.getDouble("SUM(dinner_kcal)");
-				
+
 			}
 			lblNewLabel_6.setText(String.valueOf(dinnerSumKcal));
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 0, SpringLayout.NORTH, lblNewLabel_2);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_6, 6, SpringLayout.EAST, lblNewLabel_2);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -370, SpringLayout.EAST, getContentPane());
 		getContentPane().add(lblNewLabel_6);
 
 		lblNewLabel_7 = new JLabel(" ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_7, 0, SpringLayout.NORTH, lblNewLabel_3);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_7, 6, SpringLayout.EAST, lblNewLabel_3);
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_7, 0, SpringLayout.EAST, lblNewLabel_6);
 		String snackKcal_sql = "SELECT SUM(snack_kcal) FROM snackdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(snackKcal_sql);) {
@@ -139,22 +146,21 @@ public class DietRecord extends JFrame {
 			pst.setDate(2, sqlDate);
 			
 			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				snackSumKcal = rs.getDouble("SUM(snack_kcal)");
 				
 			}
 			lblNewLabel_7.setText(String.valueOf(snackSumKcal));
-
+			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_7, 0, SpringLayout.NORTH, lblNewLabel_3);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_7, 132, SpringLayout.EAST, lblNewLabel_3);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_7, 0, SpringLayout.SOUTH, lblNewLabel_3);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_7, -429, SpringLayout.EAST, getContentPane());
 		getContentPane().add(lblNewLabel_7);
 
+
 		JButton btnNewButton = new JButton("음식 추가");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 85, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 240, SpringLayout.WEST, getContentPane());
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Morning_FindFoodCalories m = new Morning_FindFoodCalories(user_id);
@@ -162,11 +168,11 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, -4, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 6, SpringLayout.EAST, lblNewLabel_4);
 		getContentPane().add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("음식 추가");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 137, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 240, SpringLayout.WEST, getContentPane());
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Lunch_FindFoodCalories l = new Lunch_FindFoodCalories(user_id);
@@ -174,12 +180,11 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, -18, SpringLayout.WEST, btnNewButton_1);
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -4, SpringLayout.NORTH, lblNewLabel_1);
-		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, 0, SpringLayout.EAST, btnNewButton);
 		getContentPane().add(btnNewButton_1);
 
 		JButton btnNewButton_2 = new JButton("음식 추가");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 228, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_2, 258, SpringLayout.WEST, getContentPane());
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Dinner_FindFoodCalories d = new Dinner_FindFoodCalories(user_id);
@@ -187,11 +192,11 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 228, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_2, 258, SpringLayout.WEST, getContentPane());
 		getContentPane().add(btnNewButton_2);
 
 		JButton btnNewButton_3 = new JButton("음식 추가");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_3, 278, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_3, 258, SpringLayout.WEST, getContentPane());
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Snack_FindFoodCalories s = new Snack_FindFoodCalories(user_id);
@@ -199,11 +204,11 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_3, -4, SpringLayout.NORTH, lblNewLabel_3);
-		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_3, 0, SpringLayout.EAST, btnNewButton_2);
 		getContentPane().add(btnNewButton_3);
 
 		JCheckBox chckbxNewCheckBox = new JCheckBox("단식했어요");
+		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox, 112, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox, 41, SpringLayout.WEST, getContentPane());
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -214,12 +219,11 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 6, SpringLayout.SOUTH, chckbxNewCheckBox);
-		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox, 8, SpringLayout.SOUTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox, 41, SpringLayout.WEST, getContentPane());
 		getContentPane().add(chckbxNewCheckBox);
 
 		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("단식했어요");
+		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_1, 162, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox_1, 45, SpringLayout.WEST, getContentPane());
 		chckbxNewCheckBox_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -230,11 +234,11 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_1, 6, SpringLayout.SOUTH, lblNewLabel_1);
-		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox_1, 0, SpringLayout.WEST, lblNewLabel);
 		getContentPane().add(chckbxNewCheckBox_1);
 
 		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("단식했어요");
+		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_2, 239, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox_2, 41, SpringLayout.WEST, getContentPane());
 		chckbxNewCheckBox_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -245,13 +249,11 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_2, 239, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -6, SpringLayout.NORTH, chckbxNewCheckBox_2);
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 20, SpringLayout.SOUTH, chckbxNewCheckBox_2);
-		springLayout.putConstraint(SpringLayout.EAST, chckbxNewCheckBox_2, 0, SpringLayout.EAST, chckbxNewCheckBox);
 		getContentPane().add(chckbxNewCheckBox_2);
 
 		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("단식했어요");
+		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_3, 303, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox_3, 45, SpringLayout.WEST, getContentPane());
 		chckbxNewCheckBox_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -262,37 +264,41 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, chckbxNewCheckBox_3, 6, SpringLayout.SOUTH, lblNewLabel_3);
-		springLayout.putConstraint(SpringLayout.WEST, chckbxNewCheckBox_3, 0, SpringLayout.WEST, lblNewLabel);
 		getContentPane().add(chckbxNewCheckBox_3);
 
 		JLabel lblNewLabel_8 = new JLabel("금일 칼로리: ");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_8, 26, SpringLayout.SOUTH, chckbxNewCheckBox_3);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_8, 352, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_8, 47, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("New label");
-		// TODO 금일 칼로리들 합 가져오기
-		
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_9, 46, SpringLayout.EAST, lblNewLabel_8);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_9, -87, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_9, -18, SpringLayout.EAST, lblNewLabel_5);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_9, 359, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_9, 165, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_9, 204, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_9);
 
 		JLabel lblNewLabel_10 = new JLabel("/ 권장칼로리: ");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_10, 51, SpringLayout.SOUTH, btnNewButton_3);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_10, 17, SpringLayout.EAST, lblNewLabel_9);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_10, 119, SpringLayout.EAST, lblNewLabel_9);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_10, 352, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_10, 221, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_10, 323, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_10);
 
 		JLabel lblNewLabel_11 = new JLabel("New label");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_11, 51, SpringLayout.SOUTH, btnNewButton_3);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_11, 12, SpringLayout.EAST, lblNewLabel_10);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_11, 97, SpringLayout.EAST, lblNewLabel_10);
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_11, 352, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_11, 335, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_11, 420, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_11);
-	}
 
-//	public static void main(String[] args) {
-//		new DietRecord("asd");
-//	}
+		JButton btnNewButton_4 = new JButton("뒤로가깅ㅎ");
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_4, 10, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_4, 21, SpringLayout.WEST, getContentPane());
+		btnNewButton_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new Main(user_id);
+			}
+		});
+		getContentPane().add(btnNewButton_4);
+
+	}
 }
