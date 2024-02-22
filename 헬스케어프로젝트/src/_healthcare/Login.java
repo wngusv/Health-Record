@@ -68,7 +68,9 @@ public class Login extends JFrame {
 					loginId = id;
 					System.out.println(loginId);
 					dispose();
-					new Main(loginId);
+					Main m = new Main(loginId);
+					m.setLocationRelativeTo(Login.this); // Main 클래스의 위치에 맞추어 창이 생성됨
+	                m.setVisible(true);
 				} else {
 					System.out.println("로그인실패");
 				}
