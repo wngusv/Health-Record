@@ -70,7 +70,8 @@ public class Main extends JFrame {
         btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		DietRecord dietRecord = new DietRecord(loginId);
-        		dietRecord.setVisible(true);
+        		dietRecord.setLocationRelativeTo(Main.this); // Main 클래스의 위치에 맞추어 창이 생성됨
+                dietRecord.setVisible(true);
         		dispose();
         	}
         });

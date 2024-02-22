@@ -39,6 +39,7 @@ public class Snack_FindFoodCalories extends JFrame {
 	java.util.Date currentDate = new java.util.Date();
 	// sql에 넣기 위해 날짜를 date형식으로 변경
 	Date sqlDate = new Date(currentDate.getTime());
+	private JButton btnNewButton_2;
 
 	public Snack_FindFoodCalories(String loginId) {
 		this.user_id = loginId;
@@ -211,6 +212,16 @@ public class Snack_FindFoodCalories extends JFrame {
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -2, SpringLayout.NORTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 5, SpringLayout.EAST, lblNewLabel_1);
 		getContentPane().add(btnNewButton_1);
+		
+		btnNewButton_2 = new JButton("뒤로가기");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new DietRecord(user_id);
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 0, SpringLayout.NORTH, textField);
+		getContentPane().add(btnNewButton_2);
 	}
 
 }

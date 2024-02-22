@@ -181,6 +181,9 @@ public class ExerciseRecords extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+				
+				
+				
 			}
 		});
 		loadExerciseName();
