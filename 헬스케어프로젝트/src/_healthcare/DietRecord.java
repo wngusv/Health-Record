@@ -31,6 +31,9 @@ public class DietRecord extends JFrame {
 	private double dinnerSumKcal;
 	private double snackSumKcal;
 	private JLabel lblNewLabel_7;
+	private Double todayEatSumKacl;
+	private JLabel lblNewLabel_9;
+	private JLabel lblNewLabel_11;
 
 	public DietRecord(String loginId) {
 		this.user_id = loginId;
@@ -214,6 +217,9 @@ public class DietRecord extends JFrame {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
 				if (chckbxNewCheckBox.isSelected()) {
 					lblNewLabel_4.setText("단식");
+					fastSql("morningdiet","breakfast_meal","breakfast_kcal");
+					breakfastSumKcal = 0.0;
+					todayEatKcal();
 				} else {
 					lblNewLabel_4.setText(String.valueOf(breakfastSumKcal));
 				}
@@ -229,6 +235,9 @@ public class DietRecord extends JFrame {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
 				if (chckbxNewCheckBox_1.isSelected()) {
 					lblNewLabel_5.setText("단식");
+					fastSql("lunchdiet","lunch_meal","lunch_kcal");
+					lunchSumKcal = 0.0;
+					todayEatKcal();
 				} else {
 					lblNewLabel_5.setText(String.valueOf(lunchSumKcal));
 				}
@@ -244,6 +253,9 @@ public class DietRecord extends JFrame {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
 				if (chckbxNewCheckBox_2.isSelected()) {
 					lblNewLabel_6.setText("단식");
+					fastSql("dinnerdiet","dinner_meal","dinner_kcal");
+					dinnerSumKcal = 0.0;
+					todayEatKcal();
 				} else {
 					lblNewLabel_6.setText(String.valueOf(dinnerSumKcal));
 				}
@@ -259,6 +271,9 @@ public class DietRecord extends JFrame {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
 				if (chckbxNewCheckBox_3.isSelected()) {
 					lblNewLabel_7.setText("단식");
+					fastSql("snackdiet","snack_meal","snack_kcal");
+					snackSumKcal = 0.0;
+					todayEatKcal();
 				} else {
 					lblNewLabel_7.setText(String.valueOf(snackSumKcal));
 				}
@@ -271,10 +286,11 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_8, 47, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_8);
 
-		JLabel lblNewLabel_9 = new JLabel("New label");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_9, 359, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_9, 165, SpringLayout.WEST, getContentPane());
+		lblNewLabel_9 = new JLabel(" ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_9, 0, SpringLayout.NORTH, lblNewLabel_8);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_9, 6, SpringLayout.EAST, lblNewLabel_8);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_9, 204, SpringLayout.WEST, getContentPane());
+		todayEatKcal();
 		getContentPane().add(lblNewLabel_9);
 
 		JLabel lblNewLabel_10 = new JLabel("/ 권장칼로리: ");
@@ -283,7 +299,24 @@ public class DietRecord extends JFrame {
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_10, 323, SpringLayout.WEST, getContentPane());
 		getContentPane().add(lblNewLabel_10);
 
-		JLabel lblNewLabel_11 = new JLabel("New label");
+		lblNewLabel_11 = new JLabel(" ");
+		String recommendKcalQuery = "SELECT recommended_kcal FROM users WHERE id = ?";
+		try(Connection conn = MySqlConnectionProvider.getConnection();
+			PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);) {
+			ps.setString(1,user_id);
+			
+			ResultSet rs = ps.executeQuery();
+			String recommendKcal = "";
+			while(rs.next()) {
+				recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
+			}
+			lblNewLabel_11.setText(recommendKcal.toString());
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_11, 352, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_11, 335, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_11, 420, SpringLayout.WEST, getContentPane());
@@ -300,5 +333,57 @@ public class DietRecord extends JFrame {
 		});
 		getContentPane().add(btnNewButton_4);
 
+	}
+	
+	private void fastSql(String whenFast, String whenMeal, String whenKcal) { // 삭제하지말고 업데이트 음식:"단식",칼로리 0 으로 해주자
+		// String deleteSql = "DELETE FROM "+ whenFast +" WHERE user_id = ? AND date = ?";
+		String updateQuery = "UPDATE " + whenFast + " SET "+ whenMeal +" = '단식'," + whenKcal +"= 0.0 WHERE user_id = ? AND date = ?";
+		try(Connection conn = MySqlConnectionProvider.getConnection();
+				PreparedStatement ps = conn.prepareStatement(updateQuery);) {
+			ps.setString(1, user_id);
+			ps.setDate(2, sqlDate);
+			
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void todayEatKcal() {
+		String sumKcal = "SELECT \r\n" + 
+				"    COALESCE(SUM(value), 0) AS '금일 칼로리'\r\n" + 
+				"FROM (\r\n" + 
+				"    SELECT COALESCE(SUM(breakfast_kcal), 0) AS value FROM morningdiet WHERE user_id = ? AND date = ? \r\n" + 
+				"    UNION ALL\r\n" + 
+				"    SELECT COALESCE(SUM(lunch_kcal), 0) AS value FROM lunchdiet WHERE user_id = ? AND date = ? \r\n" + 
+				"    UNION ALL\r\n" + 
+				"    SELECT COALESCE(SUM(dinner_kcal), 0) AS value FROM dinnerdiet WHERE user_id = ? AND date = ? \r\n" + 
+				"    UNION ALL\r\n" + 
+				"    SELECT COALESCE(SUM(snack_kcal), 0) AS value FROM snackdiet WHERE user_id = ? AND date = ? \r\n" + 
+				") AS subquery;";
+		try(Connection conn = MySqlConnectionProvider.getConnection();
+				PreparedStatement pst = conn.prepareStatement(sumKcal);){
+			pst.setString(1, user_id);
+			pst.setDate(2, sqlDate);
+			pst.setString(3, user_id);
+			pst.setDate(4, sqlDate);
+			pst.setString(5, user_id);
+			pst.setDate(6, sqlDate);
+			pst.setString(7, user_id);
+			pst.setDate(8, sqlDate);
+			
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				todayEatSumKacl = rs.getDouble("금일 칼로리");
+			}
+			lblNewLabel_9.setText(String.valueOf(todayEatSumKacl));
+				
+			
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 }
