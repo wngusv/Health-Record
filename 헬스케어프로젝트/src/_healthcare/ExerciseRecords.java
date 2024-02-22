@@ -120,7 +120,7 @@ public class ExerciseRecords extends JFrame {
                stmt.setString(4, formattedDateTime); // 시작 시간과 종료 시간은 동일하게 설정
                stmt.executeUpdate();
                
-               exerciseCalendar.updateCalendarImage(now.getDayOfMonth());
+//               exerciseCalendar.updateCalendarImage(now.getDayOfMonth());
 //               System.out.println(now.getDayOfMonth());
             } catch (SQLException ex) {
                ex.printStackTrace();

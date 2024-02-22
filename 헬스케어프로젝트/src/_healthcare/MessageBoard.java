@@ -25,6 +25,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import dbutil.MySqlConnectionProvider;
+import javax.swing.SpringLayout;
 
 public class MessageBoard extends JFrame {
 	private DefaultTableModel tableModel;
@@ -34,7 +35,7 @@ public class MessageBoard extends JFrame {
 	public MessageBoard(String loginId) {
 		this.loginId = loginId;
 		setTitle("게시판");
-		setSize(600, 400);
+		setSize(600, 445);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("로그인한 ID:" + loginId);
 		initializeTable();
@@ -73,10 +74,19 @@ public class MessageBoard extends JFrame {
 	}
 
 	private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
+		SpringLayout springLayout = new SpringLayout();
+		getContentPane().setLayout(springLayout);
 		JScrollPane scrollPane = new JScrollPane(table);
-		add(scrollPane, BorderLayout.CENTER);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 338, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 584, SpringLayout.WEST, getContentPane());
+		getContentPane().add(scrollPane);
 
 		JButton addButton = new JButton("글쓰기");
+		springLayout.putConstraint(SpringLayout.NORTH, addButton, 338, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, addButton, 515, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, addButton, 584, SpringLayout.WEST, getContentPane());
 		addButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -84,7 +94,19 @@ public class MessageBoard extends JFrame {
 			}
 		});
 
-		add(addButton, BorderLayout.SOUTH);
+		getContentPane().add(addButton);
+		
+		JButton btnNewButton = new JButton("뒤로가기");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new Main(loginId);
+			}
+		});
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 0, SpringLayout.NORTH, addButton);
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, scrollPane);
+		springLayout.putConstraint(SpringLayout.EAST, btnNewButton, -439, SpringLayout.WEST, addButton);
+		getContentPane().add(btnNewButton);
 	}
 
 	private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
@@ -92,9 +114,10 @@ public class MessageBoard extends JFrame {
 			String sql = "SELECT messageboard.*, user_likes.is_liked " +
                     "FROM messageboard " +
                     "LEFT JOIN user_likes " +
-                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
+                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?" +
+                    "ORDER BY messageboard.date DESC"; 
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			preparedStatement.setString(1, loginId);
+			preparedStatement.setString(1, loginId); // 로그인 아이디의 좋아요 버튼 상태 불러오기애오
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
@@ -120,7 +143,7 @@ public class MessageBoard extends JFrame {
 			Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
 			tableModel.addRow(rowData);
 			try (Connection connection = MySqlConnectionProvider.getConnection()) {
-				String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
+				String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, NOW())";
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, id);
 				preparedStatement.setString(2, content);

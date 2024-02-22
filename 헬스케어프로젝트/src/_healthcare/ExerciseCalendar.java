@@ -6,22 +6,17 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
-import javax.swing.SpringLayout;
+import javax.swing.border.LineBorder;
 
 public class ExerciseCalendar extends JFrame {
 	private JLabel monthLabel; // 월을 표시하는 레이블
@@ -173,60 +168,52 @@ public class ExerciseCalendar extends JFrame {
 		}
 
 		for (int day = 1; day <= daysInMonth; day++) { // 해당 월의 날짜만큼 패널에 추가
-			JPanel dayPanel = new JPanel(new BorderLayout());
-			dayPanel.setBackground(Color.WHITE);
+		    JPanel dayPanel = new JPanel(new BorderLayout());
+		    dayPanel.setBackground(Color.WHITE);
+		    dayPanel.setBorder(new LineBorder(Color.BLACK));
+		    JLabel dayLabel = new JLabel(String.valueOf(day), SwingConstants.CENTER); // 텍스트 레이블 생성
+		    dayLabel.setBackground(Color.WHITE); // 배경색을 하얀색으로 설정
+		    dayLabel.setOpaque(true); // 불투명하게 설정
+		    dayLabel.setPreferredSize(new Dimension(50, 50));
+		    dayPanel.add(dayLabel, BorderLayout.CENTER); // 텍스트 레이블을 패널에 추가
 
-			// 이미지를 추가할 경우
-			try {
-				String imageName = "Defaultimage" + day + ".png";// 이미지 파일 경로 설정
-				File imageFile = new File(imageName);
-				BufferedImage image = ImageIO.read(imageFile); // 이미지 파일 읽기
-				JLabel imageLabel = new JLabel(new ImageIcon(image), SwingConstants.CENTER); // 이미지를 표시할 레이블 생성
-				imageLabel.setBackground(Color.WHITE); // 배경색을 하얀색으로 설정
-				imageLabel.setOpaque(true); // 불투명하게 설정
-				imageLabel.setPreferredSize(new Dimension(50, 50));
-				dayPanel.add(imageLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			calendarPanel.add(dayPanel); // 날짜 패널을 캘린더 패널에 추가
+		    calendarPanel.add(dayPanel); // 날짜 패널을 캘린더 패널에 추가
 		}
-
 		revalidate(); // 컴포넌트들을 다시 배치하고 그리기 위해 호출
 		repaint(); // 컴포넌트를 다시 그리도록 요청
 	}
 
-	public void updateCalendarImage(int dayOfMonth) {
-		try {
-			String imageName = "Date" + dayOfMonth + ".png"; // 이미지 파일 경로 설정
-			File imageFile = new File(imageName);
-			BufferedImage image = ImageIO.read(imageFile); // 이미지 파일 읽기
+//	public void updateCalendarImage(int dayOfMonth) {
+//		try {
+//			String imageName = "Date" + dayOfMonth + ".png"; // 이미지 파일 경로 설정
+//			File imageFile = new File(imageName);
+//			BufferedImage image = ImageIO.read(imageFile); // 이미지 파일 읽기
 //			System.out.println(imageName);
 //			System.out.println(image);
-			// 해당 날짜의 패널을 찾아 이미지를 변경
-			JPanel dayPanel = (JPanel) calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1); // dayOfMonth를
-																											// 0부터 시작하도록
-																											// 조정
-			JLabel imageLabel = (JLabel) dayPanel.getComponent(0); // 이미지가 있는 첫 번째 컴포넌트 가져오기
-			imageLabel.setIcon(new ImageIcon(image)); // 이미지 변경
+//			// 해당 날짜의 패널을 찾아 이미지를 변경
+//			JPanel dayPanel = (JPanel) calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1); // dayOfMonth를
+//																											// 0부터 시작하도록
+//			JLabel imageLabel = (JLabel) dayPanel.getComponent(0); // 이미지가 있는 첫 번째 컴포넌트 가져오기
+//			imageLabel.setIcon(new ImageIcon(image)); // 이미지 변경
 //			imageLabel.setBackground(Color.WHITE); // 배경색을 하얀색으로 설정
 //			imageLabel.setOpaque(true); // 불투명하게 설정
 //			imageLabel.setPreferredSize(new Dimension(50, 50));
-			dayPanel.add(imageLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가
+//			dayPanel.add(imageLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가
 //			System.out.println(dayPanel);
-//			System.out.println(imageLabel);
-			revalidate(); // 컴포넌트들을 다시 배치하고 그리기 위해 호출
-			repaint(); // 컴포넌트를 다시 그리도록 요청
-			System.out.println(calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1)); // 확인을 위한 출력
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//		System.out.println(imageLabel);
+//			revalidate(); // 컴포넌트들을 다시 배치하고 그리기 위해 호출
+//			repaint(); // 컴포넌트를 다시 그리도록 요청
+//			System.out.println(calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1)); // 확인을 위한 출력
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
 		});
+		// SwingUtilities.invokeLater()는 스윙(Swing) GUI 업데이트 작업을 안전하게 처리하기 위한 방법 중 하나입니다. Swing은 단일 스레드 모델(single-threaded model)을 사용하기 때문에, GUI 컴포넌트에 대한 작업은 주로 이벤트 디스패치 스레드(Event Dispatch Thread)에서 처리됩니다.
+// 따라서 다른 스레드에서 GUI를 변경해야 하는 경우, SwingUtilities.invokeLater()를 사용하여 해당 작업을 이벤트 디스패치 스레드로 보내어 안전하게 처리할 수 있습니다. 이것은 다른 스레드에서 GUI 업데이트를 수행할 때 발생할 수 있는 동시성 문제를 방지하는데 도움이 됩니다.
+// 즉, 위의 코드는 빈 람다식을 invokeLater()에 전달하고 있으므로, 이 안에 GUI 관련 작업을 넣으면 됩니다. 이렇게 하면 해당 작업이 이벤트 디스패치 스레드에서 실행됩니다.
 	}
 }
