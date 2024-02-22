@@ -101,10 +101,6 @@ public class Login extends JFrame {
         loginButton.setBounds(65, 350, 215, 46);
         getContentPane().add(loginButton);
 
-        lblNewLabel = new JLabel("");
-        lblNewLabel.setBounds(0, 1, 360, 530);
-        getContentPane().add(lblNewLabel);
-
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -122,6 +118,8 @@ public class Login extends JFrame {
                 }
             }
         });
+				
+        
         
 
         loginButton.addActionListener(new ActionListener() {
@@ -156,4 +154,5 @@ public class Login extends JFrame {
     public static void main(String[] args) {
         new Login();
     }
+    
 }
