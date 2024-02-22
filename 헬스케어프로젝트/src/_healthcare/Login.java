@@ -1,105 +1,157 @@
 package _healthcare;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
-	private JTextField txtID;
-	private JTextField txtPW;
-	private JButton loginButton;
-	public String loginId; 
+    private JTextField txtID;
+    private JTextField txtPW;
+    private JButton loginButton;
+    public String loginId;
+    private JLabel lblNewLabel;
 
-	public Login() {
-		SpringLayout springLayout = new SpringLayout();
-		getContentPane().setLayout(springLayout);
+    public Login() {
+        getContentPane().setBackground(Color.WHITE);
+        getContentPane().setLayout(null);
 
-		txtID = new JTextField(); // 아이디 적는곳
-		springLayout.putConstraint(SpringLayout.NORTH, txtID, 234, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, txtID, 77, SpringLayout.WEST, getContentPane());
-		getContentPane().add(txtID);
-		txtID.setColumns(10);
+        txtID = new JTextField();
+        txtID.setBounds(65, 281, 215, 21);
+        txtID.setText("아이디를 입력하세요");
+        getContentPane().add(txtID);
+        txtID.setColumns(10);
 
-		txtPW = new JTextField(); // 비밀번호 적는곳
-		springLayout.putConstraint(SpringLayout.NORTH, txtPW, 24, SpringLayout.SOUTH, txtID);
-		springLayout.putConstraint(SpringLayout.EAST, txtPW, 0, SpringLayout.EAST, txtID);
-		getContentPane().add(txtPW);
-		txtPW.setColumns(10);
+        // 텍스트 필드에 포커스를 얻었을 때 힌트가 사라지도록 함
+        txtID.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (txtID.getText().equals("아이디를 입력하세요")) {
+                    txtID.setText("");
+                }
+            }
 
-		JButton signUpButton = new JButton("회원가입"); // 회원가입 버튼
-		springLayout.putConstraint(SpringLayout.SOUTH, signUpButton, -147, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, signUpButton, -47, SpringLayout.EAST, getContentPane());
-		getContentPane().add(signUpButton);
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtID.getText().isEmpty()) {
+                    txtID.setText("아이디를 입력하세요");
+                }
+            }
+        });
 
-		signUpButton.addActionListener(new ActionListener() {
+        txtPW = new JTextField();
+        txtPW.setBounds(65, 312, 215, 21);
+        txtPW.setText("비밀 번호를 입력하세요");
+        getContentPane().add(txtPW);
+        txtPW.setColumns(10);
+        
+     // 텍스트 필드에 포커스를 얻었을 때 힌트가 사라지도록 함
+        txtPW.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (txtPW.getText().equals("비밀 번호를 입력하세요")) {
+                	txtPW.setText("");
+                }
+            }
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				new SignUp();
-				dispose();
-			}
-		});
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (txtPW.getText().isEmpty()) {
+                	txtPW.setText("비밀 번호를 입력하세요");
+                }
+            }
+        });
 
-		loginButton = new JButton("로그인");
-		springLayout.putConstraint(SpringLayout.NORTH, loginButton, 31, SpringLayout.SOUTH, signUpButton);
-		springLayout.putConstraint(SpringLayout.EAST, loginButton, -102, SpringLayout.EAST, getContentPane());
-		getContentPane().add(loginButton);
+        JButton signUpButton = new JButton("");
+        signUpButton.setIcon(new ImageIcon(Login.class.getResource("/image/회원가입.png")));
+        signUpButton.setOpaque(false);
+        signUpButton.setContentAreaFilled(false); // 내용 영역을 채우지 않음
+        signUpButton.setBorderPainted(false); // 테두리 제거
+        signUpButton.setBounds(54, 394, 239, 45);
+        getContentPane().add(signUpButton);
 
-		loginButton.addActionListener(new ActionListener() {
+        signUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SignUp();
+                dispose();
+            }
+        });
+        
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String id = txtID.getText();
-				String pw = txtPW.getText();
+        loginButton = new JButton("");
+        loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인.png")));
+        loginButton.setOpaque(false);
+        loginButton.setContentAreaFilled(false); // 내용 영역을 채우지 않음
+        loginButton.setBorderPainted(false); // 테두리 제거
+        loginButton.setBounds(65, 350, 215, 46);
+        getContentPane().add(loginButton);
 
-				if (login(id, pw)) {
-					System.out.println("로그인성공");
-					loginId = id;
-					System.out.println(loginId);
-					dispose();
-					Main m = new Main(loginId);
-					m.setLocationRelativeTo(Login.this); // Main 클래스의 위치에 맞추어 창이 생성됨
-	                m.setVisible(true);
-				} else {
-					System.out.println("로그인실패");
-				}
-			}
-		});
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String id = txtID.getText();
+                String pw = txtPW.getText();
 
-		setSize(360, 530);
-		setVisible(true);
-	}
+                if (login(id, pw)) {
+                    System.out.println("로그인성공");
+                    loginId = id;
+                    System.out.println(loginId);
+                    dispose();
+                    new Main(loginId);
+                } else {
+                    System.out.println("로그인실패");
+                }
+            }
+        });
+				
+        
+        
 
-	private boolean login(String id, String pw) {
+        loginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인선택.png")));
+            }
+        });
 
-		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String query = "SELECT * FROM users WHERE id = ? AND pw = ?";
-			try (PreparedStatement statement = connection.prepareStatement(query)) {
-				statement.setString(1, id);
-				statement.setString(2, pw);
+        setSize(360, 530);
+        setVisible(true);
+    }
 
-				try (ResultSet resultSet = statement.executeQuery()) {
-					return resultSet.next(); // 결과가 있으면 true 반환
-				}
-			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-			return false;
-		}
-	}
+    private boolean login(String id, String pw) {
 
-	public static void main(String[] args) {
-		new Login();
-	}
+        try (Connection connection = MySqlConnectionProvider.getConnection()) {
+            String query = "SELECT * FROM users WHERE id = ? AND pw = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, id);
+                statement.setString(2, pw);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    return resultSet.next(); // 결과가 있으면 true 반환
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    public static void main(String[] args) {
+        new Login();
+    }
 }

@@ -22,8 +22,6 @@ public class Main extends JFrame {
         getContentPane().setLayout(springLayout);
 
         JButton boardButton = new JButton("게시판");
-        springLayout.putConstraint(SpringLayout.NORTH, boardButton, 171, SpringLayout.NORTH, getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, boardButton, 114, SpringLayout.WEST, getContentPane());
         getContentPane().add(boardButton);
 
         boardButton.addActionListener(new ActionListener() {
@@ -37,8 +35,6 @@ public class Main extends JFrame {
 
         
         JButton exerciseButton = new JButton("운동기록");
-        springLayout.putConstraint(SpringLayout.NORTH, exerciseButton, 109, SpringLayout.SOUTH, boardButton);
-        springLayout.putConstraint(SpringLayout.WEST, exerciseButton, 102, SpringLayout.WEST, getContentPane());
         getContentPane().add(exerciseButton);
         exerciseButton.addActionListener(new ActionListener() {
             @Override
@@ -52,8 +48,11 @@ public class Main extends JFrame {
         
         
         JButton waterButton = new JButton("물 기록");
-        springLayout.putConstraint(SpringLayout.NORTH, waterButton, 36, SpringLayout.SOUTH, exerciseButton);
-        springLayout.putConstraint(SpringLayout.WEST, waterButton, 104, SpringLayout.WEST, getContentPane());
+        springLayout.putConstraint(SpringLayout.NORTH, waterButton, 440, SpringLayout.NORTH, getContentPane());
+        springLayout.putConstraint(SpringLayout.NORTH, boardButton, 0, SpringLayout.NORTH, waterButton);
+        springLayout.putConstraint(SpringLayout.WEST, exerciseButton, 0, SpringLayout.WEST, waterButton);
+        springLayout.putConstraint(SpringLayout.SOUTH, exerciseButton, -6, SpringLayout.NORTH, waterButton);
+        springLayout.putConstraint(SpringLayout.WEST, waterButton, 99, SpringLayout.WEST, getContentPane());
         getContentPane().add(waterButton);
         waterButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
@@ -66,6 +65,8 @@ public class Main extends JFrame {
         
         
         JButton btnNewButton = new JButton("식단 기록");
+        springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, exerciseButton);
+        springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -6, SpringLayout.NORTH, exerciseButton);
         btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
         		DietRecord dietRecord = new DietRecord(loginId);
@@ -74,12 +75,13 @@ public class Main extends JFrame {
         		dispose();
         	}
         });
-        springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 0, SpringLayout.WEST, exerciseButton);
-        springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.NORTH, exerciseButton);
         getContentPane().add(btnNewButton);
         
         
         JButton calButton = new JButton("캘린더");
+        springLayout.putConstraint(SpringLayout.WEST, boardButton, 0, SpringLayout.WEST, calButton);
+        springLayout.putConstraint(SpringLayout.NORTH, calButton, 0, SpringLayout.NORTH, btnNewButton);
+        springLayout.putConstraint(SpringLayout.WEST, calButton, 103, SpringLayout.EAST, btnNewButton);
         calButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		dispose();
@@ -87,15 +89,13 @@ public class Main extends JFrame {
         		calendar.setVisible(true);
         	}
         });
-        springLayout.putConstraint(SpringLayout.NORTH, calButton, 26, SpringLayout.SOUTH, waterButton);
-        springLayout.putConstraint(SpringLayout.EAST, calButton, 0, SpringLayout.EAST, boardButton);
         getContentPane().add(calButton);
         
         
 
 
 
-        setSize(360, 530);
+        setSize(795, 530);
         setVisible(true);
     }
 }
