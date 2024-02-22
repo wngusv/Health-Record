@@ -35,6 +35,8 @@ public class ExerciseRecords extends JFrame {
       this.loginId = loginId;
       System.out.println(loginId);
       setTitle("운동기록");
+      setSize(600, 400); // 창의 너비와 높이를 설정합니다.
+      setResizable(false); // 창의 크기를 조절할 수 없도록 설정합니다.
       getContentPane().setLayout(null);
       
       // 운동시작버튼
@@ -137,10 +139,10 @@ public class ExerciseRecords extends JFrame {
       
       JButton btnNewButton = new JButton("뒤로가기");
       btnNewButton.addActionListener(new ActionListener() {
-      	public void actionPerformed(ActionEvent arg0) {
-      		dispose();
-			new Main(loginId);
-      	}
+         public void actionPerformed(ActionEvent arg0) {
+            dispose();
+         new Main(loginId);
+         }
       });
       btnNewButton.setBounds(296, 228, 97, 23);
       getContentPane().add(btnNewButton);
