@@ -49,7 +49,7 @@ public class DietRecord extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(456, 500);
+		setSize(370, 406);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -60,25 +60,28 @@ public class DietRecord extends JFrame {
 		setTitle("식단 기록");
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("아침: ");
+		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(DietRecord.class.getResource("/image/아침칼로리.png")));
-		lblNewLabel.setBounds(36, 85, 168, 36);
+		lblNewLabel.setBounds(72, 74, 168, 36);
 		getContentPane().add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("점심: ");
-		lblNewLabel_1.setBounds(45, 141, 32, 15);
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.setIcon(new ImageIcon(DietRecord.class.getResource("/image/점심칼로리.png")));
+		lblNewLabel_1.setBounds(72, 138, 168, 42);
 		getContentPane().add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("저녁: ");
-		lblNewLabel_2.setBounds(45, 218, 32, 15);
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(DietRecord.class.getResource("/image/저녁칼로리.png")));
+		lblNewLabel_2.setBounds(32, 207, 208, 33);
 		getContentPane().add(lblNewLabel_2);
 
-		JLabel lblNewLabel_3 = new JLabel("간식: ");
-		lblNewLabel_3.setBounds(45, 282, 32, 15);
+		JLabel lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(DietRecord.class.getResource("/image/간식칼로리.png")));
+		lblNewLabel_3.setBounds(72, 273, 168, 37);
 		getContentPane().add(lblNewLabel_3);
 
 		lblNewLabel_4 = new JLabel(" ");
-		lblNewLabel_4.setBounds(95, 76, 78, 30);
+		lblNewLabel_4.setBounds(131, 65, 78, 30);
 		lblNewLabel_4.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String breakfastKcal_sql = "SELECT SUM(breakfast_kcal) FROM morningdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -99,7 +102,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel(" ");
-		lblNewLabel_5.setBounds(83, 141, 139, 15);
+		lblNewLabel_5.setBounds(131, 138, 102, 23);
 		lblNewLabel_5.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String lunchKcal_sql = "SELECT SUM(lunch_kcal) FROM lunchdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -120,7 +123,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_5);
 
 		lblNewLabel_6 = new JLabel(" ");
-		lblNewLabel_6.setBounds(83, 218, 72, 15);
+		lblNewLabel_6.setBounds(138, 207, 102, 15);
 		lblNewLabel_6.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String dinnerKcal_sql = "SELECT SUM(dinner_kcal) FROM dinnerdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -141,7 +144,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_6);
 
 		lblNewLabel_7 = new JLabel(" ");
-		lblNewLabel_7.setBounds(83, 282, 72, 15);
+		lblNewLabel_7.setBounds(131, 271, 78, 15);
 		lblNewLabel_7.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String snackKcal_sql = "SELECT SUM(snack_kcal) FROM snackdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -161,8 +164,9 @@ public class DietRecord extends JFrame {
 		}
 		getContentPane().add(lblNewLabel_7);
 
-		JButton btnNewButton = new JButton("음식 추가");
-		btnNewButton.setBounds(240, 85, 85, 23);
+		JButton btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(DietRecord.class.getResource("/image/plus 1.png")));
+		btnNewButton.setBounds(233, 65, 56, 30);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Morning_FindFoodCalories m = new Morning_FindFoodCalories(user_id);
@@ -170,10 +174,14 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFocusPainted(false);
 		getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("음식 추가");
-		btnNewButton_1.setBounds(240, 137, 85, 23);
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon(DietRecord.class.getResource("/image/plus 1.png")));
+		btnNewButton_1.setBounds(233, 138, 56, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Lunch_FindFoodCalories l = new Lunch_FindFoodCalories(user_id);
@@ -181,10 +189,14 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
+		btnNewButton_1.setContentAreaFilled(false);
+		btnNewButton_1.setBorderPainted(false);
+		btnNewButton_1.setFocusPainted(false);
 		getContentPane().add(btnNewButton_1);
 
-		JButton btnNewButton_2 = new JButton("음식 추가");
-		btnNewButton_2.setBounds(258, 228, 85, 23);
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setIcon(new ImageIcon(DietRecord.class.getResource("/image/plus 1.png")));
+		btnNewButton_2.setBounds(233, 201, 56, 23);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Dinner_FindFoodCalories d = new Dinner_FindFoodCalories(user_id);
@@ -192,10 +204,14 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setFocusPainted(false);
 		getContentPane().add(btnNewButton_2);
 
-		JButton btnNewButton_3 = new JButton("음식 추가");
-		btnNewButton_3.setBounds(258, 278, 85, 23);
+		JButton btnNewButton_3 = new JButton("");
+		btnNewButton_3.setIcon(new ImageIcon(DietRecord.class.getResource("/image/plus 1.png")));
+		btnNewButton_3.setBounds(233, 274, 56, 23);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Snack_FindFoodCalories s = new Snack_FindFoodCalories(user_id);
@@ -203,10 +219,14 @@ public class DietRecord extends JFrame {
 				dispose();
 			}
 		});
+		btnNewButton_3.setContentAreaFilled(false);
+		btnNewButton_3.setBorderPainted(false);
+		btnNewButton_3.setFocusPainted(false);
 		getContentPane().add(btnNewButton_3);
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("단식했어요");
-		chckbxNewCheckBox.setBounds(46, 112, 85, 23);
+		JCheckBox chckbxNewCheckBox = new JCheckBox("단식");
+		chckbxNewCheckBox.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		chckbxNewCheckBox.setBounds(86, 101, 78, 23);
 		chckbxNewCheckBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -220,10 +240,14 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
+		chckbxNewCheckBox.setContentAreaFilled(false);
+		chckbxNewCheckBox.setBorderPainted(false);
+		chckbxNewCheckBox.setFocusPainted(false);
 		getContentPane().add(chckbxNewCheckBox);
 
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("단식했어요");
-		chckbxNewCheckBox_1.setBounds(46, 189, 85, 23);
+		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("단식");
+		chckbxNewCheckBox_1.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		chckbxNewCheckBox_1.setBounds(86, 168, 112, 23);
 		chckbxNewCheckBox_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -237,10 +261,14 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
+		chckbxNewCheckBox_1.setContentAreaFilled(false);
+		chckbxNewCheckBox_1.setBorderPainted(false);
+		chckbxNewCheckBox_1.setFocusPainted(false);
 		getContentPane().add(chckbxNewCheckBox_1);
 
-		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("단식했어요");
-		chckbxNewCheckBox_2.setBounds(41, 239, 85, 23);
+		JCheckBox chckbxNewCheckBox_2 = new JCheckBox("단식");
+		chckbxNewCheckBox_2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		chckbxNewCheckBox_2.setBounds(86, 233, 85, 23);
 		chckbxNewCheckBox_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -254,10 +282,14 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
+		chckbxNewCheckBox_2.setContentAreaFilled(false);
+		chckbxNewCheckBox_2.setBorderPainted(false);
+		chckbxNewCheckBox_2.setFocusPainted(false);
 		getContentPane().add(chckbxNewCheckBox_2);
 
-		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("단식했어요");
-		chckbxNewCheckBox_3.setBounds(45, 303, 85, 23);
+		JCheckBox chckbxNewCheckBox_3 = new JCheckBox("단식");
+		chckbxNewCheckBox_3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		chckbxNewCheckBox_3.setBounds(85, 301, 85, 23);
 		chckbxNewCheckBox_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 체크박스가 선택되면 레이블 텍스트를 변경
@@ -271,23 +303,18 @@ public class DietRecord extends JFrame {
 				}
 			}
 		});
+		chckbxNewCheckBox_3.setContentAreaFilled(false);
+		chckbxNewCheckBox_3.setBorderPainted(false);
+		chckbxNewCheckBox_3.setFocusPainted(false);
 		getContentPane().add(chckbxNewCheckBox_3);
 
-		JLabel lblNewLabel_8 = new JLabel("금일 칼로리: ");
-		lblNewLabel_8.setBounds(12, 356, 85, 15);
-		getContentPane().add(lblNewLabel_8);
-
 		lblNewLabel_9 = new JLabel(" ");
-		lblNewLabel_9.setBounds(131, 348, 93, 23);
+		lblNewLabel_9.setBounds(71, 373, 93, 23);
 		// todayEatKcal();
 		getContentPane().add(lblNewLabel_9);
 
-		JLabel lblNewLabel_10 = new JLabel("/ 권장칼로리: ");
-		lblNewLabel_10.setBounds(247, 352, 78, 15);
-		getContentPane().add(lblNewLabel_10);
-
 		lblNewLabel_11 = new JLabel(" ");
-		lblNewLabel_11.setBounds(342, 350, 102, 30);
+		lblNewLabel_11.setBounds(189, 373, 67, 23);
 		String recommendKcalQuery = "SELECT recommended_kcal FROM users WHERE id = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);) {
@@ -298,7 +325,7 @@ public class DietRecord extends JFrame {
 			while (rs.next()) {
 				recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
 			}
-			lblNewLabel_11.setText(recommendKcal.toString());
+			lblNewLabel_11.setText("권장칼로리");
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -306,7 +333,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_11);
 
 		JButton btnNewButton_4 = new JButton("");
-		btnNewButton_4.setBounds(0, 0, 67, 36);
+		btnNewButton_4.setBounds(0, 0, 56, 36);
 		getContentPane().add(btnNewButton_4);
 		btnNewButton_4.setIcon(new ImageIcon(DietRecord.class.getResource("/image/뒤로가기.png")));
 		btnNewButton_4.addActionListener(new ActionListener() {
@@ -321,7 +348,7 @@ public class DietRecord extends JFrame {
 		btnNewButton_4.setFocusPainted(false);
 
 		JButton btnNewButton_5 = new JButton("");
-		btnNewButton_5.setBounds(389, 0, 72, 36);
+		btnNewButton_5.setBounds(303, 0, 67, 36);
 		getContentPane().add(btnNewButton_5);
 		btnNewButton_5.setIcon(new ImageIcon(DietRecord.class.getResource("/image/종료.png")));
 		btnNewButton_5.addActionListener(new ActionListener() {
@@ -336,14 +363,19 @@ public class DietRecord extends JFrame {
 		
 		JLabel lblNewLabel_12 = new JLabel("식단 기록");
 		lblNewLabel_12.setForeground(Color.WHITE);
-		lblNewLabel_12.setFont(new Font("맑은 고딕", Font.BOLD, 20));
-		lblNewLabel_12.setBounds(67, 0, 102, 36);
+		lblNewLabel_12.setFont(new Font("휴먼편지체", Font.BOLD, 23));
+		lblNewLabel_12.setBounds(61, 0, 112, 36);
 		getContentPane().add(lblNewLabel_12);
 		
 		JLabel lblNewLabel_14 = new JLabel("");
 		lblNewLabel_14.setIcon(new ImageIcon(DietRecord.class.getResource("/image/큰초록바.png")));
 		lblNewLabel_14.setBounds(0, 0, 461, 36);
 		getContentPane().add(lblNewLabel_14);
+		
+		JLabel lblNewLabel_13 = new JLabel("");
+		lblNewLabel_13.setIcon(new ImageIcon(DietRecord.class.getResource("/image/금일칼로리표시2.png")));
+		lblNewLabel_13.setBounds(26, 299, 318, 107);
+		getContentPane().add(lblNewLabel_13);
 
 	}
 
