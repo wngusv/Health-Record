@@ -73,6 +73,7 @@ public class Main extends JFrame {
         JButton calButton = new JButton("캘린더");
         calButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		dispose();
         		ExerciseCalendar calendar = new ExerciseCalendar(loginId);
         		calendar.setVisible(true);
         	}

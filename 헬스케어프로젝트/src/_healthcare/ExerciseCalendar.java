@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.SpringLayout;
 
 public class ExerciseCalendar extends JFrame {
 	private JLabel monthLabel; // 월을 표시하는 레이블
@@ -71,27 +72,50 @@ public class ExerciseCalendar extends JFrame {
 			}
 		});
 
-		JPanel controlsPanel = new JPanel(new BorderLayout());
+		JPanel controlsPanel = new JPanel();
 		controlsPanel.setBackground(Color.WHITE);
-		controlsPanel.add(prevButton, BorderLayout.WEST); // 이전 달 버튼은 서쪽에 배치
-		controlsPanel.add(monthLabel, BorderLayout.CENTER); // 월 표시 레이블은 가운데에 배치
-		controlsPanel.add(nextButton, BorderLayout.EAST); // 다음 달 버튼은 동쪽에 배치
+		SpringLayout sl_controlsPanel = new SpringLayout();
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 142, SpringLayout.WEST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, monthLabel, -147, SpringLayout.EAST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 0, SpringLayout.NORTH, prevButton);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 6, SpringLayout.EAST, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, prevButton, 0, SpringLayout.NORTH, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, prevButton, -6, SpringLayout.WEST, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, -7, SpringLayout.SOUTH, controlsPanel);
+		controlsPanel.setLayout(sl_controlsPanel);
+		controlsPanel.add(prevButton); // 이전 달 버튼은 서쪽에 배치
+		controlsPanel.add(monthLabel); // 월 표시 레이블은 가운데에 배치
+		controlsPanel.add(nextButton); // 다음 달 버튼은 동쪽에 배치
 
 		currentMonth = LocalDate.now().getMonthValue() - 1; // 현재 월 설정
 		currentYear = LocalDate.now().getYear(); // 현재 연도 설정
 		displayCalendar(); // 초기 달력 표시
+		SpringLayout springLayout = new SpringLayout();
+		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -53, SpringLayout.NORTH, calendarPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, calendarPanel, 90, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, calendarPanel, 0, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, calendarPanel, 491, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, calendarPanel, 344, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, controlsPanel, 0, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 344, SpringLayout.WEST, getContentPane());
+		getContentPane().setLayout(springLayout);
 
-		getContentPane().add(controlsPanel, BorderLayout.NORTH); // 제어 패널을 프레임의 상단에 추가
-		getContentPane().add(calendarPanel, BorderLayout.CENTER);
-
-		JButton btnNewButton = new JButton("뒤로가기");
-		btnNewButton.addActionListener(new ActionListener() {
+		getContentPane().add(controlsPanel); // 제어 패널을 프레임의 상단에 추가
+		
+		JButton btnBack = new JButton("New button");
+		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				new Main(loginId);
 			}
 		});
-		calendarPanel.add(btnNewButton);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, btnBack, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, btnBack, 0, SpringLayout.WEST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, btnBack, 31, SpringLayout.WEST, controlsPanel);
+		controlsPanel.add(btnBack);
+		getContentPane().add(calendarPanel);
 
 		pack(); // 컴포넌트들을 적절한 크기로 정렬
 		setLocationRelativeTo(null); // 화면 중앙에 표시
@@ -180,7 +204,7 @@ public class ExerciseCalendar extends JFrame {
 			File imageFile = new File(imageName);
 			BufferedImage image = ImageIO.read(imageFile); // 이미지 파일 읽기
 //			System.out.println(imageName);
-			System.out.println(image);
+//			System.out.println(image);
 			// 해당 날짜의 패널을 찾아 이미지를 변경
 			JPanel dayPanel = (JPanel) calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1); // dayOfMonth를
 																											// 0부터 시작하도록
@@ -191,8 +215,8 @@ public class ExerciseCalendar extends JFrame {
 //			imageLabel.setOpaque(true); // 불투명하게 설정
 //			imageLabel.setPreferredSize(new Dimension(50, 50));
 			dayPanel.add(imageLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가
-			System.out.println(dayPanel);
-			System.out.println(imageLabel);
+//			System.out.println(dayPanel);
+//			System.out.println(imageLabel);
 			revalidate(); // 컴포넌트들을 다시 배치하고 그리기 위해 호출
 			repaint(); // 컴포넌트를 다시 그리도록 요청
 			System.out.println(calendarPanel.getComponent((dayOfMonth - 1) + startDayOfWeek - 1)); // 확인을 위한 출력
