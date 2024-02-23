@@ -72,6 +72,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 			while (rs.next()) {
 				String eatenFoodList = rs.getString("dinner_meal");
 				list.add(eatenFoodList);
+				
 			}
 
 			StringBuilder stringBuilder = new StringBuilder();
@@ -132,7 +133,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(484, 601);
+		setSize(491, 601);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -151,12 +152,12 @@ public class Dinner_FindFoodCalories extends JFrame {
 				getContentPane().add(scrollPaneForTextPane);
 
 		lblNewLabel_6 = new JLabel("");
-		lblNewLabel_6.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/저녁해.png")));
+		lblNewLabel_6.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/저녁해.png")));
 		lblNewLabel_6.setBounds(33, 382, 72, 51);
 		getContentPane().add(lblNewLabel_6);
 
 		lblNewLabel_3 = new JLabel("");
-		lblNewLabel_3.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/음식칼로리.png")));
+		lblNewLabel_3.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/음식칼로리.png")));
 		lblNewLabel_3.setBounds(58, 0, 105, 33);
 		getContentPane().add(lblNewLabel_3);
 
@@ -167,7 +168,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 		textField.setColumns(10);
 
 		btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/검색 1.png")));
+		btnNewButton.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/검색 1.png")));
 		btnNewButton.setBounds(296, 68, 67, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			private String findFoodName;
@@ -202,6 +203,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 
 		// JTable 초기화 및 모델 설정
 		resultTable = new JTable(tableModel);
+		resultTable.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
 
 		// 더블클릭으로 셀 수정을 막기 위해 DefaultCellEditor를 사용하여 에디터 설정
 		resultTable.setDefaultEditor(Object.class, null);
@@ -234,7 +236,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 		getContentPane().add(scrollPane);
 
 		btnNewButton_1 = new JButton("");
-		btnNewButton_1.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/섭취.png")));
+		btnNewButton_1.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/섭취.png")));
 		btnNewButton_1.setBounds(315, 395, 67, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -276,7 +278,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 		getContentPane().add(btnNewButton_1);
 
 		btnNewButton_2 = new JButton("");
-		btnNewButton_2.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/뒤로가기.png")));
+		btnNewButton_2.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/뒤로가기.png")));
 		btnNewButton_2.setToolTipText("뒤로가기");
 		btnNewButton_2.setBounds(0, 1, 57, 33);
 		btnNewButton_2.addActionListener(new ActionListener() {
@@ -291,7 +293,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 		getContentPane().add(btnNewButton_2);
 
 		lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/큰초록바.png")));
+		lblNewLabel_2.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/큰초록바.png")));
 		lblNewLabel_2.setBounds(0, 0, 479, 38);
 		getContentPane().add(lblNewLabel_2);
 

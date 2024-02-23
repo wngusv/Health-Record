@@ -7,6 +7,7 @@ import javax.swing.table.DefaultTableModel;
 import dbutil.MySqlConnectionProvider;
 
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 
@@ -23,6 +24,9 @@ import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.ImageIcon;
+import java.awt.Color;
+import java.awt.Font;
 
 public class Snack_FindFoodCalories extends JFrame {
 	private JTextField textField;
@@ -33,18 +37,56 @@ public class Snack_FindFoodCalories extends JFrame {
 	private String user_id;
 	private String foodName; // 사용자가 선택한 음식명
 	private double snack_kcal;
-	
-	
+
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
 	// sql에 넣기 위해 날짜를 date형식으로 변경
 	Date sqlDate = new Date(currentDate.getTime());
 	private JButton btnNewButton_2;
+	private JLabel lblNewLabel_2;
+	private JLabel lblNewLabel_3;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_7;
+	private JTextPane lbl_list;
+	private List<String> list = new ArrayList<>();
+	private JLabel lblNewLabel_6;
 
 	public Snack_FindFoodCalories(String loginId) {
+		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();
 		showGUI();
+
+		writeTodayEat();
+	}
+
+	private void writeTodayEat() {
+		String sqlSelectEatFood = "SELECT snack_meal FROM snackdiet WHERE user_id = ? AND date = ? ";
+		try (Connection conn = MySqlConnectionProvider.getConnection();
+				PreparedStatement pst = conn.prepareStatement(sqlSelectEatFood);) {
+			pst.setString(1, user_id);
+			pst.setDate(2, sqlDate);
+
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				String eatenFoodList = rs.getString("snack_meal");
+				list.add(eatenFoodList);
+			}
+
+			StringBuilder stringBuilder = new StringBuilder();
+			for (String element : list) {
+				stringBuilder.append("<font face='휴먼편지체' size='4' color='black'>").append(element).append("<br/>");
+			}
+			String htmlText = stringBuilder.toString();
+
+			// HTML 텍스트를 레이블에 설정
+			lbl_list.setText("<html>" + htmlText + "</html>");
+			list.clear();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void findFoodList(String findFoodName) {
@@ -90,23 +132,43 @@ public class Snack_FindFoodCalories extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(484, 592);
+		setSize(491, 601);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
 
 	private void extracted() {
-		setTitle("음식칼로리");
-		SpringLayout springLayout = new SpringLayout();
-		getContentPane().setLayout(springLayout);
+		setTitle("간식");
+		getContentPane().setLayout(null);
+		
+				lbl_list = new JTextPane();
+				lbl_list.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
+				lbl_list.setBackground(new Color(255, 228, 181));
+				lbl_list.setContentType("text/html");
+				lbl_list.setEditable(false);
+				JScrollPane scrollPaneForTextPane = new JScrollPane(lbl_list);
+				scrollPaneForTextPane.setBounds(66, 447, 344, 103);
+				getContentPane().add(scrollPaneForTextPane);
+
+		lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/간식해.png")));
+		lblNewLabel_6.setBounds(25, 383, 78, 48);
+		getContentPane().add(lblNewLabel_6);
+
+		lblNewLabel_3 = new JLabel("");
+		lblNewLabel_3.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/음식칼로리.png")));
+		lblNewLabel_3.setBounds(58, 0, 105, 33);
+		getContentPane().add(lblNewLabel_3);
 
 		textField = new JTextField();
-		springLayout.putConstraint(SpringLayout.NORTH, textField, 10, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, textField, 97, SpringLayout.WEST, getContentPane());
+		textField.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		textField.setBounds(161, 69, 116, 21);
 		getContentPane().add(textField);
 		textField.setColumns(10);
 
-		btnNewButton = new JButton("검색");
+		btnNewButton = new JButton("");
+		btnNewButton.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/검색 1.png")));
+		btnNewButton.setBounds(296, 68, 67, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			private String findFoodName;
 
@@ -117,21 +179,19 @@ public class Snack_FindFoodCalories extends JFrame {
 
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton, 0, SpringLayout.NORTH, textField);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.EAST, textField);
+		btnNewButton.setContentAreaFilled(false);
+		btnNewButton.setBorderPainted(false);
+		btnNewButton.setFocusPainted(false);
 		getContentPane().add(btnNewButton);
 
 		JLabel lblNewLabel = new JLabel("간식 :");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 80, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -49, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -351, SpringLayout.EAST, getContentPane());
+		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel.setBounds(111, 397, 44, 19);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 0, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 6, SpringLayout.EAST, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -56, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_1, -131, SpringLayout.EAST, getContentPane());
+		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
+		lblNewLabel_1.setBounds(155, 396, 158, 21);
 		getContentPane().add(lblNewLabel_1);
 
 		// 테이블 모델 초기화
@@ -142,15 +202,13 @@ public class Snack_FindFoodCalories extends JFrame {
 
 		// JTable 초기화 및 모델 설정
 		resultTable = new JTable(tableModel);
+		resultTable.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
 
 		// 더블클릭으로 셀 수정을 막기 위해 DefaultCellEditor를 사용하여 에디터 설정
 		resultTable.setDefaultEditor(Object.class, null);
 
 		// JTable에 ListSelectionListener 추가
 		resultTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-
-			
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
@@ -173,58 +231,86 @@ public class Snack_FindFoodCalories extends JFrame {
 
 		// JScrollPane에 JTable 추가하여 스크롤 가능하도록 설정
 		JScrollPane scrollPane = new JScrollPane(resultTable);
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 187, SpringLayout.SOUTH, scrollPane);
-
-		// 컨테이너에 컴포넌트들 추가
-		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 10, SpringLayout.SOUTH, textField);
-		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 267, SpringLayout.SOUTH, textField);
+		scrollPane.setBackground(Color.WHITE);
+		scrollPane.setBounds(12, 117, 452, 257);
 		getContentPane().add(scrollPane);
 
-		btnNewButton_1 = new JButton("확인");
+		btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/섭취.png")));
+		btnNewButton_1.setBounds(315, 395, 67, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				// TODO 확인버튼을 누르면 디비 아침다이어트 테이블에 생성
 				String snack_meal = foodName;
 				
+				if (snack_meal != null && !snack_meal.isEmpty()) {
 				String insertQeury = "INSERT INTO snackdiet (user_id, date, snack_meal, snack_kcal) VALUES (?,?,?,?)";
-				try(Connection conn = MySqlConnectionProvider.getConnection();
-						PreparedStatement pst = conn.prepareStatement(insertQeury)){
+				try (Connection conn = MySqlConnectionProvider.getConnection();
+						PreparedStatement pst = conn.prepareStatement(insertQeury)) {
 					pst.setString(1, user_id);
 					pst.setDate(2, sqlDate);
 					pst.setString(3, snack_meal);
 					pst.setDouble(4, snack_kcal);
-					
-					 // executeUpdate()를 사용하여 DML 쿼리 실행
-		            int affectedRows = pst.executeUpdate();
 
-		            if (affectedRows > 0) {
-		                System.out.println("데이터가 성공적으로 삽입되었습니다.");
-		            } else {
-		                System.out.println("데이터 삽입에 실패했습니다.");
-		            }
+					// executeUpdate()를 사용하여 DML 쿼리 실행
+					int affectedRows = pst.executeUpdate();
 					
+					writeTodayEat();
+
+					if (affectedRows > 0) {
+						System.out.println("데이터가 성공적으로 삽입되었습니다.");
+					} else {
+						System.out.println("데이터 삽입에 실패했습니다.");
+					}
+
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
-				
+				} else {
+					System.out.println("snack_meal이 비어있습니다. 데이터를 삽입하지 않습니다.");
+				}
+
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, -2, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 5, SpringLayout.EAST, lblNewLabel_1);
+		btnNewButton_1.setContentAreaFilled(false);
+		btnNewButton_1.setBorderPainted(false);
+		btnNewButton_1.setFocusPainted(false);
 		getContentPane().add(btnNewButton_1);
-		
-		btnNewButton_2 = new JButton("뒤로가기");
+
+		btnNewButton_2 = new JButton("");
+		btnNewButton_2.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/뒤로가기.png")));
+		btnNewButton_2.setToolTipText("뒤로가기");
+		btnNewButton_2.setBounds(0, 1, 57, 33);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 				new DietRecord(user_id);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_2, 0, SpringLayout.NORTH, textField);
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setFocusPainted(false);
 		getContentPane().add(btnNewButton_2);
+
+		lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(Dinner_FindFoodCalories.class.getResource("/image/큰초록바.png")));
+		lblNewLabel_2.setBounds(0, 0, 479, 38);
+		getContentPane().add(lblNewLabel_2);
+
+		lblNewLabel_7 = new JLabel("");
+		lblNewLabel_7.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/연한연두.png")));
+		lblNewLabel_7.setBounds(45, 62, 381, 36);
+		getContentPane().add(lblNewLabel_7);
+
+		lblNewLabel_4 = new JLabel("음식명: ");
+		lblNewLabel_4.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel_4.setBounds(108, 72, 52, 15);
+		getContentPane().add(lblNewLabel_4);
+
+		lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/연한연두.png")));
+		lblNewLabel_5.setBounds(50, 389, 381, 36);
+		getContentPane().add(lblNewLabel_5);
 	}
 
 }
-
-
-
