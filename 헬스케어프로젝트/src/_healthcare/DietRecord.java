@@ -83,7 +83,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_3);
 
 		lblNewLabel_4 = new JLabel(" ");
-		lblNewLabel_4.setBounds(131, 65, 78, 30);
+		lblNewLabel_4.setBounds(131, 65, 109, 30);
 		lblNewLabel_4.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String breakfastKcal_sql = "SELECT SUM(breakfast_kcal) FROM morningdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -104,7 +104,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 
 		lblNewLabel_5 = new JLabel(" ");
-		lblNewLabel_5.setBounds(131, 138, 102, 23);
+		lblNewLabel_5.setBounds(131, 138, 109, 23);
 		lblNewLabel_5.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String lunchKcal_sql = "SELECT SUM(lunch_kcal) FROM lunchdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -125,7 +125,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_5);
 
 		lblNewLabel_6 = new JLabel(" ");
-		lblNewLabel_6.setBounds(131, 207, 96, 15);
+		lblNewLabel_6.setBounds(131, 207, 109, 15);
 		lblNewLabel_6.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String dinnerKcal_sql = "SELECT SUM(dinner_kcal) FROM dinnerdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -146,7 +146,7 @@ public class DietRecord extends JFrame {
 		getContentPane().add(lblNewLabel_6);
 
 		lblNewLabel_7 = new JLabel(" ");
-		lblNewLabel_7.setBounds(131, 271, 78, 15);
+		lblNewLabel_7.setBounds(131, 271, 109, 15);
 		lblNewLabel_7.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String snackKcal_sql = "SELECT SUM(snack_kcal) FROM snackdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -322,7 +322,7 @@ public class DietRecord extends JFrame {
 
 		lblNewLabel_11 = new JLabel(" ");
 		lblNewLabel_11.setFont(new Font("휴먼편지체", Font.BOLD, 14));
-		lblNewLabel_11.setBounds(184, 370, 85, 23);
+		lblNewLabel_11.setBounds(181, 370, 85, 23);
 		String recommendKcalQuery = "SELECT recommended_kcal FROM users WHERE id = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);) {

@@ -207,9 +207,9 @@ public class SignUp extends JFrame {
 			
 			if (actvityButton.isSelected()) {
 				preparedStatement.setInt(9, 25);
-			} else if (actvityButton.isSelected()) {
+			} else if (actvityButton2.isSelected()) {
 				preparedStatement.setInt(9, 33);
-			} else if (actvityButton.isSelected()) {
+			} else if (actvityButton3.isSelected()) {
 				preparedStatement.setInt(9, 40);
 			}
 
