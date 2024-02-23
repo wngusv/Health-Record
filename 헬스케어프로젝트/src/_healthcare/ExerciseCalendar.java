@@ -258,7 +258,7 @@ public class ExerciseCalendar extends JFrame {
 		}
 	}
 	
-	// ㅎㅇ
+	// ㅎㅇㅎㅇ
 //	public void displayExerciseImage(byte[] imageBytes) {
 //	    // 바이트 배열을 ImageIcon으로 변환
 //	    ImageIcon imageIcon = new ImageIcon(imageBytes);
