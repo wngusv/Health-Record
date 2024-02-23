@@ -177,7 +177,7 @@ public class ExerciseCalendar extends JFrame {
 		YearMonth yearMonth = YearMonth.of(currentYear, currentMonth + 1);//  현재 연도와 월로 YearMonth 객체 생성
 		switch (yearMonth.getMonth()) {
 		case JANUARY:
-			monthLabel.setText(yearMonth.getYear() + "년" + "1월");
+			monthLabel.setText(yearMonth.getYear() + "년ㅎ" + "1월");
 			break;
 		case FEBRUARY:
 			monthLabel.setText(yearMonth.getYear() + "년" + "2월");
