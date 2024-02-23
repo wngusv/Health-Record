@@ -12,6 +12,7 @@ public class UpdateWeight extends JFrame {
 
     public UpdateWeight(Main mainInstance) {
         this.mainInstance = mainInstance;
+        
         initializeUI();
     }
 
