@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 
 public class WaterRecords extends JFrame {
 	int cup = 0;
@@ -80,7 +81,7 @@ public class WaterRecords extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(475, 320);
+		setSize(478, 405);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 	}
@@ -144,79 +145,64 @@ public class WaterRecords extends JFrame {
 	
 	private void extracted() {
 		setTitle("물 기록");
-		SpringLayout springLayout = new SpringLayout();
-		getContentPane().setLayout(springLayout);
+		getContentPane().setLayout(null);
 
 		btn_cup7 = new JToggleButton("물 한 잔");
+		btn_cup7.setBounds(211, 130, 77, 23);
 		getContentPane().add(btn_cup7);
 
-		btn_cup1 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup1, 101, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup1, 44, SpringLayout.WEST, getContentPane());
+		btn_cup1 = new JToggleButton("");
+		btn_cup1.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마시기전 1.png")));
+		btn_cup1.setBounds(44, 101, 74, 68);
+		btn_cup1.setContentAreaFilled(false);
+		btn_cup1.setBorderPainted(false);
+		btn_cup1.setFocusPainted(false);
 		getContentPane().add(btn_cup1);
 
 		btn_cup2 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup2, 101, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup2, 9, SpringLayout.EAST, btn_cup1);
+		btn_cup2.setBounds(130, 101, 77, 23);
 		getContentPane().add(btn_cup2);
 
 		btn_cup3 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup7, 6, SpringLayout.SOUTH, btn_cup3);
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup7, 0, SpringLayout.WEST, btn_cup3);
-		springLayout.putConstraint(SpringLayout.EAST, btn_cup7, 0, SpringLayout.EAST, btn_cup3);
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup3, 0, SpringLayout.NORTH, btn_cup1);
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup3, 4, SpringLayout.EAST, btn_cup2);
+		btn_cup3.setBounds(211, 101, 77, 23);
 		getContentPane().add(btn_cup3);
 
 		btn_cup5 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup5, 6, SpringLayout.SOUTH, btn_cup1);
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup5, 0, SpringLayout.WEST, btn_cup1);
+		btn_cup5.setBounds(44, 195, 77, 23);
 		getContentPane().add(btn_cup5);
 
 		btn_cup6 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup6, 130, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup6, 130, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btn_cup2, -6, SpringLayout.NORTH, btn_cup6);
-		springLayout.putConstraint(SpringLayout.SOUTH, btn_cup6, 0, SpringLayout.SOUTH, btn_cup5);
-		springLayout.putConstraint(SpringLayout.EAST, btn_cup6, 0, SpringLayout.EAST, btn_cup2);
+		btn_cup6.setBounds(130, 130, 77, 23);
 		getContentPane().add(btn_cup6);
 
 		JLabel lblNewLabel = new JLabel("물 권장량");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 48, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -29, SpringLayout.NORTH, btn_cup1);
+		lblNewLabel.setBounds(48, 57, 52, 15);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("물 음용량: ");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 17, SpringLayout.SOUTH, btn_cup5);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_1, 0, SpringLayout.EAST, btn_cup1);
+		lblNewLabel_1.setBounds(50, 250, 60, 15);
 		getContentPane().add(lblNewLabel_1);
 
 		nowWaterDrinking = new JLabel("0");
-		springLayout.putConstraint(SpringLayout.WEST, nowWaterDrinking, 0, SpringLayout.WEST, btn_cup2);
-		springLayout.putConstraint(SpringLayout.SOUTH, nowWaterDrinking, 0, SpringLayout.SOUTH, lblNewLabel_1);
+		nowWaterDrinking.setBounds(132, 250, 6, 15);
 		getContentPane().add(nowWaterDrinking);
 
 		JLabel lblNewLabel_3 = new JLabel(" / 8잔");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 6, SpringLayout.EAST, nowWaterDrinking);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, 0, SpringLayout.SOUTH, lblNewLabel_1);
+		lblNewLabel_3.setBounds(162, 250, 32, 15);
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("<html> 세계보건기구(WHO)가 권장하는 하루 물 섭취량은 1.5~2ℓ입니다. <br/r>"
 				+ "200mℓ가 들어가는 일반적인 컵으로 약 8~10잔 정도입니다.<br/>" + "</html>");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 85, SpringLayout.WEST, lblNewLabel_1);
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_4, -10, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_4, -10, SpringLayout.EAST, getContentPane());
+		lblNewLabel_4.setBounds(146, 330, 306, 26);
 		lblNewLabel_4.setFont(new Font("돋움", Font.PLAIN, 10));
 		getContentPane().add(lblNewLabel_4);
 
 		btn_cup4 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.NORTH, btn_cup4, 0, SpringLayout.NORTH, btn_cup1);
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup4, 6, SpringLayout.EAST, btn_cup3);
+		btn_cup4.setBounds(294, 101, 77, 23);
 		getContentPane().add(btn_cup4);
 
 		btn_cup8 = new JToggleButton("물 한 잔");
-		springLayout.putConstraint(SpringLayout.WEST, btn_cup8, 6, SpringLayout.EAST, btn_cup7);
-		springLayout.putConstraint(SpringLayout.SOUTH, btn_cup8, 0, SpringLayout.SOUTH, btn_cup7);
+		btn_cup8.setBounds(294, 130, 77, 23);
 		getContentPane().add(btn_cup8);
 	}
 	
