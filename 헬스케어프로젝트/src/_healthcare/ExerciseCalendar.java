@@ -171,6 +171,8 @@ public class ExerciseCalendar extends JFrame {
 		setLocationRelativeTo(null); // 화면 중앙에 표시
 	}
 
+	
+	
 	private void displayCalendar() {
 		YearMonth yearMonth = YearMonth.of(currentYear, currentMonth + 1);//  현재 연도와 월로 YearMonth 객체 생성
 		switch (yearMonth.getMonth()) {
@@ -256,7 +258,7 @@ public class ExerciseCalendar extends JFrame {
 		}
 	}
 	
-	
+	// ㅎㅇㅎㅇㅎㅇ
 //	public void displayExerciseImage(byte[] imageBytes) {
 //	    // 바이트 배열을 ImageIcon으로 변환
 //	    ImageIcon imageIcon = new ImageIcon(imageBytes);
