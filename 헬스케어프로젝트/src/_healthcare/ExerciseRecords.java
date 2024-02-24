@@ -18,6 +18,7 @@ import java.util.List;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import dbutil.MySqlConnectionProvider;
 
@@ -31,8 +32,9 @@ public class ExerciseRecords extends JFrame {
    private JButton btn_start;
    private JComboBox comboBox_Sports;
    private JLabel lbl_start; 
-
+   
    public ExerciseRecords(String loginId) {
+	   
       this.loginId = loginId;
       System.out.println(loginId);
       setTitle("운동기록");
@@ -57,7 +59,7 @@ public class ExerciseRecords extends JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             startTime = now.format(formatter); // 운동 시작 시간 저장
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
-               String sql = "UPDATE exericserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
 //               stmt.setString(1, startTime);
                stmt.setString(1, loginId);
@@ -126,7 +128,7 @@ public class ExerciseRecords extends JFrame {
 
             // MySQL에 현재 시간과 선택된 운동 항목 추가
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
-               String sql = "INSERT INTO exericserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
+               String sql = "INSERT INTO exerciserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
                PreparedStatement stmt = conn.prepareStatement(sql);
                stmt.setString(1, loginId);
                stmt.setString(2, selectedExercise);
@@ -157,28 +159,30 @@ public class ExerciseRecords extends JFrame {
       });
       btnNewButton.setBounds(296, 228, 97, 23);
       getContentPane().add(btnNewButton);
-
+      JPanel calendarPanel = new JPanel();
+      ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
       // 운동종료 버튼 클릭 시 이벤트 리스너
       btn_end.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            // 현재 시간 가져오기
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String formattedDateTimeE = now.format(formatter);
-
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              // 현재 시간 가져오기
+              LocalDateTime now = LocalDateTime.now();
+              DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+              String formattedDateTimeE = now.format(formatter);
+              exerciseCalendar.changeImageOfToday(); // ExerciseCalendar 객체의 메서드 호출
             // lbl_end에 현재 시간 표시
             lbl_end.setText(formattedDateTimeE);
 
             // MySQL에 현재 시간 삽입
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
                // 운동 종료 시간을 갱신
-               String sql = "UPDATE exericserecords SET end_time = NOW() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET end_time = NOW() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
                stmt.setString(1, startTime);
                stmt.setString(2, loginId);
                stmt.executeUpdate();
-
+               
+               
             } catch (SQLException ex) {
                ex.printStackTrace();
             }
@@ -190,7 +194,7 @@ public class ExerciseRecords extends JFrame {
 
    private void loadStartTime() {
          try (Connection conn = MySqlConnectionProvider.getConnection()) {
-         String sql = "SELECT start_time FROM exericserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
+         String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, loginId);
             pst.setString(2, selectedExercise2);
@@ -208,7 +212,7 @@ public class ExerciseRecords extends JFrame {
    
    private void loadExerciseName() {
          try (Connection conn = MySqlConnectionProvider.getConnection()) {
-         String sql = "SELECT exercise_name FROM exericserecords WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1;";
+         String sql = "SELECT exercise_name FROM exerciserecords WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1;";
             PreparedStatement pst = conn.prepareStatement(sql);
             pst.setString(1, loginId);
 
