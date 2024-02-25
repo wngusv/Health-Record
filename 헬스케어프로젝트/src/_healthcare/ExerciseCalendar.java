@@ -14,10 +14,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,12 +35,8 @@ public class ExerciseCalendar extends JFrame {
 	public String loginId;
 	private JPanel dayPanel;
 	private JLabel dayLabel;
-	private JLabel imageLabel;
 
-	private static int previousMonth;
-	private static int previousYear;
-	private static final Map<Integer, ImageIcon> imageCache = new HashMap<>();
-	private static ImageIcon newImageIcon;
+	private ImageIcon newImageIcon;
 	private String newImage;
 	private LocalDate today;
 
@@ -109,7 +101,7 @@ public class ExerciseCalendar extends JFrame {
 		currentYear = LocalDate.now().getYear(); // 현재 연도 설정
 		calendarPanel.removeAll();
 		displayCalendar(); // 초기 달력 표시
-//		changeImageOfToday();
+		
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -53, SpringLayout.NORTH, calendarPanel);
@@ -194,10 +186,6 @@ public class ExerciseCalendar extends JFrame {
 	public void displayCalendar() {
 		YearMonth yearMonth = YearMonth.of(currentYear, currentMonth + 1);// 현재 연도와 월로 YearMonth 객체 생성
 
-		// 이미지 변경 메서드 호출
-//		 calendarPanel = new JPanel();
-//		changeImageOfToday(calendarPanel);
-
 		// 캘린더 내용을 변경하기 전에 현재 화면의 내용을 저장합니다.
 		calendarPanel.removeAll(); // 기존 캘린더 삭제
 
@@ -241,11 +229,11 @@ public class ExerciseCalendar extends JFrame {
 		default:
 			break;
 		}
+		
 		LocalDate firstDayOfMonth = yearMonth.atDay(1); // 현재 월의 첫째 날
 		int daysInMonth = yearMonth.lengthOfMonth(); // 현재 월의 날 수
 		startDayOfWeek = firstDayOfMonth.getDayOfWeek().getValue();
 
-//		calendarPanel.removeAll(); // 기존 캘린더 삭제
 		for (int i = 1; i < startDayOfWeek; i++) { // 첫째 날이 시작되는 요일 전까지 공백 레이블 추가
 			calendarPanel.add(new JLabel(""));
 		}
@@ -253,7 +241,6 @@ public class ExerciseCalendar extends JFrame {
 		for (int day = 1; day <= daysInMonth; day++) { // 해당 월의 날짜만큼 패널에 추가
 			dayPanel = new JPanel(new BorderLayout());
 			dayPanel.setBackground(Color.WHITE);
-//		    dayPanel.setBorder(new LineBorder(Color.BLACK));
 
 			// 텍스트 레이블 추가
 			dayLabel = new JLabel("", SwingConstants.CENTER);
@@ -277,20 +264,12 @@ public class ExerciseCalendar extends JFrame {
 		calendarPanel.revalidate();
 		calendarPanel.repaint();
 	}
-
+	// 오늘의 날짜 이미지 변경 메서드
 	public void changeImageOfToday() {
 		today = LocalDate.now();
 
 		newImage = "Check" + today.getDayOfMonth() + ".png";
 		newImageIcon = new ImageIcon(newImage);
-
-		// 이미지 캐시에 추가
-		imageCache.put(today.getDayOfMonth(), newImageIcon);
-
-		// 이전에 이미지를 변경한 연도와 월을 업데이트
-//	        previousMonth = currentMonth;
-//	        previousYear = currentYear;
-//	    }
 
 		// 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
 		for (Component component : calendarPanel.getComponents()) {
@@ -312,7 +291,7 @@ public class ExerciseCalendar extends JFrame {
 			}
 		}
 	}
-
+	// 변경된 이미지 db 저장
 	public void saveImagePath(String userId, int year, int month, int day, String imagePath) {
 		try (Connection conn = MySqlConnectionProvider.getConnection()) {
 			String query = "INSERT INTO user_calendar (user_id, year, month, day, image_path, image_changed) VALUES (?, ?, ?, ?, ?, 1)";
@@ -324,20 +303,12 @@ public class ExerciseCalendar extends JFrame {
 				statement.setString(5, newImage);
 				statement.executeUpdate();
 			}
-//			String updateQuery = "UPDATE user_calendar SET image_changed = true WHERE user_id = ? AND year = ? AND month = ? AND day = ?";
-//			try (PreparedStatement updateStatement = conn.prepareStatement(updateQuery)) {
-//				updateStatement.setString(1, loginId);
-//				updateStatement.setInt(2, currentYear);
-//				updateStatement.setInt(3, currentMonth + 1);
-//				updateStatement.setInt(4, today.getDayOfMonth());
-//				updateStatement.executeUpdate();
-//			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-			// 예외 처리
 		}
 	}
-
+	
+	// 저장된 이미지 db에서 불러옴
 	private String getImagePathForDate(String userId, LocalDate date) {
         try (Connection conn = MySqlConnectionProvider.getConnection()) {
             String query = "SELECT image_path FROM user_calendar WHERE user_id = ? AND year = ? AND month = ? AND day = ? AND image_changed = 1";
@@ -355,7 +326,7 @@ public class ExerciseCalendar extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        // 기본 이미지 경로 반환
+        // 기본 이미지 경로
         return "Date" + date.getDayOfMonth() + ".png";
     }
 
