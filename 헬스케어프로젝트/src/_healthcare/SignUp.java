@@ -212,7 +212,7 @@ public class SignUp extends JFrame {
 			} else if (actvityButton3.isSelected()) {
 				preparedStatement.setInt(9, 40);
 			}
-
+			
 			int insert = preparedStatement.executeUpdate();
 			if (insert > 0) {
 				JOptionPane.showMessageDialog(this, "회원 등록 완료");
@@ -221,6 +221,8 @@ public class SignUp extends JFrame {
 			} else {
 				JOptionPane.showMessageDialog(this, "회원 등록 실패");
 			}
+			
+			
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 		}
