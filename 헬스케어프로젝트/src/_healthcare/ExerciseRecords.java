@@ -59,7 +59,7 @@ public class ExerciseRecords extends JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             startTime = now.format(formatter); // 운동 시작 시간 저장
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
-               String sql = "UPDATE exerciserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET start_time = now() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
 //               stmt.setString(1, startTime);
                stmt.setString(1, loginId);
@@ -159,8 +159,9 @@ public class ExerciseRecords extends JFrame {
       });
       btnNewButton.setBounds(296, 228, 97, 23);
       getContentPane().add(btnNewButton);
-      JPanel calendarPanel = new JPanel();
       ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
+      exerciseCalendar.changeImageOfToday();
+      
       // 운동종료 버튼 클릭 시 이벤트 리스너
       btn_end.addActionListener(new ActionListener() {
           @Override
@@ -176,13 +177,12 @@ public class ExerciseRecords extends JFrame {
             // MySQL에 현재 시간 삽입
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
                // 운동 종료 시간을 갱신
-               String sql = "UPDATE exerciserecords SET end_time = ? WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET end_time = now() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
-               stmt.setString(1, formattedDateTimeE);
-               stmt.setString(2, startTime);
-               stmt.setString(3, loginId);
+//               stmt.setString(1, formattedDateTimeE);
+               stmt.setString(1, startTime);
+               stmt.setString(2, loginId);
                stmt.executeUpdate();
-               
                
             } catch (SQLException ex) {
                ex.printStackTrace();

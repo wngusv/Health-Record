@@ -64,14 +64,14 @@ public class Login extends JFrame {
             @Override
             public void focusGained(FocusEvent e) {
                 if (txtPW.getText().equals("비밀 번호를 입력하세요")) {
-                	txtPW.setText("");
+                   txtPW.setText("");
                 }
             }
 
             @Override
             public void focusLost(FocusEvent e) {
                 if (txtPW.getText().isEmpty()) {
-                	txtPW.setText("비밀 번호를 입력하세요");
+                   txtPW.setText("비밀 번호를 입력하세요");
                 }
             }
         });
@@ -118,14 +118,14 @@ public class Login extends JFrame {
                 }
             }
         });
-				
+            
         
         
 
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인선택.png")));
+               loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인선택.png")));
             }
         });
 
@@ -134,7 +134,6 @@ public class Login extends JFrame {
     }
 
     private boolean login(String id, String pw) {
-
         try (Connection connection = MySqlConnectionProvider.getConnection()) {
             String query = "SELECT * FROM users WHERE id = ? AND pw = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
