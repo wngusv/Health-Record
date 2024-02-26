@@ -185,8 +185,8 @@ public class WaterRecords extends JFrame {
 
 		JLabel lblNewLabel_4 = new JLabel("<html> 세계보건기구(WHO)가 권장하는 하루 물 섭취량은 1.5~2ℓ입니다. <br/r>"
 				+ "200mℓ가 들어가는 일반적인 컵으로 약 8~10잔 정도입니다.<br/>" + "</html>");
-		lblNewLabel_4.setBounds(89, 341, 306, 26);
-		lblNewLabel_4.setFont(new Font("돋움", Font.PLAIN, 10));
+		lblNewLabel_4.setBounds(121, 344, 306, 26);
+		lblNewLabel_4.setFont(new Font("휴먼편지체", Font.PLAIN, 10));
 		getContentPane().add(lblNewLabel_4);
 
 		btn_cup1 = new JButton("");
