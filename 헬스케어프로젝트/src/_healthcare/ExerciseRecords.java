@@ -59,7 +59,7 @@ public class ExerciseRecords extends JFrame {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             startTime = now.format(formatter); // 운동 시작 시간 저장
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
-               String sql = "UPDATE exerciserecords SET start_time = now() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
 //               stmt.setString(1, startTime);
                stmt.setString(1, loginId);
