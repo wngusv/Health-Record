@@ -46,6 +46,8 @@ public class SignUp extends JFrame {
 		btnNewButton.setBounds(0, 0, 56, 32);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new Login();
 			}
 		});
 
@@ -155,13 +157,15 @@ public class SignUp extends JFrame {
 		getContentPane().add(registerButton);
 
 		maleButton = new JRadioButton("남자");
+		maleButton.setBackground(Color.WHITE);
 		maleButton.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		maleButton.setBounds(139, 354, 49, 23);
+		maleButton.setBounds(136, 355, 49, 23);
 		getContentPane().add(maleButton);
 
 		femaleButton = new JRadioButton("여자");
+		femaleButton.setBackground(Color.WHITE);
 		femaleButton.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		femaleButton.setBounds(203, 354, 49, 23);
+		femaleButton.setBounds(201, 355, 49, 23);
 		getContentPane().add(femaleButton);
 
 		JLabel lblNewLabel = new JLabel("활동 지수");
@@ -170,16 +174,19 @@ public class SignUp extends JFrame {
 		getContentPane().add(lblNewLabel);
 
 		actvityButton = new JRadioButton("거의 움직이지 않음");
+		actvityButton.setBackground(Color.WHITE);
 		actvityButton.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		actvityButton.setBounds(136, 396, 129, 23);
 		getContentPane().add(actvityButton);
 
 		actvityButton2 = new JRadioButton("규칙적인 생활");
+		actvityButton2.setBackground(Color.WHITE);
 		actvityButton2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		actvityButton2.setBounds(136, 427, 101, 23);
 		getContentPane().add(actvityButton2);
 
 		actvityButton3 = new JRadioButton("활동량이 매우 많음");
+		actvityButton3.setBackground(Color.WHITE);
 		actvityButton3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		actvityButton3.setBounds(136, 459, 129, 23);
 		getContentPane().add(actvityButton3);
