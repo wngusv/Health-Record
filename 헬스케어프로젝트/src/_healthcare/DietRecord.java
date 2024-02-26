@@ -248,6 +248,7 @@ public class DietRecord extends JFrame {
 		            btnNewButton.setEnabled(false);
 				} else {
 					lblNewLabel_4.setText(String.valueOf(breakfastSumKcal));
+					btnNewButton.setEnabled(true);
 				}
 			}
 		});
@@ -270,6 +271,7 @@ public class DietRecord extends JFrame {
 					btnNewButton_1.setEnabled(false);
 				} else {
 					lblNewLabel_5.setText(String.valueOf(lunchSumKcal));
+					btnNewButton_1.setEnabled(true);
 				}
 			}
 		});
@@ -292,6 +294,7 @@ public class DietRecord extends JFrame {
 					btnNewButton_2.setEnabled(false);
 				} else {
 					lblNewLabel_6.setText(String.valueOf(dinnerSumKcal));
+					btnNewButton_2.setEnabled(true);
 				}
 			}
 		});
@@ -314,6 +317,7 @@ public class DietRecord extends JFrame {
 					btnNewButton_3.setEnabled(false);
 				} else {
 					lblNewLabel_7.setText(String.valueOf(snackSumKcal));
+					btnNewButton_3.setEnabled(true);
 				}
 			}
 		});
