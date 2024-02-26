@@ -176,10 +176,11 @@ public class ExerciseRecords extends JFrame {
             // MySQL에 현재 시간 삽입
             try (Connection conn = MySqlConnectionProvider.getConnection()) {
                // 운동 종료 시간을 갱신
-               String sql = "UPDATE exerciserecords SET end_time = NOW() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+               String sql = "UPDATE exerciserecords SET end_time = ? WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
                PreparedStatement stmt = conn.prepareStatement(sql);
-               stmt.setString(1, startTime);
-               stmt.setString(2, loginId);
+               stmt.setString(1, formattedDateTimeE);
+               stmt.setString(2, startTime);
+               stmt.setString(3, loginId);
                stmt.executeUpdate();
                
                
