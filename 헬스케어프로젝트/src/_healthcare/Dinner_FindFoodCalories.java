@@ -51,14 +51,14 @@ public class Dinner_FindFoodCalories extends JFrame {
 	private JTextPane lbl_list;
 	private List<String> list = new ArrayList<>();
 	private JLabel lblNewLabel_6;
-
 	public Dinner_FindFoodCalories(String loginId) {
 		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();
 		showGUI();
-
+		
 		writeTodayEat();
+		
 	}
 
 	private void writeTodayEat() {
@@ -269,7 +269,7 @@ public class Dinner_FindFoodCalories extends JFrame {
 				} else {
 					System.out.println("dinner_meal이 비어있습니다. 데이터를 삽입하지 않습니다.");
 				}
-
+				
 			}
 		});
 		btnNewButton_1.setContentAreaFilled(false);

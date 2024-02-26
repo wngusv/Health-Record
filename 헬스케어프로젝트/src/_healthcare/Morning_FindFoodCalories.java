@@ -39,7 +39,6 @@ public class Morning_FindFoodCalories extends JFrame {
 	private String user_id;
 	private String foodName; // 사용자가 선택한 음식명
 	private double breakfast_kcal;
-
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
 	// sql에 넣기 위해 날짜를 date형식으로 변경

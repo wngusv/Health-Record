@@ -37,8 +37,9 @@ public class DietRecord extends JFrame {
 	private double lunchSumKcal;
 	private double dinnerSumKcal;
 	private double snackSumKcal;
-	private JLabel lblNewLabel_7;
 	private Double todayEatSumKacl;
+
+	private JLabel lblNewLabel_7;
 	private JLabel lblNewLabel_9;
 	private JLabel lblNewLabel_11;
 
@@ -57,7 +58,7 @@ public class DietRecord extends JFrame {
 	}
 
 	private void extracted() {
-		//setUndecorated(true);
+		// setUndecorated(true);
 
 		setTitle("식단 기록");
 		getContentPane().setLayout(null);
@@ -223,6 +224,7 @@ public class DietRecord extends JFrame {
 				Snack_FindFoodCalories s = new Snack_FindFoodCalories(user_id);
 				s.setVisible(true);
 				dispose();
+				todayEatKcal();
 			}
 		});
 		btnNewButton_3.setContentAreaFilled(false);
@@ -333,7 +335,7 @@ public class DietRecord extends JFrame {
 			while (rs.next()) {
 				recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
 			}
-			lblNewLabel_11.setText(recommendKcal+"kcal");
+			lblNewLabel_11.setText(recommendKcal + "kcal");
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -347,6 +349,7 @@ public class DietRecord extends JFrame {
 		btnNewButton_4.setIcon(new ImageIcon(DietRecord.class.getResource("/image/뒤로가기.png")));
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				todayEatKcal();
 				dispose();
 				new Main(user_id);
 			}
@@ -367,23 +370,23 @@ public class DietRecord extends JFrame {
 				System.exit(0);
 			}
 		});
-		
+
 		btnNewButton_5.setContentAreaFilled(false);
 		btnNewButton_5.setBorderPainted(false);
 		btnNewButton_5.setFocusPainted(false);
-		
+
 		JLabel lblNewLabel_12 = new JLabel("");
 		lblNewLabel_12.setIcon(new ImageIcon(DietRecord.class.getResource("/image/식단 기록3.png")));
 		lblNewLabel_12.setForeground(Color.WHITE);
 		lblNewLabel_12.setFont(new Font("휴먼편지체", Font.BOLD, 23));
 		lblNewLabel_12.setBounds(61, 0, 102, 36);
 		getContentPane().add(lblNewLabel_12);
-		
+
 		JLabel lblNewLabel_14 = new JLabel("");
 		lblNewLabel_14.setIcon(new ImageIcon(DietRecord.class.getResource("/image/큰초록바.png")));
 		lblNewLabel_14.setBounds(0, 0, 461, 36);
 		getContentPane().add(lblNewLabel_14);
-		
+
 		JLabel lblNewLabel_13 = new JLabel("");
 		lblNewLabel_13.setIcon(new ImageIcon(DietRecord.class.getResource("/image/금일칼로리표시2.png")));
 		lblNewLabel_13.setBounds(26, 299, 318, 107);
@@ -409,35 +412,46 @@ public class DietRecord extends JFrame {
 
 	}
 
-	private void todayEatKcal() {
-		String sumKcal = "SELECT \r\n" + "    COALESCE(SUM(value), 0) AS '금일 칼로리'\r\n" + "FROM (\r\n"
-				+ "    SELECT COALESCE(SUM(breakfast_kcal), 0) AS value FROM morningdiet WHERE user_id = ? AND date = ? \r\n"
-				+ "    UNION ALL\r\n"
-				+ "    SELECT COALESCE(SUM(lunch_kcal), 0) AS value FROM lunchdiet WHERE user_id = ? AND date = ? \r\n"
-				+ "    UNION ALL\r\n"
-				+ "    SELECT COALESCE(SUM(dinner_kcal), 0) AS value FROM dinnerdiet WHERE user_id = ? AND date = ? \r\n"
-				+ "    UNION ALL\r\n"
-				+ "    SELECT COALESCE(SUM(snack_kcal), 0) AS value FROM snackdiet WHERE user_id = ? AND date = ? \r\n"
-				+ ") AS subquery;";
+	public void todayEatKcal() {
+		  String sumKcal = "INSERT INTO all_kcal (user_id, date, eat_kcal) " +
+                  "VALUES (?, CURRENT_DATE(), " +
+                  "        (SELECT COALESCE(SUM(value), 0) FROM (" +
+                  "            SELECT COALESCE(SUM(breakfast_kcal), 0) AS value FROM morningdiet WHERE user_id = ? AND date = CURRENT_DATE()" +
+                  "            UNION ALL" +
+                  "            SELECT COALESCE(SUM(lunch_kcal), 0) AS value FROM lunchdiet WHERE user_id = ? AND date = CURRENT_DATE()" +
+                  "            UNION ALL" +
+                  "            SELECT COALESCE(SUM(dinner_kcal), 0) AS value FROM dinnerdiet WHERE user_id = ? AND date = CURRENT_DATE()" +
+                  "            UNION ALL" +
+                  "            SELECT COALESCE(SUM(snack_kcal), 0) AS value FROM snackdiet WHERE user_id = ? AND date = CURRENT_DATE()" +
+                  "        ) AS subquery)" +
+                  "    )";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(sumKcal);) {
 			pst.setString(1, user_id);
-			pst.setDate(2, sqlDate);
+			pst.setString(2, user_id);
 			pst.setString(3, user_id);
-			pst.setDate(4, sqlDate);
+			pst.setString(4, user_id);
 			pst.setString(5, user_id);
-			pst.setDate(6, sqlDate);
-			pst.setString(7, user_id);
-			pst.setDate(8, sqlDate);
+			pst.executeUpdate();
+			
+			 String selectKcalQuery = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC \r\n" + 
+			 		"LIMIT 1;";
+		        try (PreparedStatement selectPst = conn.prepareStatement(selectKcalQuery)) {
+		            selectPst.setString(1, user_id);
+		            ResultSet rs = selectPst.executeQuery();
+		            if (rs.next()) {
+		                double todayEatSumKacl = rs.getDouble("eat_kcal");
+		                lblNewLabel_9.setText(Double.toString(todayEatSumKacl));
+		            }
+		        }
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				todayEatSumKacl = rs.getDouble("금일 칼로리");
-			}
-			lblNewLabel_9.setText(todayEatSumKacl.toString());
-
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+		    } catch (SQLException e1) {
+		        e1.printStackTrace();
+		    }
 		}
+
+	public double getTodayEatSumKacl() {
+		todayEatKcal(); // todayEatKcal() 메서드 호출하여 값을 가져옴
+		return todayEatSumKacl;
 	}
 }
