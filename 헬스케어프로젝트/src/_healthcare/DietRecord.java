@@ -267,6 +267,7 @@ public class DietRecord extends JFrame {
 					fastSql("lunchdiet", "lunch_meal", "lunch_kcal");
 					lunchSumKcal = 0.0;
 					todayEatKcal();
+					btnNewButton_1.setEnabled(false);
 				} else {
 					lblNewLabel_5.setText(String.valueOf(lunchSumKcal));
 				}
@@ -288,6 +289,7 @@ public class DietRecord extends JFrame {
 					fastSql("dinnerdiet", "dinner_meal", "dinner_kcal");
 					dinnerSumKcal = 0.0;
 					todayEatKcal();
+					btnNewButton_2.setEnabled(false);
 				} else {
 					lblNewLabel_6.setText(String.valueOf(dinnerSumKcal));
 				}
@@ -309,6 +311,7 @@ public class DietRecord extends JFrame {
 					fastSql("snackdiet", "snack_meal", "snack_kcal");
 					snackSumKcal = 0.0;
 					todayEatKcal();
+					btnNewButton_3.setEnabled(false);
 				} else {
 					lblNewLabel_7.setText(String.valueOf(snackSumKcal));
 				}
