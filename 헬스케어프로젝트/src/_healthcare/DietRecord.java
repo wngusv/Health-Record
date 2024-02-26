@@ -241,6 +241,9 @@ public class DietRecord extends JFrame {
 					fastSql("morningdiet", "breakfast_meal", "breakfast_kcal");
 					breakfastSumKcal = 0.0;
 					todayEatKcal();
+					
+					 // 체크박스가 선택되면 버튼 비활성화
+		            btnNewButton.setEnabled(false);
 				} else {
 					lblNewLabel_4.setText(String.valueOf(breakfastSumKcal));
 				}
