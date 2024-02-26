@@ -70,7 +70,10 @@ public class Snack_FindFoodCalories extends JFrame {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				String eatenFoodList = rs.getString("snack_meal");
-				list.add(eatenFoodList);
+				// "단식"이 아닌 경우에만 리스트에 추가
+			    if (!"단식".equals(eatenFoodList)) {
+			        list.add(eatenFoodList);
+			    }
 			}
 
 			StringBuilder stringBuilder = new StringBuilder();
