@@ -39,9 +39,10 @@ public class ExerciseCalendar extends JFrame {
 	private ImageIcon newImageIcon;
 	private String newImage;
 	private LocalDate today;
-
+	private DietRecord dietRecord;
+	
 	public ExerciseCalendar(String loginId) {
-
+		
 		this.loginId = loginId;
 		System.out.println(loginId);
 		getContentPane().setBackground(Color.WHITE);
@@ -101,7 +102,7 @@ public class ExerciseCalendar extends JFrame {
 		currentYear = LocalDate.now().getYear(); // 현재 연도 설정
 		calendarPanel.removeAll();
 		displayCalendar(); // 초기 달력 표시
-		
+		changeTextOfToday();
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -53, SpringLayout.NORTH, calendarPanel);
@@ -257,7 +258,6 @@ public class ExerciseCalendar extends JFrame {
 			// --- 라벨 추가
 			JLabel kcalLabel = new JLabel("-", SwingConstants.CENTER);
 			dayPanel.add(kcalLabel, BorderLayout.CENTER); // --- 라벨을 패널에 추가
-
 			calendarPanel.add(dayPanel); // 날짜 패널을 캘린더 패널에 추가
 
 		}
@@ -329,6 +329,32 @@ public class ExerciseCalendar extends JFrame {
         // 기본 이미지 경로
         return "Date" + date.getDayOfMonth() + ".png";
     }
+	public void changeTextOfToday() {
+	    today = LocalDate.now();
+
+	    // 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
+	    for (Component component : calendarPanel.getComponents()) {
+	        if (component instanceof JPanel) {
+	            JPanel dayPanel = (JPanel) component;
+	            JLabel dayLabel = (JLabel) dayPanel.getComponent(0); // 첫 번째 컴포넌트는 날짜를 표시하는 레이블
+
+	            // 현재 반복 중인 날짜가 오늘의 날짜와 같은지 확인
+	            if (dayLabel.getText().equals(String.valueOf(today.getDayOfMonth()))) {
+	                // 두 번째 컴포넌트인 kcalLabel 가져오기 전에 null 체크를 추가합니다.
+	                if (dayPanel.getComponentCount() > 1 && dayPanel.getComponent(1) instanceof JLabel) {
+	                	JLabel kcalLabel = new JLabel("1234kcal ●", SwingConstants.CENTER);
+	                	kcalLabel.setForeground(Color.GREEN); 
+	                	kcalLabel.setFont(kcalLabel.getFont().deriveFont(8f));
+	        			dayPanel.add(kcalLabel, BorderLayout.CENTER);
+//	                    System.out.println(dietRecord.getTodayEatSumKacl());
+	                    break; // 이미지를 추가한 후에는 더 이상 반복할 필요가 없으므로 반복문 종료
+	                } else {
+	                    System.out.println("kcalLabel이 없습니다."); // 디버깅용 출력문
+	                }
+	            }
+	        }
+	    }
+	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {

@@ -37,7 +37,6 @@ public class Snack_FindFoodCalories extends JFrame {
 	private String user_id;
 	private String foodName; // 사용자가 선택한 음식명
 	private double snack_kcal;
-
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
 	// sql에 넣기 위해 날짜를 date형식으로 변경
@@ -269,7 +268,6 @@ public class Snack_FindFoodCalories extends JFrame {
 				} else {
 					System.out.println("snack_meal이 비어있습니다. 데이터를 삽입하지 않습니다.");
 				}
-
 			}
 		});
 		btnNewButton_1.setContentAreaFilled(false);

@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import java.awt.Color;
 import javax.swing.JSlider;
 import javax.swing.JPanel;
+import javax.swing.ImageIcon;
 
 public class Main extends JFrame {
     private String loginId;
@@ -32,18 +33,22 @@ public class Main extends JFrame {
     
     
     public Main(String loginId) {
+    	setTitle("마이 페이지");
        getContentPane().setBackground(Color.WHITE);
         this.loginId = loginId;
         System.out.println("로그인한 ID:" + loginId);
 
         
         
-        setSize(795, 530);
+        setSize(377, 595);
         setVisible(true);
         getContentPane().setLayout(null);
 
         JButton boardButton = new JButton("게시판");
-        boardButton.setBounds(287, 440, 118, 23);
+        boardButton.setOpaque(false); // 배경 투명하게 설정
+        boardButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        boardButton.setBorderPainted(false); // 테두리 제거
+        boardButton.setBounds(161, 523, 141, 23);
         getContentPane().add(boardButton);
 
         boardButton.addActionListener(new ActionListener() {
@@ -57,7 +62,10 @@ public class Main extends JFrame {
 
         
         JButton exerciseButton = new JButton("운동기록");
-        exerciseButton.setBounds(99, 411, 137, 23);
+        exerciseButton.setBounds(12, 490, 141, 23);
+        exerciseButton.setOpaque(false); // 배경 투명하게 설정
+        exerciseButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        exerciseButton.setBorderPainted(false); // 테두리 제거
         getContentPane().add(exerciseButton);
         exerciseButton.addActionListener(new ActionListener() {
             @Override
@@ -71,7 +79,10 @@ public class Main extends JFrame {
         
         
         JButton waterButton = new JButton("물 기록");
-        waterButton.setBounds(99, 440, 137, 23);
+        waterButton.setOpaque(false); // 배경 투명하게 설정
+        waterButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        waterButton.setBorderPainted(false); // 테두리 제거
+        waterButton.setBounds(12, 523, 141, 23);
         getContentPane().add(waterButton);
         waterButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent arg0) {
@@ -84,7 +95,10 @@ public class Main extends JFrame {
         
         
         JButton btnNewButton = new JButton("식단 기록");
-        btnNewButton.setBounds(95, 382, 141, 23);
+        btnNewButton.setOpaque(false); // 배경 투명하게 설정
+        btnNewButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        btnNewButton.setBorderPainted(false); // 테두리 제거
+        btnNewButton.setBounds(12, 457, 141, 23);
         btnNewButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
               DietRecord dietRecord = new DietRecord(loginId);
@@ -97,7 +111,10 @@ public class Main extends JFrame {
         
         
         JButton calButton = new JButton("캘린더");
-        calButton.setBounds(287, 382, 118, 23);
+        calButton.setOpaque(false); // 배경 투명하게 설정
+        calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        calButton.setBorderPainted(false); // 테두리 제거
+        calButton.setBounds(161, 457, 141, 23);
         calButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
               dispose();
@@ -108,7 +125,10 @@ public class Main extends JFrame {
         getContentPane().add(calButton);
         
         JButton graphButton = new JButton("몸무게 변화");
-        graphButton.setBounds(287, 411, 118, 23);
+        graphButton.setOpaque(false); // 배경 투명하게 설정
+        graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+        graphButton.setBorderPainted(false); // 테두리 제거
+        graphButton.setBounds(161, 490, 141, 23);
         getContentPane().add(graphButton);
         graphButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -122,7 +142,7 @@ public class Main extends JFrame {
       
        // JSlider 초기화(BMI표시)
         slider = new JSlider();
-        slider.setBounds(56, 314, 402, 46);
+        slider.setBounds(49, 337, 253, 46);
         slider.setMinorTickSpacing(1); // 최소 틱 간격
         slider.setMajorTickSpacing(5);
         slider.setMinorTickSpacing(5);
@@ -149,7 +169,7 @@ public class Main extends JFrame {
         }
         
         lblKg = new JLabel("New label");
-        lblKg.setBounds(541, 256, 57, 15);
+        lblKg.setBounds(131, 289, 57, 15);
         getContentPane().add(lblKg);
         
         try {
@@ -167,8 +187,8 @@ public class Main extends JFrame {
         }
         
      // 몸무게 입력 버튼
-        JButton btnRecordWeight = new JButton("몸무게 입력");
-        btnRecordWeight.setBounds(637, 262, 113, 23);
+        JButton btnRecordWeight = new JButton("입력");
+        btnRecordWeight.setBounds(224, 285, 64, 23);
         getContentPane().add(btnRecordWeight);
 
         btnRecordWeight.addActionListener(new ActionListener() {
@@ -181,7 +201,7 @@ public class Main extends JFrame {
         
         
         JLabel lblName = new JLabel("New label");
-        lblName.setBounds(541, 281, 57, 15);
+        lblName.setBounds(131, 194, 57, 15);
         getContentPane().add(lblName);
         
         
@@ -201,7 +221,7 @@ public class Main extends JFrame {
         
         
         JLabel lblAge = new JLabel("New label");
-        lblAge.setBounds(541, 310, 57, 15);
+        lblAge.setBounds(131, 219, 57, 15);
         getContentPane().add(lblAge);
         
         
@@ -220,8 +240,24 @@ public class Main extends JFrame {
         }
         
         JLabel lblHeight = new JLabel("New label");
-        lblHeight.setBounds(541, 343, 57, 15);
+        lblHeight.setBounds(131, 253, 57, 15);
         getContentPane().add(lblHeight);
+        
+        JLabel lblNewLabel = new JLabel("이름");
+        lblNewLabel.setBounds(62, 194, 57, 15);
+        getContentPane().add(lblNewLabel);
+        
+        JLabel lblNewLabel_1 = new JLabel("나이");
+        lblNewLabel_1.setBounds(62, 219, 57, 15);
+        getContentPane().add(lblNewLabel_1);
+        
+        JLabel lblNewLabel_2 = new JLabel("키");
+        lblNewLabel_2.setBounds(62, 253, 57, 15);
+        getContentPane().add(lblNewLabel_2);
+        
+        JLabel lblNewLabel_3 = new JLabel("몸무게");
+        lblNewLabel_3.setBounds(47, 289, 57, 15);
+        getContentPane().add(lblNewLabel_3);
       
         try {
             Connection connection = MySqlConnectionProvider.getConnection();
@@ -281,5 +317,4 @@ public class Main extends JFrame {
 
 
    }
-    
 }
