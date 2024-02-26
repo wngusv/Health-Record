@@ -9,9 +9,11 @@ import dbutil.MySqlConnectionProvider;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
@@ -25,7 +27,7 @@ public class Main extends JFrame {
     private String loginId;
     private JLabel lblKg;
    private JSlider slider;
-   private JLabel label;
+   private JLabel lalKg;
 
     
     
@@ -108,6 +110,61 @@ public class Main extends JFrame {
         JButton graphButton = new JButton("몸무게 변화");
         graphButton.setBounds(287, 411, 118, 23);
         getContentPane().add(graphButton);
+        graphButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               dispose();
+               Graph graph = new Graph(loginId);
+               graph.setVisible(true);
+            }
+         });
+
+       
+      
+       // JSlider 초기화(BMI표시)
+        slider = new JSlider();
+        slider.setBounds(56, 314, 402, 46);
+        slider.setMinorTickSpacing(1); // 최소 틱 간격
+        slider.setMajorTickSpacing(5);
+        slider.setMinorTickSpacing(5);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        slider.setEnabled(false);
+        slider.setMaximum(50);
+        slider.setBackground(Color.WHITE);
+        getContentPane().add(slider);
+        
+        try {
+            Connection connection = MySqlConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT BMI FROM users WHERE id = '" + loginId + "'");
+            if (resultSet.next()) {
+                double bmi = resultSet.getDouble("BMI");
+                System.out.println("BMI from database: " + bmi);
+
+                int sliderValue = (int) bmi; // BMI 값을 정수로 변환하여 슬라이더 값으로 설정
+                slider.setValue(sliderValue);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        lblKg = new JLabel("New label");
+        lblKg.setBounds(541, 256, 57, 15);
+        getContentPane().add(lblKg);
+        
+        try {
+            Connection connection = MySqlConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT weight FROM users WHERE id = '" + loginId + "'");
+            if (resultSet.next()) {
+                String weight = resultSet.getString("weight"); // 몸무게 가져오기
+                System.out.println("weight from database: " + weight);
+
+                lblKg.setText(weight); // JLabel에 몸무게 설정
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         
      // 몸무게 입력 버튼
         JButton btnRecordWeight = new JButton("몸무게 입력");
@@ -122,52 +179,10 @@ public class Main extends JFrame {
             }
         });
         
-        // 몸무게 표시 라벨 추가
-     // 몸무게 표시 라벨 추가
-
         
-        // JSlider 초기화
-        slider = new JSlider();
-        slider.setBounds(56, 314, 402, 46);
-        slider.setMinorTickSpacing(1); // 최소 틱 간격
-        slider.setMajorTickSpacing(5);
-        slider.setMinorTickSpacing(5);
-        slider.setPaintTicks(true);
-        slider.setPaintLabels(true);
-        slider.setEnabled(false);
-        slider.setMaximum(50);
-        slider.setBackground(Color.WHITE);
-        getContentPane().add(slider);
-        
-
-
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT BMI FROM users WHERE id = '" + loginId + "'");
-            if (resultSet.next()) {
-                double bmi = resultSet.getDouble("BMI");
-                System.out.println("BMI from database: " + bmi);
-
-                int sliderValue = (int) bmi; // BMI 값을 정수로 변환하여 슬라이더 값으로 설정
-                slider.setValue(sliderValue);
-
-                // JSlider에 BMI 값 표시
-//                JLabel lblBmi = new JLabel("BMI: " + bmi);
-//                getContentPane().add(lblBmi);
-//                springLayout.putConstraint(SpringLayout.WEST, lblBmi, 10, SpringLayout.WEST, getContentPane());
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        
-        label = new JLabel("New label");
-        label.setBounds(541, 256, 57, 15);
-        getContentPane().add(label);
-        
-        JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setBounds(541, 281, 57, 15);
-        getContentPane().add(lblNewLabel);
+        JLabel lblName = new JLabel("New label");
+        lblName.setBounds(541, 281, 57, 15);
+        getContentPane().add(lblName);
         
         
         try {
@@ -178,14 +193,16 @@ public class Main extends JFrame {
                 String name = resultSet.getString("name"); // 이름 가져오기
                 System.out.println("name from database: " + name);
 
-                lblNewLabel.setText(name); // JLabel에 이름 설정
+                lblName.setText(name); // JLabel에 이름 설정
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        JLabel lblNewLabel_1 = new JLabel("New label");
-        lblNewLabel_1.setBounds(541, 310, 57, 15);
-        getContentPane().add(lblNewLabel_1);
+        
+        
+        JLabel lblAge = new JLabel("New label");
+        lblAge.setBounds(541, 310, 57, 15);
+        getContentPane().add(lblAge);
         
         
         try {
@@ -196,15 +213,15 @@ public class Main extends JFrame {
                 String age = resultSet.getString("age"); // 나이 가져오기
                 System.out.println("name from database: " + age);
 
-                lblNewLabel_1.setText(age); // JLabel에 나이 설정
+                lblAge.setText(age); // JLabel에 나이 설정
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         
-        JLabel lblNewLabel_2 = new JLabel("New label");
-        lblNewLabel_2.setBounds(541, 343, 57, 15);
-        getContentPane().add(lblNewLabel_2);
+        JLabel lblHeight = new JLabel("New label");
+        lblHeight.setBounds(541, 343, 57, 15);
+        getContentPane().add(lblHeight);
       
         try {
             Connection connection = MySqlConnectionProvider.getConnection();
@@ -214,7 +231,7 @@ public class Main extends JFrame {
                 String height = resultSet.getString("height"); // 키 가져오기
                 System.out.println("height from database: " + height);
 
-                lblNewLabel_2.setText(height); // JLabel에 키 설정
+                lblHeight.setText(height); // JLabel에 키 설정
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -222,13 +239,47 @@ public class Main extends JFrame {
         
     }
     
-    
-    
-    
-    
 
-    // 몸무게 표시 라벨 업데이트 메서드 (인스턴스 메서드로 변경)
-    public void updateWeight(String weight) {
-       label.setText(weight + " kg"); // 입력 받은 몸무게 값을 라벨에 표시
-    }
+    // 몸무게 표시 라벨 업데이트 + 데이터베이스에 몸무게 추가 메서드
+    public void updateWeight(int inputValue) {
+       LocalDate today = LocalDate.now();
+       lblKg.setText(String.valueOf(inputValue)); // 입력 받은 몸무게 값을 라벨에 표시 
+       try {
+    	    Connection connection = MySqlConnectionProvider.getConnection();
+
+    	    // 사용자의 몸무게를 변경하기 위해 사용자의 ID를 가져오는 쿼리 실행
+    	    PreparedStatement userIdStatement = connection.prepareStatement("SELECT id FROM users WHERE id = ?");
+    	    userIdStatement.setString(1, loginId);
+    	    ResultSet userIdResultSet = userIdStatement.executeQuery();
+
+    	    // 사용자 ID를 가져왔다면
+    	    if (userIdResultSet.next()) {
+    	        String userId = userIdResultSet.getString("id");
+
+    	        // 사용자 ID와 함께 몸무게를 weightrecords 테이블에 삽입하는 쿼리 실행
+    	        String sql = "INSERT INTO weightrecords (user_id, weight, date) VALUES (?, ?, ?)";
+    	        PreparedStatement statement = connection.prepareStatement(sql);
+    	        statement.setString(1, userId);
+    	        statement.setInt(2, inputValue);
+    	        statement.setDate(3, java.sql.Date.valueOf(today)); // 오늘 날짜를 SQL Date 형식으로 변환하여 설정
+    	        statement.executeUpdate();
+    	        System.out.println("몸무게가 성공적으로 추가되었습니다.");
+
+    	        // users 테이블의 몸무게(weight) 열을 변경하는 쿼리 실행
+    	        String updateUserWeightSql = "UPDATE users SET weight = ? WHERE id = ?";
+    	        PreparedStatement updateUserWeightStatement = connection.prepareStatement(updateUserWeightSql);
+    	        updateUserWeightStatement.setInt(1, inputValue);
+    	        updateUserWeightStatement.setString(2, userId);
+    	        updateUserWeightStatement.executeUpdate();
+    	        System.out.println("사용자의 몸무게가 성공적으로 업데이트되었습니다.");
+    	    } else {
+    	        System.out.println("사용자 ID를 가져오지 못했습니다.");
+    	    }
+    	} catch (SQLException e) {
+    	    e.printStackTrace();
+    	}
+
+
+   }
+    
 }

@@ -32,7 +32,7 @@ public class UpdateWeight extends JFrame {
         btnInput.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String inputValue = textField.getText();
+            	int inputValue = Integer.parseInt(textField.getText());
                 mainInstance.updateWeight(inputValue); // Main 클래스의 updateWeight 메서드 호출
                 dispose();
             }
