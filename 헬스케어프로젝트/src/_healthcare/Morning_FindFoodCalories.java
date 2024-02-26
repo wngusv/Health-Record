@@ -52,8 +52,10 @@ public class Morning_FindFoodCalories extends JFrame {
 	private JLabel lblNewLabel_7;
 	private JTextPane lbl_list;
 	private List<String> list = new ArrayList<>();
+	
 
 	public Morning_FindFoodCalories(String loginId) {
+		
 		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();
@@ -72,11 +74,13 @@ public class Morning_FindFoodCalories extends JFrame {
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				String eatenFoodList = rs.getString("breakfast_meal");
+			    
 				list.add(eatenFoodList);
 			}
-
+			
 			StringBuilder stringBuilder = new StringBuilder();
 			for (String element : list) {
+				
 				stringBuilder.append("<font face='휴먼편지체' size='4' color='black'>").append(element).append("<br/>");
 			}
 			String htmlText = stringBuilder.toString();
