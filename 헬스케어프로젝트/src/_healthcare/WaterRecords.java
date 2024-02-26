@@ -24,6 +24,7 @@ import java.awt.Color;
 
 public class WaterRecords extends JFrame {
 	int cup = 0;
+	int num = 0;
 	private JLabel nowWaterDrinking;
 	// 현재 날짜
 	java.util.Date currentDate = new java.util.Date();
@@ -56,10 +57,11 @@ public class WaterRecords extends JFrame {
 
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) { // 데이터가 있다면 버튼이 눌러저있게 하기
-						cup = rs.getInt("water");
-						nowWaterDrinking.setText(String.valueOf(cup));
-						
-						
+						 num = rs.getInt("water");
+						 JButton[] waterButtons = new JButton[] { btn_cup1, btn_cup2, btn_cup3, btn_cup4, btn_cup5, btn_cup6, btn_cup7, btn_cup8 };
+						    for (int i = 0; i < num; i++) {
+						        waterButtons[i].doClick();
+						    }
 					} else { // 그 데이터가 없는 경우. INSERT사용
 						String insertQuery = "INSERT INTO waterrecords (user_id, date, water) VALUES (?,?,?)";
 						try (PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
@@ -267,5 +269,7 @@ public class WaterRecords extends JFrame {
 		lblNewLabel_5.setBounds(36, 241, 319, 107);
 		getContentPane().add(lblNewLabel_5);
 	}
+	
+	
 
 }
