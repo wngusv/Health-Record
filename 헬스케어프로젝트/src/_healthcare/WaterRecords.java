@@ -54,105 +54,12 @@ public class WaterRecords extends JFrame {
 				pst.setString(1, user_id);
 				pst.setDate(2, sqlDate);
 
-				
 				try (ResultSet rs = pst.executeQuery()) {
 					if (rs.next()) { // 데이터가 있다면 버튼이 눌러저있게 하기
-						/*
-						todayDrinkWater = rs.getInt("water");
-						nowWaterDrinking.setText(String.valueOf(todayDrinkWater));
-						 System.out.println(todayDrinkWater);
-						 switch(todayDrinkWater) {
-						 
-						 case 1:
-							 btn_cup1.setEnabled(true);
-							 changeImage(btn_cup1);
-							 break;
-						 case 2:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 break;
-						 case 3:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 break;
-						 case 4:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 btn_cup4.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 changeImage(btn_cup4);
-							 break;
-						 case 5:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 btn_cup4.setEnabled(true);
-							 btn_cup5.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 changeImage(btn_cup4);
-							 changeImage(btn_cup5);
-							 break;
-						 case 6:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 btn_cup4.setEnabled(true);
-							 btn_cup5.setEnabled(true);
-							 btn_cup6.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 changeImage(btn_cup4);
-							 changeImage(btn_cup5);
-							 changeImage(btn_cup6);
-							 break;
-						 case 7:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 btn_cup4.setEnabled(true);
-							 btn_cup5.setEnabled(true);
-							 btn_cup6.setEnabled(true);
-							 btn_cup7.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 changeImage(btn_cup4);
-							 changeImage(btn_cup5);
-							 changeImage(btn_cup6);
-							 changeImage(btn_cup7);
-							 break;
-						 case 8:
-							 btn_cup1.setEnabled(true);
-							 btn_cup2.setEnabled(true);
-							 btn_cup3.setEnabled(true);
-							 btn_cup4.setEnabled(true);
-							 btn_cup5.setEnabled(true);
-							 btn_cup6.setEnabled(true);
-							 btn_cup7.setEnabled(true);
-							 btn_cup8.setEnabled(true);
-							 changeImage(btn_cup1);
-							 changeImage(btn_cup2);
-							 changeImage(btn_cup3);
-							 changeImage(btn_cup4);
-							 changeImage(btn_cup5);
-							 changeImage(btn_cup6);
-							 changeImage(btn_cup7);
-							 changeImage(btn_cup8);
-							 break;
-						 }
-						 */
+						cup = rs.getInt("water");
+						nowWaterDrinking.setText(String.valueOf(cup));
+						
+						
 					} else { // 그 데이터가 없는 경우. INSERT사용
 						String insertQuery = "INSERT INTO waterrecords (user_id, date, water) VALUES (?,?,?)";
 						try (PreparedStatement insertPst = conn.prepareStatement(insertQuery)) {
@@ -176,7 +83,6 @@ public class WaterRecords extends JFrame {
 			e.printStackTrace();
 		}
 
-		
 		showGUI();
 
 	}
@@ -217,21 +123,39 @@ public class WaterRecords extends JFrame {
 
 	}
 
+	private void btnClick(JButton btn) {
+		btn.addActionListener(new ActionListener() {
+			private boolean clicked = false;
+
+			public void actionPerformed(ActionEvent e) {
+				if (clicked) {
+					btn.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마시기전 2.png")));
+					cup--;
+				} else {
+					btn.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마신후 2.png")));
+					cup++;
+				}
+				updateCupCount();
+				clicked = !clicked; // 클릭 상태를 토글
+			}
+		});
+
+	}
 
 	private void extracted() {
 		setTitle("물 기록");
 		getContentPane().setLayout(null);
-				
-						nowWaterDrinking = new JLabel("0");
-						nowWaterDrinking.setFont(new Font("휴먼편지체", Font.BOLD, 13));
-						nowWaterDrinking.setBounds(157, 300, 40, 15);
-						getContentPane().add(nowWaterDrinking);
-		
+
+		nowWaterDrinking = new JLabel("0");
+		nowWaterDrinking.setFont(new Font("휴먼편지체", Font.BOLD, 13));
+		nowWaterDrinking.setBounds(157, 300, 40, 15);
+		getContentPane().add(nowWaterDrinking);
+
 		lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물 기록3.png")));
 		lblNewLabel_2.setBounds(61, 0, 102, 36);
 		getContentPane().add(lblNewLabel_2);
-		
+
 		JButton btnNewButton = new JButton("");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -332,38 +256,16 @@ public class WaterRecords extends JFrame {
 		btn_cup8.setBounds(260, 168, 52, 65);
 		btnClick(btn_cup8);
 		getContentPane().add(btn_cup8);
-		
+
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/큰초록바.png")));
 		lblNewLabel.setBounds(0, 0, 461, 36);
 		getContentPane().add(lblNewLabel);
-		
+
 		lblNewLabel_5 = new JLabel("");
 		lblNewLabel_5.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물 음용량 표시4.png")));
 		lblNewLabel_5.setBounds(36, 241, 319, 107);
 		getContentPane().add(lblNewLabel_5);
 	}
 
-	private void btnClick(JButton btn) {
-		btn.addActionListener(new ActionListener() {
-			private boolean clicked = false;
-
-			public void actionPerformed(ActionEvent e) {
-				if (clicked) {
-					btn.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마시기전 2.png")));
-					cup--;
-				} else {
-					btn.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마신후 2.png")));
-					cup++;
-				}
-				updateCupCount();
-				clicked = !clicked; // 클릭 상태를 토글
-			}
-		});
-
-	}
-	
-	private void changeImage(JButton btn) {
-		btn.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물마신후 2.png")));
-	}
 }
