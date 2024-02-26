@@ -12,6 +12,7 @@ import dbutil.MySqlConnectionProvider;
 
 import java.awt.BorderLayout;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -37,34 +38,38 @@ public class Graph extends JFrame {
         chart.setYAxisTitle("체중 (kg)");
 
         // 데이터베이스에 연결하고 데이터 가져오기
-        try (Connection conn = MySqlConnectionProvider.getConnection()) {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT date, weight FROM weightrecords");
+        String sql = "SELECT date, weight FROM weightrecords WHERE user_id = ?";
+        try (Connection conn = MySqlConnectionProvider.getConnection();
+        		PreparedStatement pst = conn.prepareStatement(sql)) {
+            //Statement statement = conn.createStatement();
+        	pst.setString(1, user_id);
+        	
+        	try (ResultSet resultSet = pst.executeQuery()) {
+                // 데이터 포인트를 담을 리스트 생성
+                List<Date> dates = new ArrayList<>();
+                List<Double> weights = new ArrayList<>();
 
-            // 데이터 포인트를 담을 리스트 생성
-            List<Date> dates = new ArrayList<>();
-            List<Double> weights = new ArrayList<>();
+                // 결과셋에서 데이터 읽기
+                while (resultSet.next()) {
+                    Date date = resultSet.getDate("date");
+                    double weight = resultSet.getDouble("weight");
+                    dates.add(date);
+                    weights.add(weight);
+                }
 
-            // 결과셋에서 데이터 읽기
-            while (resultSet.next()) {
-                Date date = resultSet.getDate("date");
-                double weight = resultSet.getDouble("weight");
-                dates.add(date);
-                weights.add(weight);
+                // 차트에 데이터 포인트 추가
+                XYSeries series = chart.addSeries("체중", dates, weights);
+
+                // 차트 패널을 프레임에 추가
+                JPanel chartPanel = new XChartPanel<>(chart);
+                getContentPane().add(chartPanel, BorderLayout.CENTER);
+
+                // 프레임 속성 설정
+                setSize(800, 600);
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setLocationRelativeTo(null); // 화면 중앙에 표시
+                setVisible(true);
             }
-
-            // 차트에 데이터 포인트 추가
-            XYSeries series = chart.addSeries("체중", dates, weights);
-
-            // 차트 패널을 프레임에 추가
-            JPanel chartPanel = new XChartPanel<>(chart);
-            getContentPane().add(chartPanel, BorderLayout.CENTER);
-
-            // 프레임 속성 설정
-            setSize(800, 600);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setLocationRelativeTo(null); // 화면 중앙에 표시
-            setVisible(true);
         } catch (SQLException e) {
             e.printStackTrace();
         }
