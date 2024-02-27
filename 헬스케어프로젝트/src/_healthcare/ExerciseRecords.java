@@ -44,20 +44,25 @@ public class ExerciseRecords extends JFrame {
       this.loginId = loginId;
       System.out.println(loginId);
       setTitle("운동기록");
-      setSize(600, 546); // 창의 너비와 높이를 설정합니다.
+      setSize(422, 546); // 창의 너비와 높이를 설정합니다.
       setResizable(false); // 창의 크기를 조절할 수 없도록 설정합니다.
       getContentPane().setLayout(null);
+                  
+                  JLabel lblNewLabel_1 = new JLabel("운동 시간 :");
+                  lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+                  lblNewLabel_1.setBounds(91, 456, 84, 24);
+                  getContentPane().add(lblNewLabel_1);
             
-                  JLabel lbl_end = new JLabel("(운동 종료 시간)");
+                  JLabel lbl_end = new JLabel("운동 종료 시간");
                   lbl_end.setIcon(null);
-                  lbl_end.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-                  lbl_end.setBounds(361, 347, 195, 58);
+                  lbl_end.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+                  lbl_end.setBounds(248, 377, 91, 58);
                   getContentPane().add(lbl_end);
       
-            lbl_start = new JLabel("");
+            lbl_start = new JLabel("운동 시작 시간");
             lbl_start.setIcon(null);
-            lbl_start.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-            lbl_start.setBounds(60, 342, 181, 69);
+            lbl_start.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+            lbl_start.setBounds(70, 377, 91, 48);
             getContentPane().add(lbl_start);
       
       JLabel lblTitle = new JLabel("운동 기록");
@@ -71,40 +76,45 @@ public class ExerciseRecords extends JFrame {
       btn_start.setOpaque(false); // 배경 투명하게 설정
       btn_start.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btn_start.setBorderPainted(false); // 테두리 제거
-      btn_start.setBounds(54, 230, 152, 120);
+      btn_start.setBounds(32, 253, 152, 120);
       getContentPane().add(btn_start);
       
-      // 운동시작 버튼 클릭 시 이벤트 리스너
+   // 운동시작 버튼 클릭 시 이벤트 리스너
       btn_start.addActionListener(new ActionListener() {
-         @Override
-         public void actionPerformed(ActionEvent e) {
-            // 현재 시간 가져오기
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            startTime = now.format(formatter); // 운동 시작 시간 저장
-            try (Connection conn = MySqlConnectionProvider.getConnection()) {
-               String sql = "UPDATE exerciserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
-               PreparedStatement stmt = conn.prepareStatement(sql);
-//               stmt.setString(1, startTime);
-               stmt.setString(1, loginId);
+          @Override
+          public void actionPerformed(ActionEvent e) {
+              // 현재 시간 가져오기
+              LocalDateTime now = LocalDateTime.now();
+              DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+              startTime = now.format(formatter); // 운동 시작 시간 저장
+              try (Connection conn = MySqlConnectionProvider.getConnection()) {
+                  String sql = "UPDATE exerciserecords SET start_time = NOW() WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+                  PreparedStatement stmt = conn.prepareStatement(sql);
+                  stmt.setString(1, loginId);
 
-               stmt.executeUpdate();
+                  stmt.executeUpdate();
 
-            } catch (SQLException ex) {
-               ex.printStackTrace();
-            }
-            // lbl_start에 현재 시간 표시
-            lbl_start.setText(startTime);
-            btn_start.setEnabled(false);
-         }
+              } catch (SQLException ex) {
+                  ex.printStackTrace();
+              }
+              // lbl_start에 현재 시간 표시
+              lbl_start.setText(startTime);
 
+              // 버튼 이미지 변경
+             // ImageIcon newIcon = new ImageIcon(getClass().getResource("/image/actionstart.png"));
+             // System.out.println("New icon: " + newIcon); // 콘솔에 이미지 아이콘 정보 출력
+              //btn_start.setIcon(newIcon);
+             btn_start.setEnabled(false); // 버튼을 클릭한 후에 비활성화
+          }
       });
+
+
 
       // 운동목록 comboBox
       comboBox_Sports = new JComboBox();
-      comboBox_Sports.setBackground(Color.WHITE);
+      comboBox_Sports.setBackground(new Color(255, 255, 240));
       comboBox_Sports.addItem("(운동 목록 선택)");
-      comboBox_Sports.setBounds(115, 178, 264, 21);
+      comboBox_Sports.setBounds(32, 217, 264, 29);
       getContentPane().add(comboBox_Sports);
       
 
@@ -131,14 +141,14 @@ public class ExerciseRecords extends JFrame {
 
       btn_Ok = new JButton("");
       btn_Ok.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/ok.png")));
-      btn_Ok.setBounds(386, 172, 91, 36);
+      btn_Ok.setBounds(308, 214, 91, 36);
       btn_Ok.setOpaque(false); // 배경 투명하게 설정
       btn_Ok.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btn_Ok.setBorderPainted(false); // 테두리 제거
       getContentPane().add(btn_Ok);
 
       lbl_selected = new JLabel("");
-      lbl_selected.setBounds(135, 220, 294, 15);
+      lbl_selected.setBounds(32, 192, 294, 15);
       getContentPane().add(lbl_selected);
 
       // '확인' 버튼의 ActionListener 추가
@@ -176,7 +186,7 @@ public class ExerciseRecords extends JFrame {
       // 운동종료 버튼
       JButton btn_end = new JButton("");
       btn_end.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish.png")));
-      btn_end.setBounds(351, 230, 152, 120);
+      btn_end.setBounds(217, 253, 152, 120);
       btn_end.setOpaque(false); // 배경 투명하게 설정
       btn_end.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btn_end.setBorderPainted(false); // 테두리 제거
@@ -203,25 +213,22 @@ public class ExerciseRecords extends JFrame {
       lblgreenbar.setBounds(0, 0, 594, 38);
       getContentPane().add(lblgreenbar);
       
-      JLabel lblbackgroundstart = new JLabel("");
-      lblbackgroundstart.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/start2.png")));
-      lblbackgroundstart.setBounds(45, 342, 181, 69);
-      getContentPane().add(lblbackgroundstart);
+      JLabel lblstartbackground = new JLabel("");
+      lblstartbackground.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/starttime.png")));
+      lblstartbackground.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+      lblstartbackground.setBounds(57, 377, 138, 48);
+      getContentPane().add(lblstartbackground);
       
-      JLabel lblbackgroundfinish = new JLabel("");
-      lblbackgroundfinish.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish2.png")));
-      lblbackgroundfinish.setBounds(351, 342, 181, 69);
-      getContentPane().add(lblbackgroundfinish);
+      JLabel lblfinishbackground = new JLabel("");
+      lblfinishbackground.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finishtime.png")));
+      lblfinishbackground.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+      lblfinishbackground.setBounds(234, 380, 138, 48);
+      getContentPane().add(lblfinishbackground);
       
-      JLabel lblNewLabel_3 = new JLabel("");
-      lblNewLabel_3.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/Group 6.png")));
-      lblNewLabel_3.setBounds(106, 439, 397, 68);
-      getContentPane().add(lblNewLabel_3);
-      
-      // 운동시간기록 라벨
-      JLabel lblHoursExericse = new JLabel("New label");
-      lblHoursExericse.setBounds(246, 414, 57, 15);
-      getContentPane().add(lblHoursExericse);
+      JLabel lblNewLabel = new JLabel("");
+      lblNewLabel.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/exercisehours.png")));
+      lblNewLabel.setBounds(74, 442, 271, 48);
+      getContentPane().add(lblNewLabel);
       
 
 
@@ -285,7 +292,6 @@ public class ExerciseRecords extends JFrame {
             while (rs.next()) {
                startTime = rs.getString("start_time");
             }
-            lbl_start.setText("(운동 시작 시간)");
 
          } catch (SQLException e) {
             e.printStackTrace();
@@ -308,5 +314,4 @@ public class ExerciseRecords extends JFrame {
             e.printStackTrace();
          }
    }
-   
 }
