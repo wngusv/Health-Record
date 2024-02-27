@@ -30,6 +30,8 @@ public class Main extends JFrame {
     private JLabel lblKg;
    private JSlider slider;
    private JLabel lalKg;
+private JLabel user_character = new JLabel();
+private int userCharacterNum;
 
     
     
@@ -38,6 +40,7 @@ public class Main extends JFrame {
        getContentPane().setBackground(Color.WHITE);
         this.loginId = loginId;
         System.out.println("로그인한 ID:" + loginId);
+        
 
         
         
@@ -56,6 +59,16 @@ public class Main extends JFrame {
         btnNewButton_1.setContentAreaFilled(false);
         btnNewButton_1.setBorderPainted(false);
         btnNewButton_1.setFocusPainted(false);
+        
+        JButton btnNewButton_2 = new JButton("프로필수정버튼");
+        btnNewButton_2.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		 new EditProfile(loginId);
+                 dispose();
+        	}
+        });
+        btnNewButton_2.setBounds(190, 193, 149, 23);
+        getContentPane().add(btnNewButton_2);
         
         JLabel lblNewLabel_5 = new JLabel("활기록");
         lblNewLabel_5.setForeground(Color.WHITE);
@@ -213,19 +226,6 @@ public class Main extends JFrame {
             e.printStackTrace();
         }
         
-     // 몸무게 입력 버튼
-        JButton btnRecordWeight = new JButton("입력");
-        btnRecordWeight.setBounds(300, 139, 64, 23);
-        getContentPane().add(btnRecordWeight);
-
-        btnRecordWeight.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                // 몸무게 입력창 열기
-                UpdateWeight updateWeight = new UpdateWeight(Main.this); // Main 클래스의 인스턴스 전달
-                updateWeight.setVisible(true);
-            }
-        });
-        
         
         JLabel lblName = new JLabel("New label");
         lblName.setBounds(232, 93, 57, 15);
@@ -291,10 +291,10 @@ public class Main extends JFrame {
         lblNewLabel_4.setBounds(-11, 0, 403, 39);
         getContentPane().add(lblNewLabel_4);
         
-        JLabel lblNewLabel_6 = new JLabel("New label");
-        lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는 브로콜리.png")));
-        lblNewLabel_6.setBounds(35, 59, 112, 154);
-        getContentPane().add(lblNewLabel_6);
+        user_character = new JLabel("New label");
+        //user_character.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는 브로콜리.png")));
+        user_character.setBounds(22, 59, 135, 154);
+        getContentPane().add(user_character);
         
         JLabel lblNewLabel_7 = new JLabel("New label");
         lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리색2.png")));
@@ -314,7 +314,37 @@ public class Main extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+        callUserCharacter();  
+    }
+    
+    private void callUserCharacter() {
+    	String sql = "SELECT user_char FROM users WHERE id = ?";
+    	try(Connection conn = MySqlConnectionProvider.getConnection();
+    			PreparedStatement pst = conn.prepareStatement(sql);
+    			) {
+			pst.setString(1, loginId);
+			
+			ResultSet rs = pst.executeQuery();
+			while(rs.next()) {
+				userCharacterNum = rs.getInt("user_char");
+			}
+			
+			switch(userCharacterNum) {
+			case 1:
+				user_character.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는 브로콜리.png")));
+				break;
+			case 2:
+				user_character.setIcon(new ImageIcon(Main.class.getResource("/image/요가하는 옥쓔.png")));
+				break;
+			case 3:
+				user_character.setIcon(new ImageIcon(Main.class.getResource("/image/헬스토매통.png")));
+				break;
+			}
+			
+    		
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
     }
     
 
