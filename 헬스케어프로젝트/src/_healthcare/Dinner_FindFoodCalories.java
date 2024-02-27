@@ -65,11 +65,13 @@ public class Dinner_FindFoodCalories extends JFrame {
 	private void writeTodayEat() {
 		String sqlSelectEatFood = "SELECT dinner_meal FROM dinnerdiet WHERE user_id = ? AND date = ? ";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(sqlSelectEatFood);) {
+				PreparedStatement pst = conn.prepareStatement(sqlSelectEatFood);
+				ResultSet rs = pst.executeQuery();
+				
+				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				String eatenFoodList = rs.getString("dinner_meal");
 				// "단식"이 아닌 경우에만 리스트에 추가
@@ -99,10 +101,12 @@ public class Dinner_FindFoodCalories extends JFrame {
 		List<FoodData> list = new ArrayList<>();
 
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(selectQuery);) {
+				PreparedStatement pst = conn.prepareStatement(selectQuery);
+				ResultSet rs = pst.executeQuery();
+				
+				) {
 			pst.setString(1, "%" + findFoodName + "%");
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				String foodName = rs.getString("foodName");
 

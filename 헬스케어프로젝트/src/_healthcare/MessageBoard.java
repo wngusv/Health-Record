@@ -77,13 +77,10 @@ public class MessageBoard extends JFrame {
    }
 
    private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
-      getContentPane().setLayout(null);
       JScrollPane scrollPane = new JScrollPane(table);
-      scrollPane.setBounds(0, 0, 584, 326);
-      getContentPane().add(scrollPane);
+      add(scrollPane, BorderLayout.CENTER);
 
       JButton addButton = new JButton("글쓰기");
-      addButton.setBounds(500, 338, 84, 23);
       addButton.setContentAreaFilled(false);
       addButton.setBorderPainted(false);
       addButton.setFocusPainted(false);
@@ -95,17 +92,7 @@ public class MessageBoard extends JFrame {
          }
       });
 
-      getContentPane().add(addButton);
-      
-      JButton btnNewButton = new JButton("New button");
-      btnNewButton.addActionListener(new ActionListener() {
-      	public void actionPerformed(ActionEvent arg0) {
-      		dispose();
-      		new Main(loginId);
-      	}
-      });
-      btnNewButton.setBounds(0, 338, 97, 23);
-      getContentPane().add(btnNewButton);
+      add(addButton, BorderLayout.SOUTH);
    }
 
    private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
@@ -175,12 +162,12 @@ public class MessageBoard extends JFrame {
                @Override
                public void itemStateChanged(ItemEvent e) {
                    if (button.isSelected()) {
-                	   button.setIcon(selectedIcon);
+                      button.setIcon(selectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, true); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
                    } else {
-                	   button.setIcon(unselectedIcon);
+                      button.setIcon(unselectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, false); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
