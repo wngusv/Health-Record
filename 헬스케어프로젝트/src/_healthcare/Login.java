@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import dbutil.MySqlConnectionProvider;
 import java.awt.Toolkit;
@@ -187,6 +188,7 @@ public class Login extends JFrame {
    }
 
    public static void main(String[] args) {
-      new Login();
+      SwingUtilities.invokeLater(() -> new Login());
+	   
    }
 }

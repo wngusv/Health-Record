@@ -71,7 +71,8 @@ public class MessageBoard extends JFrame {
       table.getColumnModel().getColumn(4).setPreferredWidth(100);
       table.getColumnModel().getColumn(5).setPreferredWidth(100);
 
-      table.getColumnModel().getColumn(5).setCellRenderer(new ToggleButtonRenderer());
+      ImageIcon selectedIcon = new ImageIcon("src/image/뒤로가기.png");
+      table.getColumnModel().getColumn(5).setCellRenderer(new ToggleButtonRenderer(selectedIcon));
       table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
    }
 
@@ -167,7 +168,7 @@ public class MessageBoard extends JFrame {
            ImageIcon selectedIcon = new ImageIcon("src/image/뒤로가기.png");
            ImageIcon unselectedIcon = new ImageIcon("src/image/검색 1.png");
            
-           button = new JToggleButton();
+           button = new JToggleButton(selectedIcon);
            
            button.setSelected((Boolean) value);
            button.addItemListener(new ItemListener() {
@@ -259,8 +260,10 @@ public class MessageBoard extends JFrame {
 
 
    private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
-      public ToggleButtonRenderer() {
-         setHorizontalAlignment(SwingConstants.CENTER);
+      public ToggleButtonRenderer(ImageIcon selectedIcon) {
+    	  super(selectedIcon);
+    	  setHorizontalAlignment(SwingConstants.CENTER);
+    	  
       }
 
       @Override
