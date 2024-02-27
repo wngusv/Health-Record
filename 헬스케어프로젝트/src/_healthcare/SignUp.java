@@ -232,9 +232,9 @@ public class SignUp extends JFrame {
 		String weight = weightField.getText();
 		String goalWeigth = goalField.getText();
 
-		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try (Connection connection = MySqlConnectionProvider.getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
 			preparedStatement.setString(1, id);
 			preparedStatement.setString(2, pw);
 			preparedStatement.setString(3, name);

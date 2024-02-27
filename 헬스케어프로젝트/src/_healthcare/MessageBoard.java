@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -79,6 +80,10 @@ public class MessageBoard extends JFrame {
       add(scrollPane, BorderLayout.CENTER);
 
       JButton addButton = new JButton("글쓰기");
+      addButton.setContentAreaFilled(false);
+      addButton.setBorderPainted(false);
+      addButton.setFocusPainted(false);
+
       addButton.addActionListener(new ActionListener() {
          @Override
          public void actionPerformed(ActionEvent e) {
@@ -135,6 +140,7 @@ public class MessageBoard extends JFrame {
 
    private class ToggleButtonEditor extends DefaultCellEditor implements TableCellEditor {
        private JToggleButton button;
+       
        private int row; // 현재 편집 중인 행의 인덱스를 저장하기 위한 변수
 
        public ToggleButtonEditor() {
@@ -145,16 +151,22 @@ public class MessageBoard extends JFrame {
        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
                int column) {
            this.row = row; // 현재 편집 중인 행의 인덱스 저장
-           button = new JToggleButton("좋아요");
+           ImageIcon selectedIcon = new ImageIcon("src/image/뒤로가기.png");
+           ImageIcon unselectedIcon = new ImageIcon("src/image/검색 1.png");
+           
+           button = new JToggleButton();
+           
            button.setSelected((Boolean) value);
            button.addItemListener(new ItemListener() {
                @Override
                public void itemStateChanged(ItemEvent e) {
                    if (button.isSelected()) {
+                	   button.setIcon(selectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, true); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
                    } else {
+                	   button.setIcon(unselectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, false); // 버튼 상태 저장
                        System.out.println("선택된 " + row);

@@ -212,7 +212,7 @@ private String timediff;
       lblgreenbar.setForeground(Color.WHITE);
       lblgreenbar.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
       lblgreenbar.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/큰초록바.png")));
-      lblgreenbar.setBounds(0, 0, 594, 38);
+      lblgreenbar.setBounds(0, 0, 416, 38);
       getContentPane().add(lblgreenbar);
       
       JLabel lblstartbackground = new JLabel("");
@@ -270,20 +270,12 @@ private String timediff;
             }
          }
       });
+      
+      loadHours();
       loadExerciseName();
       loadStartTime();
-      loadHours();
-
-
-      
-      
       
    }
-   
-   
-   
-
-   
 
    private void loadStartTime() {
       String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";

@@ -45,20 +45,24 @@ public class Main extends JFrame {
         setVisible(true);
         getContentPane().setLayout(null);
         
-        JButton btnNewButton_1 = new JButton("로그아웃");
+        JButton btnNewButton_1 = new JButton("");
+        btnNewButton_1.setIcon(new ImageIcon(Main.class.getResource("/image/로그아웃버튼3.png")));
         btnNewButton_1.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		dispose();
 				new Login();
         	}
         });
+        btnNewButton_1.setContentAreaFilled(false);
+        btnNewButton_1.setBorderPainted(false);
+        btnNewButton_1.setFocusPainted(false);
         
         JLabel lblNewLabel_5 = new JLabel("활기록");
         lblNewLabel_5.setForeground(Color.WHITE);
         lblNewLabel_5.setFont(new Font("휴먼편지체", Font.BOLD, 21));
         lblNewLabel_5.setBounds(12, 1, 97, 39);
         getContentPane().add(lblNewLabel_5);
-        btnNewButton_1.setBounds(292, 10, 97, 23);
+        btnNewButton_1.setBounds(276, 5, 113, 31);
         getContentPane().add(btnNewButton_1);
 
         JButton boardButton = new JButton("");
@@ -176,10 +180,10 @@ public class Main extends JFrame {
         slider.setBackground(Color.WHITE);
         getContentPane().add(slider);
         
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT BMI FROM users WHERE id = '" + loginId + "'");
+        try(Connection connection = MySqlConnectionProvider.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT BMI FROM users WHERE id = '" + loginId + "'");) {
+            
             if (resultSet.next()) {
                 double bmi = resultSet.getDouble("BMI");
                 System.out.println("BMI from database: " + bmi);
@@ -195,10 +199,10 @@ public class Main extends JFrame {
         lblKg.setBounds(232, 168, 57, 15);
         getContentPane().add(lblKg);
         
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT weight FROM users WHERE id = '" + loginId + "'");
+        try( Connection connection = MySqlConnectionProvider.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT weight FROM users WHERE id = '" + loginId + "'");) {
+           
             if (resultSet.next()) {
                 String weight = resultSet.getString("weight"); // 몸무게 가져오기
                 System.out.println("weight from database: " + weight);
@@ -211,7 +215,7 @@ public class Main extends JFrame {
         
      // 몸무게 입력 버튼
         JButton btnRecordWeight = new JButton("입력");
-        btnRecordWeight.setBounds(300, 160, 64, 23);
+        btnRecordWeight.setBounds(300, 139, 64, 23);
         getContentPane().add(btnRecordWeight);
 
         btnRecordWeight.addActionListener(new ActionListener() {
@@ -228,10 +232,10 @@ public class Main extends JFrame {
         getContentPane().add(lblName);
         
         
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT name FROM users WHERE id = '" + loginId + "'");
+        try( Connection connection = MySqlConnectionProvider.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT name FROM users WHERE id = '" + loginId + "'");) {
+           
             if (resultSet.next()) {
                 String name = resultSet.getString("name"); // 이름 가져오기
                 System.out.println("name from database: " + name);
@@ -248,10 +252,10 @@ public class Main extends JFrame {
         getContentPane().add(lblAge);
         
         
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT age FROM users WHERE id = '" + loginId + "'");
+        try( Connection connection = MySqlConnectionProvider.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT age FROM users WHERE id = '" + loginId + "'");) {
+           
             if (resultSet.next()) {
                 String age = resultSet.getString("age"); // 나이 가져오기
                 System.out.println("name from database: " + age);
@@ -297,10 +301,10 @@ public class Main extends JFrame {
         lblNewLabel_7.setBounds(24, 58, 340, 164);
         getContentPane().add(lblNewLabel_7);
       
-        try {
-            Connection connection = MySqlConnectionProvider.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT height FROM users WHERE id = '" + loginId + "'");
+        try( Connection connection = MySqlConnectionProvider.getConnection();
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT height FROM users WHERE id = '" + loginId + "'");) {
+           
             if (resultSet.next()) {
                 String height = resultSet.getString("height"); // 키 가져오기
                 System.out.println("height from database: " + height);

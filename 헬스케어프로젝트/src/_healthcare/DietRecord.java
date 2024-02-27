@@ -89,11 +89,12 @@ public class DietRecord extends JFrame {
 		lblNewLabel_4.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String breakfastKcal_sql = "SELECT SUM(breakfast_kcal) FROM morningdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(breakfastKcal_sql);) {
+				PreparedStatement pst = conn.prepareStatement(breakfastKcal_sql);
+				ResultSet rs = pst.executeQuery();
+				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				breakfastSumKcal = rs.getDouble("SUM(breakfast_kcal)");
 
@@ -110,11 +111,12 @@ public class DietRecord extends JFrame {
 		lblNewLabel_5.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String lunchKcal_sql = "SELECT SUM(lunch_kcal) FROM lunchdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(lunchKcal_sql);) {
+				PreparedStatement pst = conn.prepareStatement(lunchKcal_sql);
+				ResultSet rs = pst.executeQuery();
+				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				lunchSumKcal = rs.getDouble("SUM(lunch_kcal)");
 
@@ -131,11 +133,13 @@ public class DietRecord extends JFrame {
 		lblNewLabel_6.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String dinnerKcal_sql = "SELECT SUM(dinner_kcal) FROM dinnerdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(dinnerKcal_sql);) {
+				PreparedStatement pst = conn.prepareStatement(dinnerKcal_sql);
+				ResultSet rs = pst.executeQuery();
+				
+				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				dinnerSumKcal = rs.getDouble("SUM(dinner_kcal)");
 
@@ -152,11 +156,12 @@ public class DietRecord extends JFrame {
 		lblNewLabel_7.setFont(new Font("HY엽서M", Font.PLAIN, 12));
 		String snackKcal_sql = "SELECT SUM(snack_kcal) FROM snackdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement pst = conn.prepareStatement(snackKcal_sql);) {
+				PreparedStatement pst = conn.prepareStatement(snackKcal_sql);
+				ResultSet rs = pst.executeQuery();
+				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
 				snackSumKcal = rs.getDouble("SUM(snack_kcal)");
 
@@ -338,10 +343,12 @@ public class DietRecord extends JFrame {
 		lblNewLabel_11.setBounds(181, 370, 85, 23);
 		String recommendKcalQuery = "SELECT recommended_kcal FROM users WHERE id = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
-				PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);) {
+				PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);
+				ResultSet rs = ps.executeQuery();
+				
+				) {
 			ps.setString(1, user_id);
 
-			ResultSet rs = ps.executeQuery();
 			String recommendKcal = "";
 			while (rs.next()) {
 				recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
@@ -448,9 +455,11 @@ public class DietRecord extends JFrame {
 			
 			 String selectKcalQuery = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC \r\n" + 
 			 		"LIMIT 1;";
-		        try (PreparedStatement selectPst = conn.prepareStatement(selectKcalQuery)) {
+		        try (PreparedStatement selectPst = conn.prepareStatement(selectKcalQuery);
+		        		ResultSet rs = selectPst.executeQuery();
+		        		
+		        		) {
 		            selectPst.setString(1, user_id);
-		            ResultSet rs = selectPst.executeQuery();
 		            if (rs.next()) {
 		                double todayEatSumKacl = rs.getDouble("eat_kcal");
 		                lblNewLabel_9.setText(Double.toString(todayEatSumKacl));
