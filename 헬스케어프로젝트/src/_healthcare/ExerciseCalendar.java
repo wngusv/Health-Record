@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 import dbutil.MySqlConnectionProvider;
 
@@ -42,6 +43,7 @@ public class ExerciseCalendar extends JFrame {
 	private DietRecord dietRecord;
 	private double todayKcal;
 	private double recommendedKcal;
+	private JLabel kcalLabel;
 
 	public ExerciseCalendar(String loginId) {
 
@@ -56,8 +58,9 @@ public class ExerciseCalendar extends JFrame {
 		monthLabel.setBackground(Color.WHITE);
 		calendarPanel = new JPanel(new GridLayout(0, 7)); // 캘린더 패널에 그리드 레이아웃 설정
 		calendarPanel.setBackground(Color.WHITE);
-		JButton prevButton = new JButton("<"); // 이전 달로 이동하는 버튼
-		prevButton.addActionListener(new ActionListener() {
+		JButton leftButton = new JButton("<"); // 이전 달로 이동하는 버튼
+		leftButton.setBackground(Color.WHITE);
+		leftButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (currentMonth == 0) { // 현재가 1월이면
@@ -71,6 +74,7 @@ public class ExerciseCalendar extends JFrame {
 		});
 
 		JButton nextButton = new JButton(">"); // 다음 달로 이동하는 버튼
+		nextButton.setBackground(Color.WHITE);
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -87,24 +91,23 @@ public class ExerciseCalendar extends JFrame {
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setBackground(Color.WHITE);
 		SpringLayout sl_controlsPanel = new SpringLayout();
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, prevButton, -220, SpringLayout.EAST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 6, SpringLayout.EAST, prevButton);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -220, SpringLayout.EAST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 6, SpringLayout.EAST, leftButton);
 		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 213, SpringLayout.WEST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, prevButton, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, leftButton, 0, SpringLayout.NORTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.EAST, monthLabel, -6, SpringLayout.WEST, nextButton);
 		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 0, SpringLayout.NORTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 0, SpringLayout.NORTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, -7, SpringLayout.SOUTH, controlsPanel);
 		controlsPanel.setLayout(sl_controlsPanel);
-		controlsPanel.add(prevButton); // 이전 달 버튼은 서쪽에 배치
+		controlsPanel.add(leftButton); // 이전 달 버튼은 서쪽에 배치
 		controlsPanel.add(monthLabel); // 월 표시 레이블은 가운데에 배치
 		controlsPanel.add(nextButton); // 다음 달 버튼은 동쪽에 배치
 
 		currentMonth = LocalDate.now().getMonthValue() - 1; // 현재 월 설정
 		currentYear = LocalDate.now().getYear(); // 현재 연도 설정
 		calendarPanel.removeAll();
-		displayCalendar(); // 초기 달력 표시
-		changeTextOfToday();
+
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -53, SpringLayout.NORTH, calendarPanel);
@@ -218,11 +221,27 @@ public class ExerciseCalendar extends JFrame {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
+		displayCalendar(); // 초기 달력 표시
+		changeTextOfToday();
 	}
 
 	public void displayCalendar() {
+
+		today = LocalDate.now();
 		YearMonth yearMonth = YearMonth.of(currentYear, currentMonth + 1);// 현재 연도와 월로 YearMonth 객체 생성
+		// 오늘의 날짜 집어넣기
+		try (Connection conn = MySqlConnectionProvider.getConnection()) {
+			String query = "INSERT INTO user_calendar (user_id, year, month, day) VALUES (?, ?, ?, ?)";
+			try (PreparedStatement statement = conn.prepareStatement(query)) {
+				statement.setString(1, loginId);
+				statement.setInt(2, currentYear);
+				statement.setInt(3, currentMonth + 1);
+				statement.setInt(4, today.getDayOfMonth());
+				statement.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 		// 캘린더 내용을 변경하기 전에 현재 화면의 내용을 저장합니다.
 		calendarPanel.removeAll(); // 기존 캘린더 삭제
@@ -286,17 +305,27 @@ public class ExerciseCalendar extends JFrame {
 			dayLabel.setBackground(Color.WHITE); // 배경색을 하얀색으로 설정
 			dayLabel.setOpaque(true); // 불투명하게 설정
 			dayLabel.setPreferredSize(new Dimension(50, 50));
-			dayPanel.add(dayLabel, BorderLayout.CENTER); // 텍스트 레이블을 패널에 추가
+			dayPanel.add(dayLabel, BorderLayout.NORTH); // 텍스트 레이블을 패널에 추가
 
 			String imagePath = getImagePathForDate(loginId, LocalDate.of(currentYear, currentMonth + 1, day));
 			ImageIcon imageIcon = new ImageIcon(imagePath);
 			dayPanel.add(new JLabel(imageIcon), BorderLayout.NORTH);
 
-			// --- 라벨 추가
-			JLabel kcalLabel = new JLabel("-", SwingConstants.CENTER);
+			String kcalText = getTextForDate(loginId, LocalDate.of(currentYear, currentMonth + 1, day));
+			double kcalValue = Double.parseDouble(kcalText);
+			System.out.println(kcalText);
+			kcalLabel = new JLabel(kcalText, SwingConstants.CENTER);
+			kcalLabel.setFont(kcalLabel.getFont().deriveFont(9f));
 			dayPanel.add(kcalLabel, BorderLayout.CENTER); // --- 라벨을 패널에 추가
 			calendarPanel.add(dayPanel); // 날짜 패널을 캘린더 패널에 추가
-
+			if (kcalValue < recommendedKcal) {
+				kcalLabel.setForeground(Color.GREEN);
+				if (kcalValue == 0.0) {
+					kcalLabel.setForeground(Color.GRAY);
+				}
+			} else if (kcalValue > recommendedKcal) {
+				kcalLabel.setForeground(Color.RED);
+			}
 		}
 		calendarPanel.revalidate();
 		calendarPanel.repaint();
@@ -333,13 +362,13 @@ public class ExerciseCalendar extends JFrame {
 	// 변경된 이미지 db 저장
 	public void saveImagePath(String userId, int year, int month, int day, String imagePath) {
 		try (Connection conn = MySqlConnectionProvider.getConnection()) {
-			String query = "INSERT INTO user_calendar (user_id, year, month, day, image_path, image_changed) VALUES (?, ?, ?, ?, ?, 1)";
+			String query = "UPDATE user_calendar SET image_path = ?, image_changed = 1 WHERE user_id = ? AND year = ? AND month = ? AND day = ?";
 			try (PreparedStatement statement = conn.prepareStatement(query)) {
-				statement.setString(1, loginId);
-				statement.setInt(2, currentYear);
-				statement.setInt(3, currentMonth + 1);
-				statement.setInt(4, today.getDayOfMonth());
-				statement.setString(5, newImage);
+				statement.setString(1, newImage);
+				statement.setString(2, loginId);
+				statement.setInt(3, currentYear);
+				statement.setInt(4, currentMonth + 1);
+				statement.setInt(5, today.getDayOfMonth());
 				statement.executeUpdate();
 			}
 		} catch (SQLException e) {
@@ -370,41 +399,85 @@ public class ExerciseCalendar extends JFrame {
 	}
 
 	public void changeTextOfToday() {
-	    today = LocalDate.now();
+		today = LocalDate.now();
 
-	    // 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
-	    for (Component component : calendarPanel.getComponents()) {
-	        if (component instanceof JPanel) {
-	            JPanel dayPanel = (JPanel) component;
-	            JLabel dayLabel = (JLabel) dayPanel.getComponent(0); // 첫 번째 컴포넌트는 날짜를 표시하는 레이블
+		for (Component component : calendarPanel.getComponents()) {
+			if (component instanceof JPanel) {
+				JPanel dayPanel = (JPanel) component;
+				JLabel dayLabel = (JLabel) dayPanel.getComponent(0); // 첫 번째 컴포넌트는 날짜를 표시하는 레이블
 
-	            // 현재 반복 중인 날짜가 오늘의 날짜와 같은지 확인
-	            if (dayLabel.getText().equals(String.valueOf(today.getDayOfMonth()))) {
-	                // 두 번째 컴포넌트인 kcalLabel 가져오기 전에 null 체크를 추가합니다.
-	                if (dayPanel.getComponentCount() > 1 && dayPanel.getComponent(1) instanceof JLabel) {
-	                    String todayKcalText = Double.toString(todayKcal);
-	                    System.out.println(todayKcal);
-	                    System.out.println(todayKcalText);
-//	                    if (todayKcal < recommendedKcal) {
-	                    JLabel  kcalLabel = new JLabel(todayKcalText + "●", SwingConstants.CENTER);
-	                        kcalLabel.setForeground(Color.GREEN);
-	                        kcalLabel.setFont(kcalLabel.getFont().deriveFont(8f));
-	                        dayPanel.add(kcalLabel, BorderLayout.CENTER);
-//	                    } else if (todayKcal > recommendedKcal) {
-//	                    	JLabel  kcalLabel = new JLabel(todayKcalText + "●", SwingConstants.CENTER);
-//	                        kcalLabel.setForeground(Color.RED);
-//	                        kcalLabel.setFont(kcalLabel.getFont().deriveFont(8f));
-//	                        dayPanel.add(kcalLabel, BorderLayout.CENTER);
-//	                    }
-	                    break; // 이미지를 추가한 후에는 더 이상 반복할 필요가 없으므로 반복문 종료
-	                } else {
-	                    System.out.println("kcalLabel이 없습니다."); // 디버깅용 출력문
-	                }
-	            }
-	        }
-	    }
+				// 현재 반복 중인 날짜가 오늘의 날짜와 같은지 확인
+				if (dayLabel.getText().equals(String.valueOf(today.getDayOfMonth()))) {
+					// 두 번째 컴포넌트인 kcalLabel 가져오기
+					if (dayPanel.getComponentCount() > 1 && dayPanel.getComponent(1) instanceof JLabel) {
+
+						// 텍스트 변경
+						String todayKcalText = Double.toString(todayKcal);
+//	                    JLabel kcalLabel = new JLabel(todayKcalText + "●", SwingConstants.CENTER);
+						kcalLabel.setText(todayKcalText);
+//						System.out.println(todayKcal);
+						kcalLabel.setFont(kcalLabel.getFont().deriveFont(9f));
+						dayPanel.add(kcalLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가하여 텍스트 레이블 위에 표시
+						// 색상 변경
+						if (todayKcal < recommendedKcal) {
+							kcalLabel.setForeground(Color.GREEN);
+							if (todayKcal == 0.0) {
+								kcalLabel.setText(todayKcalText);
+								kcalLabel.setForeground(Color.GRAY);
+
+							}
+						} else if (todayKcal > recommendedKcal) {
+							kcalLabel.setForeground(Color.RED);
+						}
+						saveKcalText(loginId, currentYear, currentMonth + 1, today.getDayOfMonth(),
+								kcalLabel.getText());
+						break; // 이미지를 추가한 후에는 더 이상 반복할 필요가 없으므로 반복문 종료
+					} else {
+						System.out.println("kcalLabel이 없습니다."); // 디버깅용 출력
+					}
+				}
+			}
+		}
 	}
 
+	// 변경된 칼로리 텍스트 저장
+	public void saveKcalText(String userId, int year, int month, int day, String text) {
+		try (Connection conn = MySqlConnectionProvider.getConnection()) {
+			String query = "UPDATE user_calendar SET label_text = ?, text_changed = 1 WHERE user_id = ? AND year = ? AND month = ? AND day = ?";
+			try (PreparedStatement statement = conn.prepareStatement(query)) {
+				statement.setString(1, kcalLabel.getText());
+				statement.setString(2, loginId);
+				statement.setInt(3, currentYear);
+				statement.setInt(4, currentMonth + 1);
+				statement.setInt(5, today.getDayOfMonth());
+				statement.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// 변경된 칼로리 텍스트 불러오기
+	private String getTextForDate(String userId, LocalDate date) {
+		try (Connection conn = MySqlConnectionProvider.getConnection()) {
+			String query = "SELECT label_text FROM user_calendar WHERE user_id = ? AND year = ? AND month = ? AND day = ? AND image_changed = 1";
+			try (PreparedStatement statement = conn.prepareStatement(query)) {
+				statement.setString(1, userId);
+				statement.setInt(2, date.getYear());
+				statement.setInt(3, date.getMonthValue());
+				statement.setInt(4, date.getDayOfMonth());
+				try (ResultSet resultSet = statement.executeQuery()) {
+					if (resultSet.next()) {
+						return resultSet.getString("label_text");
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// 기본 텍스트
+		return "0.0";
+	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
