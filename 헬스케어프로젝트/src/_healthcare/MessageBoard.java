@@ -141,9 +141,11 @@ public class MessageBoard extends JFrame {
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
          Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
          tableModel.addRow(rowData);
-         try (Connection connection = MySqlConnectionProvider.getConnection()) {
-            String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+         String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
+         try (Connection connection = MySqlConnectionProvider.getConnection();
+        		 
+        		 PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        		 ) {
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, content);
             preparedStatement.executeUpdate();
