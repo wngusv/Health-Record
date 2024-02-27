@@ -29,6 +29,7 @@ public class Login extends JFrame {
     public Login() {
         getContentPane().setBackground(Color.WHITE);
         getContentPane().setLayout(null);
+ 
 
         txtID = new JTextField();
         txtID.setBounds(65, 281, 215, 21);
