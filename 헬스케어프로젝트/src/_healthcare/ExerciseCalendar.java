@@ -52,7 +52,7 @@ public class ExerciseCalendar extends JFrame {
 		getContentPane().setBackground(Color.WHITE);
 		setTitle("캘린다");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setPreferredSize(new Dimension(360, 530));
+		setPreferredSize(new Dimension(360, 560));
 
 		monthLabel = new JLabel("", SwingConstants.CENTER); // 월 표시 레이블 가운데 정렬
 		monthLabel.setBackground(Color.WHITE);
@@ -99,14 +99,13 @@ public class ExerciseCalendar extends JFrame {
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setBackground(Color.WHITE);
 		SpringLayout sl_controlsPanel = new SpringLayout();
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, leftButton, 0, SpringLayout.NORTH, nextButton);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -6, SpringLayout.WEST, monthLabel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 213, SpringLayout.WEST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 130, SpringLayout.WEST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 54, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 136, SpringLayout.WEST, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.EAST, monthLabel, -6, SpringLayout.WEST, nextButton);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 10, SpringLayout.NORTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 0, SpringLayout.NORTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, -7, SpringLayout.SOUTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 219, SpringLayout.WEST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, leftButton, -7, SpringLayout.SOUTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -96, SpringLayout.WEST, nextButton);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 0, SpringLayout.NORTH, leftButton);
 		controlsPanel.setLayout(sl_controlsPanel);
 		controlsPanel.add(leftButton); // 이전 달 버튼은 서쪽에 배치
 		controlsPanel.add(monthLabel); // 월 표시 레이블은 가운데에 배치
@@ -118,89 +117,92 @@ public class ExerciseCalendar extends JFrame {
 
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.NORTH, calendarPanel, 120, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, calendarPanel, 0, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, calendarPanel, 0, SpringLayout.SOUTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, calendarPanel, 0, SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, controlsPanel, 0, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 344, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, calendarPanel, 90, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, calendarPanel, 0, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, calendarPanel, 491, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, calendarPanel, 344, SpringLayout.WEST, getContentPane());
 		getContentPane().setLayout(springLayout);
 
-		getContentPane().add(controlsPanel); // 제어 패널을 프레임의 상단에 추가
-
-		JButton btnBack = new JButton("New button");
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-				new Main(loginId);
-			}
-		});
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, btnBack, 0, SpringLayout.NORTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, btnBack, 0, SpringLayout.WEST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, btnBack, 31, SpringLayout.WEST, controlsPanel);
-		controlsPanel.add(btnBack);
+		getContentPane().add(controlsPanel);
 		getContentPane().add(calendarPanel);
 
 		JLabel lblNewLabel = new JLabel("월");
-		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -6, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 20, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -17, SpringLayout.NORTH, calendarPanel);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -305, SpringLayout.EAST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -1, SpringLayout.NORTH, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 22, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -6, SpringLayout.NORTH, calendarPanel);
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -303, SpringLayout.EAST, getContentPane());
 		lblNewLabel.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("화\r\n");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_1, 0, SpringLayout.NORTH, lblNewLabel);
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 25, SpringLayout.EAST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 24, SpringLayout.EAST, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_1.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_1.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("수");
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -17, SpringLayout.NORTH, calendarPanel);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_2, -219, SpringLayout.EAST, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 34, SpringLayout.EAST, lblNewLabel_1);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_2.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("목");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_3, 0, SpringLayout.NORTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 37, SpringLayout.EAST, lblNewLabel_2);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_3.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_3.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("금");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_4, 0, SpringLayout.NORTH, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 36, SpringLayout.EAST, lblNewLabel_3);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_4, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_4.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_4.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("토");
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_4, -34, SpringLayout.WEST, lblNewLabel_5);
+		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_5, 261, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 0, SpringLayout.NORTH, lblNewLabel);
 		lblNewLabel_5.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_5.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("일");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 7, SpringLayout.SOUTH, controlsPanel);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_6, -6, SpringLayout.NORTH, calendarPanel);
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -21, SpringLayout.EAST, getContentPane());
 		
 		JLabel lblNewLabel_7 = new JLabel("●적정");
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_7, 4, SpringLayout.NORTH, leftButton);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_7, 0, SpringLayout.NORTH, monthLabel);
 		lblNewLabel_7.setForeground(Color.GREEN);
 		controlsPanel.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("●초과");
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_8, 86, SpringLayout.EAST, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_7, 0, SpringLayout.EAST, lblNewLabel_8);
+		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, 0, SpringLayout.SOUTH, lblNewLabel_8);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_8, 33, SpringLayout.EAST, nextButton);
 		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_8, 0, SpringLayout.SOUTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_8, -10, SpringLayout.EAST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_7, 0, SpringLayout.WEST, lblNewLabel_8);
 		lblNewLabel_8.setForeground(Color.RED);
 		controlsPanel.add(lblNewLabel_8);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, -36, SpringLayout.WEST, lblNewLabel_6);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -21, SpringLayout.EAST, getContentPane());
+		
+		JLabel lblNewLabel_9 = new JLabel("");
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_9, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_9, -543, SpringLayout.EAST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_9, -14, SpringLayout.NORTH, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_9, 0, SpringLayout.EAST, controlsPanel);
+		lblNewLabel_9.setIcon(new ImageIcon(ExerciseCalendar.class.getResource("/image/큰초록바.png")));
+		controlsPanel.add(lblNewLabel_9);
+		
+		JButton btnBack = new JButton("");
+		btnBack.setOpaque(false);
+		btnBack.setContentAreaFilled(false);
+		btnBack.setBorderPainted(false);
+		controlsPanel.add(btnBack);
 		lblNewLabel_6.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_6.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));
 		getContentPane().add(lblNewLabel_6);
