@@ -152,8 +152,8 @@ public class MessageBoard extends JFrame {
        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
                int column) {
            this.row = row; // 현재 편집 중인 행의 인덱스 저장
-           ImageIcon selectedIcon = new ImageIcon("src/image/뒤로가기.png");
-           ImageIcon unselectedIcon = new ImageIcon("src/image/검색 1.png");
+           ImageIcon selectedIcon = new ImageIcon("src/image/liked.png");
+           ImageIcon unselectedIcon = new ImageIcon("src/image/like.png");
            
            button = new JToggleButton(selectedIcon);
            
