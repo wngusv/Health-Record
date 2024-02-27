@@ -21,6 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class ExerciseRecords extends JFrame {
    private JButton btn_Ok;
@@ -31,24 +34,45 @@ public class ExerciseRecords extends JFrame {
    private JLabel lbl_selected;
    private JButton btn_start;
    private JComboBox comboBox_Sports;
-   private JLabel lbl_start; 
+   private JLabel lbl_start;
+
+
    
    public ExerciseRecords(String loginId) {
+   	getContentPane().setBackground(Color.WHITE);
 	   
       this.loginId = loginId;
       System.out.println(loginId);
       setTitle("운동기록");
-      setSize(600, 400); // 창의 너비와 높이를 설정합니다.
+      setSize(600, 546); // 창의 너비와 높이를 설정합니다.
       setResizable(false); // 창의 크기를 조절할 수 없도록 설정합니다.
       getContentPane().setLayout(null);
+            
+                  JLabel lbl_end = new JLabel("(운동 종료 시간)");
+                  lbl_end.setIcon(null);
+                  lbl_end.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+                  lbl_end.setBounds(361, 347, 195, 58);
+                  getContentPane().add(lbl_end);
       
-      btn_start = new JButton("운동시작");
-      btn_start.setBounds(78, 209, 97, 23);
+            lbl_start = new JLabel("");
+            lbl_start.setIcon(null);
+            lbl_start.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+            lbl_start.setBounds(60, 342, 181, 69);
+            getContentPane().add(lbl_start);
+      
+      JLabel lblTitle = new JLabel("운동 기록");
+      lblTitle.setForeground(Color.WHITE);
+      lblTitle.setFont(new Font("휴먼편지체", Font.BOLD, 23));
+      lblTitle.setBounds(47, -6, 125, 55);
+      getContentPane().add(lblTitle);
+      
+      btn_start = new JButton("");
+      btn_start.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/start.png")));
+      btn_start.setOpaque(false); // 배경 투명하게 설정
+      btn_start.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+      btn_start.setBorderPainted(false); // 테두리 제거
+      btn_start.setBounds(54, 230, 152, 120);
       getContentPane().add(btn_start);
-
-      lbl_start = new JLabel("");
-      lbl_start.setBounds(48, 261, 163, 15);
-      getContentPane().add(lbl_start);
       
       // 운동시작 버튼 클릭 시 이벤트 리스너
       btn_start.addActionListener(new ActionListener() {
@@ -78,8 +102,9 @@ public class ExerciseRecords extends JFrame {
 
       // 운동목록 comboBox
       comboBox_Sports = new JComboBox();
+      comboBox_Sports.setBackground(Color.WHITE);
       comboBox_Sports.addItem("(운동 목록 선택)");
-      comboBox_Sports.setBounds(187, 139, 206, 21);
+      comboBox_Sports.setBounds(115, 178, 264, 21);
       getContentPane().add(comboBox_Sports);
       
 
@@ -104,12 +129,16 @@ public class ExerciseRecords extends JFrame {
          e.printStackTrace();
       }
 
-      btn_Ok = new JButton("확인");
-      btn_Ok.setBounds(429, 138, 97, 23);
+      btn_Ok = new JButton("");
+      btn_Ok.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/ok.png")));
+      btn_Ok.setBounds(386, 172, 91, 36);
+      btn_Ok.setOpaque(false); // 배경 투명하게 설정
+      btn_Ok.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+      btn_Ok.setBorderPainted(false); // 테두리 제거
       getContentPane().add(btn_Ok);
 
       lbl_selected = new JLabel("");
-      lbl_selected.setBounds(172, 184, 294, 15);
+      lbl_selected.setBounds(135, 220, 294, 15);
       getContentPane().add(lbl_selected);
 
       // '확인' 버튼의 ActionListener 추가
@@ -142,25 +171,62 @@ public class ExerciseRecords extends JFrame {
             btn_Ok.setEnabled(false);
          }
       });
+      
 
       // 운동종료 버튼
-      JButton btn_end = new JButton("운동종료");
-      btn_end.setBounds(452, 209, 97, 23);
+      JButton btn_end = new JButton("");
+      btn_end.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish.png")));
+      btn_end.setBounds(351, 230, 152, 120);
+      btn_end.setOpaque(false); // 배경 투명하게 설정
+      btn_end.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+      btn_end.setBorderPainted(false); // 테두리 제거
       getContentPane().add(btn_end);
 
-      JLabel lbl_end = new JLabel("");
-      lbl_end.setBounds(423, 261, 163, 15);
-      getContentPane().add(lbl_end);
-
-      JButton btnNewButton = new JButton("뒤로가기");
-      btnNewButton.addActionListener(new ActionListener() {
+      JButton btnBack = new JButton("");
+      btnBack.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/뒤로가기.png")));
+      btnBack.setOpaque(false); // 배경 투명하게 설정
+      btnBack.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+      btnBack.setBorderPainted(false); // 테두리 제거
+      btnBack.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent arg0) {
             dispose();
             new Main(loginId);
          }
       });
-      btnNewButton.setBounds(296, 228, 97, 23);
-      getContentPane().add(btnNewButton);
+      btnBack.setBounds(0, 1, 45, 36);
+      getContentPane().add(btnBack);
+      
+      JLabel lblgreenbar = new JLabel("");
+      lblgreenbar.setForeground(Color.WHITE);
+      lblgreenbar.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+      lblgreenbar.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/큰초록바.png")));
+      lblgreenbar.setBounds(0, 0, 594, 38);
+      getContentPane().add(lblgreenbar);
+      
+      JLabel lblbackgroundstart = new JLabel("");
+      lblbackgroundstart.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/start2.png")));
+      lblbackgroundstart.setBounds(45, 342, 181, 69);
+      getContentPane().add(lblbackgroundstart);
+      
+      JLabel lblbackgroundfinish = new JLabel("");
+      lblbackgroundfinish.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish2.png")));
+      lblbackgroundfinish.setBounds(351, 342, 181, 69);
+      getContentPane().add(lblbackgroundfinish);
+      
+      JLabel lblNewLabel_3 = new JLabel("");
+      lblNewLabel_3.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/Group 6.png")));
+      lblNewLabel_3.setBounds(106, 439, 397, 68);
+      getContentPane().add(lblNewLabel_3);
+      
+      // 운동시간기록 라벨
+      JLabel lblHoursExericse = new JLabel("New label");
+      lblHoursExericse.setBounds(246, 414, 57, 15);
+      getContentPane().add(lblHoursExericse);
+      
+
+
+      
+      
       JPanel calendarPanel = new JPanel();
       ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
       // 운동종료 버튼 클릭 시 이벤트 리스너
@@ -194,7 +260,18 @@ public class ExerciseRecords extends JFrame {
       });
       loadExerciseName();
       loadStartTime();
+      
+
+
+      
+      
+      
    }
+   
+   
+   
+
+   
 
    private void loadStartTime() {
 	   String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
@@ -208,7 +285,7 @@ public class ExerciseRecords extends JFrame {
             while (rs.next()) {
                startTime = rs.getString("start_time");
             }
-            lbl_start.setText(startTime);
+            lbl_start.setText("(운동 시작 시간)");
 
          } catch (SQLException e) {
             e.printStackTrace();
@@ -231,4 +308,5 @@ public class ExerciseRecords extends JFrame {
             e.printStackTrace();
          }
    }
+   
 }
