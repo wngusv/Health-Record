@@ -52,8 +52,10 @@ public class DietRecord extends JFrame {
 	}
 
 	private void showGUI() {
-		setSize(370, 447);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setResizable(false); // 창 크기 고정
+		setSize(370, 447);
+		setLocationRelativeTo(null); // 화면 중앙에 위치
 		setVisible(true);
 	}
 

@@ -136,8 +136,10 @@ public class Dinner_FindFoodCalories extends JFrame {
 	}
 
 	private void showGUI() {
+		setResizable(false); // 창 크기 고정
 		setSize(491, 601);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null); // 화면 중앙에 위치
 		setVisible(true);
 	}
 
