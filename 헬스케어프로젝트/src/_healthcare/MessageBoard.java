@@ -1,7 +1,6 @@
 package _healthcare;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
@@ -22,12 +22,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import dbutil.MySqlConnectionProvider;
+import javafx.scene.paint.Color;
 
 public class MessageBoard extends JFrame {
    private DefaultTableModel tableModel;
@@ -37,7 +37,7 @@ public class MessageBoard extends JFrame {
    public MessageBoard(String loginId) {
       this.loginId = loginId;
       setTitle("게시판");
-      setSize(600, 400);
+      setSize(947, 400);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       System.out.println("로그인한 ID:" + loginId);
       initializeTable();
@@ -70,15 +70,15 @@ public class MessageBoard extends JFrame {
       table.getColumnModel().getColumn(3).setPreferredWidth(100);
       table.getColumnModel().getColumn(4).setPreferredWidth(100);
       table.getColumnModel().getColumn(5).setPreferredWidth(100);
-
-      ImageIcon selectedIcon = new ImageIcon("src/image/뒤로가기.png");
+      ImageIcon unselectedIcon = new ImageIcon("src/image/like2.png"); // 여기인거같아~~~~
+      ImageIcon selectedIcon = new ImageIcon("src/image/liked2.png"); // 여기인거같아~~~~
       table.getColumnModel().getColumn(5).setCellRenderer(new ToggleButtonRenderer(selectedIcon));
       table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
    }
 
    private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
       JScrollPane scrollPane = new JScrollPane(table);
-      add(scrollPane, BorderLayout.CENTER);
+      getContentPane().add(scrollPane, BorderLayout.CENTER);
 
       JButton addButton = new JButton("글쓰기");
       addButton.setContentAreaFilled(false);
@@ -92,7 +92,7 @@ public class MessageBoard extends JFrame {
          }
       });
 
-      add(addButton, BorderLayout.SOUTH);
+      getContentPane().add(addButton, BorderLayout.SOUTH);
    }
 
    private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
@@ -100,7 +100,7 @@ public class MessageBoard extends JFrame {
          String sql = "SELECT messageboard.*, user_likes.is_liked " +
                     "FROM messageboard " +
                     "LEFT JOIN user_likes " +
-                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
+                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ? ORDER BY messageboard.date DESC";
          PreparedStatement preparedStatement = connection.prepareStatement(sql);
          preparedStatement.setString(1, loginId);
          ResultSet resultSet = preparedStatement.executeQuery();
@@ -122,13 +122,14 @@ public class MessageBoard extends JFrame {
 
    // 글쓰기
    private void addMessage() {
+	   LocalDateTime currentDateTime = LocalDateTime.now();
       String id = loginId; // 로그인한 아이디
       String content = JOptionPane.showInputDialog(this, "Enter Content:");
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
-         Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
+         Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
          tableModel.addRow(rowData);
          try (Connection connection = MySqlConnectionProvider.getConnection()) {
-            String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
+            String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, NOW())";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, content);
@@ -152,12 +153,14 @@ public class MessageBoard extends JFrame {
        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
                int column) {
            this.row = row; // 현재 편집 중인 행의 인덱스 저장
-           ImageIcon selectedIcon = new ImageIcon("src/image/liked.png");
-           ImageIcon unselectedIcon = new ImageIcon("src/image/like.png");
+           ImageIcon selectedIcon = new ImageIcon("src/image/liked2.png");
            
            button = new JToggleButton(selectedIcon);
            
            button.setSelected((Boolean) value);
+           /*button.setFocusPainted(false); // 배경 투명하게 설정
+           button.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+           button.setBorderPainted(false); // 테두리 제거*/
            button.addItemListener(new ItemListener() {
                @Override
                public void itemStateChanged(ItemEvent e) {
@@ -167,7 +170,7 @@ public class MessageBoard extends JFrame {
                        saveButton(loginId, content, true); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
                    } else {
-                      button.setIcon(unselectedIcon);
+//                      button.setIcon(unselectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, false); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
@@ -248,8 +251,13 @@ public class MessageBoard extends JFrame {
 
    private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
       public ToggleButtonRenderer(ImageIcon selectedIcon) {
-    	  super(selectedIcon);
+    	  super();
+    	  ImageIcon unselectedIcon = new ImageIcon("src/image/like2.png");
+    	  setIcon(unselectedIcon);
+    	  setSelectedIcon(selectedIcon);
+    	  
     	  setHorizontalAlignment(SwingConstants.CENTER);
+    	  setBorderPainted(false);
     	  
       }
 
