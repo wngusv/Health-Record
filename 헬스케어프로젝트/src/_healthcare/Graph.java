@@ -21,10 +21,12 @@ import java.util.List;
 import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.awt.Color;
 
 public class Graph extends JFrame {
 	private String user_id;
     public Graph(String loginId) {
+    	getContentPane().setBackground(Color.WHITE);
     	setTitle("몸무게 변화 추이");
     	this.user_id = loginId;
         //super("체중 기록 차트");
@@ -62,10 +64,12 @@ public class Graph extends JFrame {
 
                 // 차트 패널을 프레임에 추가
                 JPanel chartPanel = new XChartPanel<>(chart);
+                chartPanel.setBackground(Color.WHITE);
                 getContentPane().add(chartPanel, BorderLayout.CENTER);
+                chartPanel.setLayout(null);
 
                 // 프레임 속성 설정
-                setSize(800, 600);
+                setSize(621, 452);
                 setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 setLocationRelativeTo(null); // 화면 중앙에 표시
                 setVisible(true);

@@ -23,6 +23,7 @@ import java.awt.Color;
 import javax.swing.JSlider;
 import javax.swing.JPanel;
 import javax.swing.ImageIcon;
+import java.awt.Font;
 
 public class Main extends JFrame {
     private String loginId;
@@ -40,15 +41,32 @@ public class Main extends JFrame {
 
         
         
-        setSize(377, 595);
+        setSize(408, 561);
         setVisible(true);
         getContentPane().setLayout(null);
+        
+        JButton btnNewButton_1 = new JButton("로그아웃");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		dispose();
+				new Login();
+        	}
+        });
+        
+        JLabel lblNewLabel_5 = new JLabel("활기록");
+        lblNewLabel_5.setForeground(Color.WHITE);
+        lblNewLabel_5.setFont(new Font("휴먼편지체", Font.BOLD, 21));
+        lblNewLabel_5.setBounds(12, 1, 97, 39);
+        getContentPane().add(lblNewLabel_5);
+        btnNewButton_1.setBounds(292, 10, 97, 23);
+        getContentPane().add(btnNewButton_1);
 
-        JButton boardButton = new JButton("게시판");
+        JButton boardButton = new JButton("");
+        boardButton.setIcon(new ImageIcon(Main.class.getResource("/image/게시판버튼.png")));
         boardButton.setOpaque(false); // 배경 투명하게 설정
         boardButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         boardButton.setBorderPainted(false); // 테두리 제거
-        boardButton.setBounds(161, 523, 141, 23);
+        boardButton.setBounds(266, 419, 115, 77);
         getContentPane().add(boardButton);
 
         boardButton.addActionListener(new ActionListener() {
@@ -61,8 +79,9 @@ public class Main extends JFrame {
         });
 
         
-        JButton exerciseButton = new JButton("운동기록");
-        exerciseButton.setBounds(12, 490, 141, 23);
+        JButton exerciseButton = new JButton("");
+        exerciseButton.setIcon(new ImageIcon(Main.class.getResource("/image/운동기록버튼.png")));
+        exerciseButton.setBounds(149, 327, 101, 79);
         exerciseButton.setOpaque(false); // 배경 투명하게 설정
         exerciseButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         exerciseButton.setBorderPainted(false); // 테두리 제거
@@ -79,10 +98,11 @@ public class Main extends JFrame {
         
         
         JButton waterButton = new JButton("물 기록");
+        waterButton.setIcon(new ImageIcon(Main.class.getResource("/image/물기록버튼.png")));
         waterButton.setOpaque(false); // 배경 투명하게 설정
         waterButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         waterButton.setBorderPainted(false); // 테두리 제거
-        waterButton.setBounds(12, 523, 141, 23);
+        waterButton.setBounds(266, 325, 114, 85);
         getContentPane().add(waterButton);
         waterButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent arg0) {
@@ -94,11 +114,12 @@ public class Main extends JFrame {
         });
         
         
-        JButton btnNewButton = new JButton("식단 기록");
+        JButton btnNewButton = new JButton("");
+        btnNewButton.setIcon(new ImageIcon(Main.class.getResource("/image/식단기록버튼2.png")));
         btnNewButton.setOpaque(false); // 배경 투명하게 설정
         btnNewButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         btnNewButton.setBorderPainted(false); // 테두리 제거
-        btnNewButton.setBounds(12, 457, 141, 23);
+        btnNewButton.setBounds(28, 326, 106, 79);
         btnNewButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
               DietRecord dietRecord = new DietRecord(loginId);
@@ -110,11 +131,12 @@ public class Main extends JFrame {
         getContentPane().add(btnNewButton);
         
         
-        JButton calButton = new JButton("캘린더");
+        JButton calButton = new JButton("");
+        calButton.setIcon(new ImageIcon(Main.class.getResource("/image/캘린더버튼.png")));
         calButton.setOpaque(false); // 배경 투명하게 설정
         calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         calButton.setBorderPainted(false); // 테두리 제거
-        calButton.setBounds(161, 457, 141, 23);
+        calButton.setBounds(28, 419, 105, 76);
         calButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
               dispose();
@@ -124,11 +146,12 @@ public class Main extends JFrame {
         });
         getContentPane().add(calButton);
         
-        JButton graphButton = new JButton("몸무게 변화");
+        JButton graphButton = new JButton("");
+        graphButton.setIcon(new ImageIcon(Main.class.getResource("/image/몸무게변화버튼.png")));
         graphButton.setOpaque(false); // 배경 투명하게 설정
         graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         graphButton.setBorderPainted(false); // 테두리 제거
-        graphButton.setBounds(161, 490, 141, 23);
+        graphButton.setBounds(151, 416, 109, 80);
         getContentPane().add(graphButton);
         graphButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -142,7 +165,7 @@ public class Main extends JFrame {
       
        // JSlider 초기화(BMI표시)
         slider = new JSlider();
-        slider.setBounds(49, 337, 253, 46);
+        slider.setBounds(57, 250, 253, 46);
         slider.setMinorTickSpacing(1); // 최소 틱 간격
         slider.setMajorTickSpacing(5);
         slider.setMinorTickSpacing(5);
@@ -169,7 +192,7 @@ public class Main extends JFrame {
         }
         
         lblKg = new JLabel("New label");
-        lblKg.setBounds(131, 289, 57, 15);
+        lblKg.setBounds(232, 168, 57, 15);
         getContentPane().add(lblKg);
         
         try {
@@ -188,7 +211,7 @@ public class Main extends JFrame {
         
      // 몸무게 입력 버튼
         JButton btnRecordWeight = new JButton("입력");
-        btnRecordWeight.setBounds(224, 285, 64, 23);
+        btnRecordWeight.setBounds(300, 160, 64, 23);
         getContentPane().add(btnRecordWeight);
 
         btnRecordWeight.addActionListener(new ActionListener() {
@@ -201,7 +224,7 @@ public class Main extends JFrame {
         
         
         JLabel lblName = new JLabel("New label");
-        lblName.setBounds(131, 194, 57, 15);
+        lblName.setBounds(232, 93, 57, 15);
         getContentPane().add(lblName);
         
         
@@ -221,7 +244,7 @@ public class Main extends JFrame {
         
         
         JLabel lblAge = new JLabel("New label");
-        lblAge.setBounds(131, 219, 57, 15);
+        lblAge.setBounds(232, 118, 57, 15);
         getContentPane().add(lblAge);
         
         
@@ -240,24 +263,39 @@ public class Main extends JFrame {
         }
         
         JLabel lblHeight = new JLabel("New label");
-        lblHeight.setBounds(131, 253, 57, 15);
+        lblHeight.setBounds(232, 143, 57, 15);
         getContentPane().add(lblHeight);
         
         JLabel lblNewLabel = new JLabel("이름");
-        lblNewLabel.setBounds(62, 194, 57, 15);
+        lblNewLabel.setBounds(180, 93, 57, 15);
         getContentPane().add(lblNewLabel);
         
         JLabel lblNewLabel_1 = new JLabel("나이");
-        lblNewLabel_1.setBounds(62, 219, 57, 15);
+        lblNewLabel_1.setBounds(180, 118, 57, 15);
         getContentPane().add(lblNewLabel_1);
         
         JLabel lblNewLabel_2 = new JLabel("키");
-        lblNewLabel_2.setBounds(62, 253, 57, 15);
+        lblNewLabel_2.setBounds(190, 143, 57, 15);
         getContentPane().add(lblNewLabel_2);
         
         JLabel lblNewLabel_3 = new JLabel("몸무게");
-        lblNewLabel_3.setBounds(47, 289, 57, 15);
+        lblNewLabel_3.setBounds(169, 168, 57, 15);
         getContentPane().add(lblNewLabel_3);
+        
+        JLabel lblNewLabel_4 = new JLabel("");
+        lblNewLabel_4.setIcon(new ImageIcon(Main.class.getResource("/image/큰초록바.png")));
+        lblNewLabel_4.setBounds(-11, 0, 403, 39);
+        getContentPane().add(lblNewLabel_4);
+        
+        JLabel lblNewLabel_6 = new JLabel("New label");
+        lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는 브로콜리.png")));
+        lblNewLabel_6.setBounds(35, 59, 112, 154);
+        getContentPane().add(lblNewLabel_6);
+        
+        JLabel lblNewLabel_7 = new JLabel("New label");
+        lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리색2.png")));
+        lblNewLabel_7.setBounds(24, 58, 340, 164);
+        getContentPane().add(lblNewLabel_7);
       
         try {
             Connection connection = MySqlConnectionProvider.getConnection();
