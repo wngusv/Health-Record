@@ -136,7 +136,7 @@ public class Main extends JFrame {
         calButton.setOpaque(false); // 배경 투명하게 설정
         calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         calButton.setBorderPainted(false); // 테두리 제거
-        calButton.setBounds(28, 418, 105, 76);
+        calButton.setBounds(28, 419, 105, 76);
         calButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
               dispose();
