@@ -131,8 +131,9 @@ public class Login extends JFrame {
 				loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인선택.png")));
 			}
 		});
-
+		setResizable(false); // 창 크기 고정
 		setSize(360, 530);
+		setLocationRelativeTo(null); // 화면 중앙에 위치
 		setVisible(true);
 	}
 
