@@ -76,13 +76,10 @@ public class MessageBoard extends JFrame {
    }
 
    private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
-      getContentPane().setLayout(null);
       JScrollPane scrollPane = new JScrollPane(table);
-      scrollPane.setBounds(0, 0, 584, 326);
-      getContentPane().add(scrollPane);
+      add(scrollPane, BorderLayout.CENTER);
 
       JButton addButton = new JButton("글쓰기");
-      addButton.setBounds(500, 338, 84, 23);
       addButton.setContentAreaFilled(false);
       addButton.setBorderPainted(false);
       addButton.setFocusPainted(false);
@@ -94,30 +91,18 @@ public class MessageBoard extends JFrame {
          }
       });
 
-      getContentPane().add(addButton);
-      
-      JButton btnNewButton = new JButton("New button");
-      btnNewButton.addActionListener(new ActionListener() {
-      	public void actionPerformed(ActionEvent arg0) {
-      		dispose();
-      		new Main(loginId);
-      	}
-      });
-      btnNewButton.setBounds(0, 338, 97, 23);
-      getContentPane().add(btnNewButton);
+      add(addButton, BorderLayout.SOUTH);
    }
 
    private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
-	   String sql = "SELECT messageboard.*, user_likes.is_liked " +
-			   "FROM messageboard " +
-			   "LEFT JOIN user_likes " +
-			   "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
-      try (Connection connection = MySqlConnectionProvider.getConnection();
-    		  
-    		  PreparedStatement preparedStatement = connection.prepareStatement(sql);
-    		  ResultSet resultSet = preparedStatement.executeQuery();
-    		  ) {
+      try (Connection connection = MySqlConnectionProvider.getConnection()) {
+         String sql = "SELECT messageboard.*, user_likes.is_liked " +
+                    "FROM messageboard " +
+                    "LEFT JOIN user_likes " +
+                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
+         PreparedStatement preparedStatement = connection.prepareStatement(sql);
          preparedStatement.setString(1, loginId);
+         ResultSet resultSet = preparedStatement.executeQuery();
 
          while (resultSet.next()) {
             String id = resultSet.getString("user_id");
@@ -141,11 +126,9 @@ public class MessageBoard extends JFrame {
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
          Object[] rowData = { tableModel.getRowCount() + 1, id, content, "Date", 0, false };
          tableModel.addRow(rowData);
-         String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
-         try (Connection connection = MySqlConnectionProvider.getConnection();
-        		 
-        		 PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        		 ) {
+         try (Connection connection = MySqlConnectionProvider.getConnection()) {
+            String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, CURDATE())";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, id);
             preparedStatement.setString(2, content);
             preparedStatement.executeUpdate();
@@ -178,12 +161,12 @@ public class MessageBoard extends JFrame {
                @Override
                public void itemStateChanged(ItemEvent e) {
                    if (button.isSelected()) {
-                	   button.setIcon(selectedIcon);
+                      button.setIcon(selectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, true); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
                    } else {
-                	   button.setIcon(unselectedIcon);
+                      button.setIcon(unselectedIcon);
                        String content = (String) tableModel.getValueAt(row, 2);
                        saveButton(loginId, content, false); // 버튼 상태 저장
                        System.out.println("선택된 " + row);
@@ -214,11 +197,9 @@ public class MessageBoard extends JFrame {
 
    // 좋아요 숫자 해당 행이 저장
    private void updateLikes(String content, int likes) {
-	   String sql = "UPDATE messageboard SET likes = ? WHERE content = ?";
-      try (Connection conn = MySqlConnectionProvider.getConnection();
-    		  
-    		  PreparedStatement preparedStatement = conn.prepareStatement(sql);
-    		  ) {
+      try (Connection conn = MySqlConnectionProvider.getConnection()) {
+         String sql = "UPDATE messageboard SET likes = ? WHERE content = ?";
+         PreparedStatement preparedStatement = conn.prepareStatement(sql);
          preparedStatement.setInt(1, likes);
          preparedStatement.setString(2, content);
          preparedStatement.executeUpdate();
@@ -229,20 +210,18 @@ public class MessageBoard extends JFrame {
 
    // 좋아요 버튼 누른 아이디 버튼 상태 저장
    private void saveButton(String userId, String content, boolean isLiked) {
-	   String insertSql = "INSERT INTO user_likes (user_id, user_content, is_liked) VALUES (?, ?, ?)";
-	   String sql = "UPDATE user_likes SET is_liked = ? WHERE user_id = ? AND user_content = ?";
-       try (Connection conn = MySqlConnectionProvider.getConnection();
-    		   PreparedStatement insertStatement = conn.prepareStatement(insertSql);
-    		   PreparedStatement preparedStatement = conn.prepareStatement(sql);
-    		   
-    		   ) {
+       try (Connection conn = MySqlConnectionProvider.getConnection()) {
            if (!checkExists(conn, userId, content)) {
+               String insertSql = "INSERT INTO user_likes (user_id, user_content, is_liked) VALUES (?, ?, ?)";
+               PreparedStatement insertStatement = conn.prepareStatement(insertSql);
                insertStatement.setString(1, userId);
                insertStatement.setString(2, content);
                insertStatement.setBoolean(3, isLiked);
                insertStatement.executeUpdate();
            }
            
+           String sql = "UPDATE user_likes SET is_liked = ? WHERE user_id = ? AND user_content = ?";
+           PreparedStatement preparedStatement = conn.prepareStatement(sql);
            preparedStatement.setBoolean(1, isLiked);
            preparedStatement.setString(2, userId);
            preparedStatement.setString(3, content);
