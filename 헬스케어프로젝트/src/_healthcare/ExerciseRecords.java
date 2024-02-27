@@ -196,7 +196,7 @@ private String timediff;
 
       JButton btnBack = new JButton("");
       btnBack.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/뒤로가기.png")));
-      btnBack.setOpaque(false); // 배경 투명하게 설정
+      btnBack.setFocusPainted(false); // 배경 투명하게 설정
       btnBack.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btnBack.setBorderPainted(false); // 테두리 제거
       btnBack.addActionListener(new ActionListener() {
@@ -325,7 +325,7 @@ private String timediff;
 	         PreparedStatement pst = conn.prepareStatement(sql);
 	    ) {
 	        pst.setString(1, loginId);
-	        pst.setString(2, selectedExercise);
+	        pst.setString(2, selectedExercise2);
 
 	        ResultSet rs = pst.executeQuery();
 	        while (rs.next()) {

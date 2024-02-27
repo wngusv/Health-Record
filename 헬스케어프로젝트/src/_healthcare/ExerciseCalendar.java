@@ -49,21 +49,24 @@ public class ExerciseCalendar extends JFrame {
 	private final Action action = new SwingAction();
 
 	public ExerciseCalendar(String loginId) {
+		getContentPane().setFont(new Font("굴림", Font.BOLD, 12));
 
 		this.loginId = loginId;
 		System.out.println(loginId);
 		getContentPane().setBackground(Color.WHITE);
-		setTitle("캘린다");
+		setTitle("캘린더");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setPreferredSize(new Dimension(360, 560));
 
 		monthLabel = new JLabel("", SwingConstants.CENTER); // 월 표시 레이블 가운데 정렬
+		monthLabel.setBounds(122, 45, 77, 40);
 		monthLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
 		monthLabel.setBackground(Color.WHITE);
 		calendarPanel = new JPanel(new GridLayout(0, 7)); // 캘린더 패널에 그리드 레이아웃 설정
 		calendarPanel.setBackground(Color.WHITE);
 		JButton leftButton = new JButton("<"); // 이전 달로 이동하는 버튼
-		leftButton.setFont(new Font("굴림", Font.PLAIN, 20));
+		leftButton.setBounds(56, 52, 47, 33);
+		leftButton.setFont(new Font("굴림", Font.BOLD, 15));
 		leftButton.setForeground(Color.LIGHT_GRAY);
 		leftButton.setBackground(Color.WHITE);
 		leftButton.setOpaque(false); // 배경 투명하게 설정
@@ -83,7 +86,8 @@ public class ExerciseCalendar extends JFrame {
 		});
 
 		JButton nextButton = new JButton(">"); // 다음 달로 이동하는 버튼
-		nextButton.setFont(new Font("굴림", Font.PLAIN, 20));
+		nextButton.setBounds(218, 52, 47, 33);
+		nextButton.setFont(new Font("굴림", Font.BOLD, 15));
 		nextButton.setForeground(Color.LIGHT_GRAY);
 		nextButton.setBackground(Color.WHITE);
 		nextButton.setOpaque(false); // 배경 투명하게 설정
@@ -104,13 +108,21 @@ public class ExerciseCalendar extends JFrame {
 
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setBackground(Color.WHITE);
-		SpringLayout sl_controlsPanel = new SpringLayout();
-		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, -7, SpringLayout.SOUTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -241, SpringLayout.EAST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 19, SpringLayout.EAST, leftButton);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, monthLabel, -19, SpringLayout.WEST, nextButton);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 218, SpringLayout.WEST, controlsPanel);
-		controlsPanel.setLayout(sl_controlsPanel);
+		controlsPanel.setLayout(null);
+		
+		JButton btnBack = new JButton("");
+		btnBack.setIcon(new ImageIcon(ExerciseCalendar.class.getResource("/image/뒤로가기.png")));
+		btnBack.setFocusPainted(false); // 배경 투명하게 설정
+		btnBack.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+		btnBack.setBorderPainted(false); // 테두리 제거
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					dispose();
+					new Main(loginId);
+			}
+		});
+		btnBack.setBounds(4, 7, 36, 23);
+		controlsPanel.add(btnBack);
 		controlsPanel.add(leftButton); // 이전 달 버튼은 서쪽에 배치
 		controlsPanel.add(monthLabel); // 월 표시 레이블은 가운데에 배치
 		controlsPanel.add(nextButton); // 다음 달 버튼은 동쪽에 배치
@@ -138,42 +150,42 @@ public class ExerciseCalendar extends JFrame {
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -6, SpringLayout.NORTH, calendarPanel);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -303, SpringLayout.EAST, getContentPane());
 		lblNewLabel.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("화\r\n");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_1, 24, SpringLayout.EAST, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_1, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_1.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_1.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("수");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_2, 34, SpringLayout.EAST, lblNewLabel_1);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_2, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_2.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_2.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_2.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("목");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_3, 37, SpringLayout.EAST, lblNewLabel_2);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_3, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_3.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_3.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_3.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("금");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_4, 36, SpringLayout.EAST, lblNewLabel_3);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_4, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_4.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_4.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_4.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("토");
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_5, 261, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 0, SpringLayout.NORTH, lblNewLabel);
 		lblNewLabel_5.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_5.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_5.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("일");
@@ -181,32 +193,30 @@ public class ExerciseCalendar extends JFrame {
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -21, SpringLayout.EAST, getContentPane());
 		
 		JLabel lblNewLabel_7 = new JLabel("●적정");
+		lblNewLabel_7.setBounds(294, 46, 36, 17);
 		lblNewLabel_7.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_7, -29, SpringLayout.SOUTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_7, -14, SpringLayout.EAST, controlsPanel);
 		lblNewLabel_7.setForeground(new Color(0, 0, 205));
 		controlsPanel.add(lblNewLabel_7);
 		
 		JLabel lblNewLabel_8 = new JLabel("●초과");
+		lblNewLabel_8.setBounds(294, 68, 41, 17);
 		lblNewLabel_8.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_8, 5, SpringLayout.SOUTH, lblNewLabel_7);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_8, 294, SpringLayout.WEST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_8, -9, SpringLayout.EAST, controlsPanel);
 		lblNewLabel_8.setForeground(Color.RED);
 		controlsPanel.add(lblNewLabel_8);
 		
+		JLabel lblNewLabel_10 = new JLabel("캘린더");
+		lblNewLabel_10.setBackground(new Color(240, 240, 240));
+		lblNewLabel_10.setForeground(new Color(255, 255, 255));
+		lblNewLabel_10.setFont(new Font("휴먼편지체", Font.BOLD, 20));
+		lblNewLabel_10.setBounds(47, 3, 77, 32);
+		controlsPanel.add(lblNewLabel_10);
+		
 		JLabel lblNewLabel_9 = new JLabel("");
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 7, SpringLayout.SOUTH, lblNewLabel_9);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 14, SpringLayout.SOUTH, lblNewLabel_9);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, leftButton, 14, SpringLayout.SOUTH, lblNewLabel_9);
-		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_9, -54, SpringLayout.SOUTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_9, 0, SpringLayout.NORTH, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_9, -543, SpringLayout.EAST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_9, 0, SpringLayout.EAST, controlsPanel);
+		lblNewLabel_9.setBounds(0, 0, 344, 38);
 		lblNewLabel_9.setIcon(new ImageIcon(ExerciseCalendar.class.getResource("/image/큰초록바.png")));
 		controlsPanel.add(lblNewLabel_9);
 		lblNewLabel_6.setForeground(Color.LIGHT_GRAY);
-		lblNewLabel_6.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+		lblNewLabel_6.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_6);
 
 		pack(); // 컴포넌트들을 적절한 크기로 정렬
