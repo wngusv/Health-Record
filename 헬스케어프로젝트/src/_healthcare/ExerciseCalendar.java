@@ -59,7 +59,11 @@ public class ExerciseCalendar extends JFrame {
 		calendarPanel = new JPanel(new GridLayout(0, 7)); // 캘린더 패널에 그리드 레이아웃 설정
 		calendarPanel.setBackground(Color.WHITE);
 		JButton leftButton = new JButton("<"); // 이전 달로 이동하는 버튼
+		leftButton.setForeground(Color.LIGHT_GRAY);
 		leftButton.setBackground(Color.WHITE);
+		leftButton.setOpaque(false); // 배경 투명하게 설정
+		leftButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+		leftButton.setBorderPainted(false); // 테두리 제거
 		leftButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -74,7 +78,11 @@ public class ExerciseCalendar extends JFrame {
 		});
 
 		JButton nextButton = new JButton(">"); // 다음 달로 이동하는 버튼
+		nextButton.setForeground(Color.LIGHT_GRAY);
 		nextButton.setBackground(Color.WHITE);
+		nextButton.setOpaque(false); // 배경 투명하게 설정
+		nextButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
+		nextButton.setBorderPainted(false); // 테두리 제거
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -91,12 +99,12 @@ public class ExerciseCalendar extends JFrame {
 		JPanel controlsPanel = new JPanel();
 		controlsPanel.setBackground(Color.WHITE);
 		SpringLayout sl_controlsPanel = new SpringLayout();
-		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -220, SpringLayout.EAST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 6, SpringLayout.EAST, leftButton);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, leftButton, 0, SpringLayout.NORTH, nextButton);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, leftButton, -6, SpringLayout.WEST, monthLabel);
 		sl_controlsPanel.putConstraint(SpringLayout.WEST, nextButton, 213, SpringLayout.WEST, controlsPanel);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, leftButton, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, monthLabel, 130, SpringLayout.WEST, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.EAST, monthLabel, -6, SpringLayout.WEST, nextButton);
-		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 0, SpringLayout.NORTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, nextButton, 10, SpringLayout.NORTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.NORTH, monthLabel, 0, SpringLayout.NORTH, controlsPanel);
 		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, monthLabel, -7, SpringLayout.SOUTH, controlsPanel);
 		controlsPanel.setLayout(sl_controlsPanel);
@@ -110,13 +118,12 @@ public class ExerciseCalendar extends JFrame {
 
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -53, SpringLayout.NORTH, calendarPanel);
+		springLayout.putConstraint(SpringLayout.WEST, controlsPanel, 0, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 344, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.NORTH, calendarPanel, 90, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, calendarPanel, 0, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, calendarPanel, 491, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, calendarPanel, 344, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, controlsPanel, 0, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 344, SpringLayout.WEST, getContentPane());
 		getContentPane().setLayout(springLayout);
 
 		getContentPane().add(controlsPanel); // 제어 패널을 프레임의 상단에 추가
@@ -135,6 +142,7 @@ public class ExerciseCalendar extends JFrame {
 		getContentPane().add(calendarPanel);
 
 		JLabel lblNewLabel = new JLabel("월");
+		springLayout.putConstraint(SpringLayout.SOUTH, controlsPanel, -6, SpringLayout.NORTH, lblNewLabel);
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 20, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -17, SpringLayout.NORTH, calendarPanel);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, -305, SpringLayout.EAST, getContentPane());
@@ -177,8 +185,21 @@ public class ExerciseCalendar extends JFrame {
 		getContentPane().add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("일");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 7, SpringLayout.SOUTH, controlsPanel);
+		
+		JLabel lblNewLabel_7 = new JLabel("●적정");
+		sl_controlsPanel.putConstraint(SpringLayout.NORTH, lblNewLabel_7, 4, SpringLayout.NORTH, leftButton);
+		lblNewLabel_7.setForeground(Color.GREEN);
+		controlsPanel.add(lblNewLabel_7);
+		
+		JLabel lblNewLabel_8 = new JLabel("●초과");
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_8, 86, SpringLayout.EAST, monthLabel);
+		sl_controlsPanel.putConstraint(SpringLayout.SOUTH, lblNewLabel_8, 0, SpringLayout.SOUTH, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.EAST, lblNewLabel_8, -10, SpringLayout.EAST, controlsPanel);
+		sl_controlsPanel.putConstraint(SpringLayout.WEST, lblNewLabel_7, 0, SpringLayout.WEST, lblNewLabel_8);
+		lblNewLabel_8.setForeground(Color.RED);
+		controlsPanel.add(lblNewLabel_8);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, -36, SpringLayout.WEST, lblNewLabel_6);
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_6, 18, SpringLayout.SOUTH, controlsPanel);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -21, SpringLayout.EAST, getContentPane());
 		lblNewLabel_6.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_6.setFont(new Font("한컴산뜻돋움", Font.PLAIN, 14));

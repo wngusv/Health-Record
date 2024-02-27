@@ -37,7 +37,6 @@ public class DietRecord extends JFrame {
 	private double lunchSumKcal;
 	private double dinnerSumKcal;
 	private double snackSumKcal;
-	private Double todayEatSumKacl;
 
 	private JLabel lblNewLabel_7;
 	private JLabel lblNewLabel_9;
