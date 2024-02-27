@@ -182,9 +182,9 @@ private int userCharacterNum;
       
        // JSlider 초기화(BMI표시)
         slider = new JSlider();
-        slider.setBounds(57, 250, 253, 46);
+        slider.setBounds(59, 223, 280, 46);
         slider.setMinorTickSpacing(1); // 최소 틱 간격
-        slider.setMajorTickSpacing(5);
+        slider.setMajorTickSpacing(10);
         slider.setMinorTickSpacing(5);
         slider.setPaintTicks(true);
         slider.setPaintLabels(true);
@@ -300,6 +300,15 @@ private int userCharacterNum;
         lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리색2.png")));
         lblNewLabel_7.setBounds(24, 58, 340, 164);
         getContentPane().add(lblNewLabel_7);
+        
+        JLabel lblNewLabel_8 = new JLabel("");
+        lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/그림6.png")));
+        lblNewLabel_8.setBounds(64, 271, 271, 23);
+        getContentPane().add(lblNewLabel_8);
+        
+        JLabel lblNewLabel_9 = new JLabel("BMI");
+        lblNewLabel_9.setBounds(32, 273, 33, 15);
+        getContentPane().add(lblNewLabel_9);
       
         try( Connection connection = MySqlConnectionProvider.getConnection();
                 Statement statement = connection.createStatement();
@@ -345,6 +354,7 @@ private int userCharacterNum;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+        setLocationRelativeTo(null);
     }
     
 

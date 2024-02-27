@@ -86,7 +86,7 @@ public class WaterRecords extends JFrame {
 		}
 
 		showGUI();
-
+		setLocationRelativeTo(null);
 	}
 
 	private void showGUI() {
