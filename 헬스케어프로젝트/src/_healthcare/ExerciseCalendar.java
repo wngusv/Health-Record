@@ -336,7 +336,6 @@ public class ExerciseCalendar extends JFrame {
 
 			String kcalText = getTextForDate(loginId, LocalDate.of(currentYear, currentMonth + 1, day));
 			double kcalValue = Double.parseDouble(kcalText);
-			System.out.println(kcalText);
 			kcalLabel = new JLabel(kcalText, SwingConstants.CENTER);
 			kcalLabel.setFont(kcalLabel.getFont().deriveFont(9f));
 			dayPanel.add(kcalLabel, BorderLayout.CENTER); // --- 라벨을 패널에 추가

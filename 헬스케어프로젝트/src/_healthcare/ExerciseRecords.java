@@ -35,12 +35,14 @@ public class ExerciseRecords extends JFrame {
    private JButton btn_start;
    private JComboBox comboBox_Sports;
    private JLabel lbl_start;
+private JLabel lblTimeDiff;
+private String timediff;
 
 
    
    public ExerciseRecords(String loginId) {
-   	getContentPane().setBackground(Color.WHITE);
-	   
+      getContentPane().setBackground(Color.WHITE);
+      
       this.loginId = loginId;
       System.out.println(loginId);
       setTitle("운동기록");
@@ -120,10 +122,10 @@ public class ExerciseRecords extends JFrame {
 
       // MySQL 연결 및 데이터베이스에서 목록 불러오기
       try(
-    		  Connection connection = MySqlConnectionProvider.getConnection();
-    		  Statement statement = connection.createStatement();
-    		  ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");
-    		  ) {
+            Connection connection = MySqlConnectionProvider.getConnection();
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");
+            ) {
 
          List<String> sportsList = new ArrayList<>();
          while (resultSet.next()) {
@@ -169,8 +171,8 @@ public class ExerciseRecords extends JFrame {
             // MySQL에 현재 시간과 선택된 운동 항목 추가
             String sql = "INSERT INTO exerciserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
             try (Connection conn = MySqlConnectionProvider.getConnection();
-            		PreparedStatement stmt = conn.prepareStatement(sql);
-            		) {
+                  PreparedStatement stmt = conn.prepareStatement(sql);
+                  ) {
                stmt.setString(1, loginId);
                stmt.setString(2, selectedExercise);
                stmt.executeUpdate();
@@ -230,6 +232,10 @@ public class ExerciseRecords extends JFrame {
       lblNewLabel.setBounds(74, 442, 271, 48);
       getContentPane().add(lblNewLabel);
       
+      lblTimeDiff = new JLabel("New label");
+      lblTimeDiff.setBounds(228, 462, 57, 15);
+      getContentPane().add(lblTimeDiff);
+      
 
 
       
@@ -250,13 +256,12 @@ public class ExerciseRecords extends JFrame {
 
             // MySQL에 현재 시간 삽입
             // 운동 종료 시간을 갱신
-            String sql = "UPDATE exerciserecords SET end_time = ? WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+            String sql = "UPDATE exerciserecords SET end_time = NOW() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
             try (Connection conn = MySqlConnectionProvider.getConnection();
-            		PreparedStatement stmt = conn.prepareStatement(sql);
-            		) {
-               stmt.setString(1, formattedDateTimeE);
-               stmt.setString(2, startTime);
-               stmt.setString(3, loginId);
+                  PreparedStatement stmt = conn.prepareStatement(sql);
+                  ) {
+               stmt.setString(1, startTime);
+               stmt.setString(2, loginId);
                stmt.executeUpdate();
                
                
@@ -267,7 +272,7 @@ public class ExerciseRecords extends JFrame {
       });
       loadExerciseName();
       loadStartTime();
-      
+      loadHours();
 
 
       
@@ -281,10 +286,10 @@ public class ExerciseRecords extends JFrame {
    
 
    private void loadStartTime() {
-	   String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
+      String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
          try (Connection conn = MySqlConnectionProvider.getConnection();
-        		 PreparedStatement pst = conn.prepareStatement(sql);
-        		 ) {
+               PreparedStatement pst = conn.prepareStatement(sql);
+               ) {
             pst.setString(1, loginId);
             pst.setString(2, selectedExercise2);
 
@@ -314,4 +319,22 @@ public class ExerciseRecords extends JFrame {
             e.printStackTrace();
          }
    }
+   private void loadHours() {
+	    String sql = "SELECT TIME_DIFF FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
+	    try (Connection conn = MySqlConnectionProvider.getConnection();
+	         PreparedStatement pst = conn.prepareStatement(sql);
+	    ) {
+	        pst.setString(1, loginId);
+	        pst.setString(2, selectedExercise);
+
+	        ResultSet rs = pst.executeQuery();
+	        while (rs.next()) {
+	            timediff = rs.getString("TIME_DIFF");
+	        }
+	        lblTimeDiff.setText(timediff); // 라벨에 값 설정
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+   
 }
