@@ -66,7 +66,7 @@ public class Main extends JFrame {
         boardButton.setOpaque(false); // 배경 투명하게 설정
         boardButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         boardButton.setBorderPainted(false); // 테두리 제거
-        boardButton.setBounds(266, 328, 115, 77);
+        boardButton.setBounds(266, 419, 115, 77);
         getContentPane().add(boardButton);
 
         boardButton.addActionListener(new ActionListener() {
@@ -81,7 +81,7 @@ public class Main extends JFrame {
         
         JButton exerciseButton = new JButton("");
         exerciseButton.setIcon(new ImageIcon(Main.class.getResource("/image/운동기록버튼.png")));
-        exerciseButton.setBounds(31, 417, 101, 79);
+        exerciseButton.setBounds(149, 327, 101, 79);
         exerciseButton.setOpaque(false); // 배경 투명하게 설정
         exerciseButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         exerciseButton.setBorderPainted(false); // 테두리 제거
@@ -102,7 +102,7 @@ public class Main extends JFrame {
         waterButton.setOpaque(false); // 배경 투명하게 설정
         waterButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         waterButton.setBorderPainted(false); // 테두리 제거
-        waterButton.setBounds(267, 414, 114, 85);
+        waterButton.setBounds(266, 325, 114, 85);
         getContentPane().add(waterButton);
         waterButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent arg0) {
@@ -136,7 +136,7 @@ public class Main extends JFrame {
         calButton.setOpaque(false); // 배경 투명하게 설정
         calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         calButton.setBorderPainted(false); // 테두리 제거
-        calButton.setBounds(147, 328, 105, 76);
+        calButton.setBounds(28, 418, 105, 76);
         calButton.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent e) {
               dispose();
@@ -151,7 +151,7 @@ public class Main extends JFrame {
         graphButton.setOpaque(false); // 배경 투명하게 설정
         graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
         graphButton.setBorderPainted(false); // 테두리 제거
-        graphButton.setBounds(153, 416, 109, 80);
+        graphButton.setBounds(151, 416, 109, 80);
         getContentPane().add(graphButton);
         graphButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
