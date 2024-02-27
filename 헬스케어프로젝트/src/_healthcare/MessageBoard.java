@@ -93,14 +93,16 @@ public class MessageBoard extends JFrame {
    }
 
    private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
-      try (Connection connection = MySqlConnectionProvider.getConnection()) {
-         String sql = "SELECT messageboard.*, user_likes.is_liked " +
-                    "FROM messageboard " +
-                    "LEFT JOIN user_likes " +
-                    "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
-         PreparedStatement preparedStatement = connection.prepareStatement(sql);
+	   String sql = "SELECT messageboard.*, user_likes.is_liked " +
+			   "FROM messageboard " +
+			   "LEFT JOIN user_likes " +
+			   "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ?";
+      try (Connection connection = MySqlConnectionProvider.getConnection();
+    		  
+    		  PreparedStatement preparedStatement = connection.prepareStatement(sql);
+    		  ResultSet resultSet = preparedStatement.executeQuery();
+    		  ) {
          preparedStatement.setString(1, loginId);
-         ResultSet resultSet = preparedStatement.executeQuery();
 
          while (resultSet.next()) {
             String id = resultSet.getString("user_id");
@@ -195,9 +197,11 @@ public class MessageBoard extends JFrame {
 
    // 좋아요 숫자 해당 행이 저장
    private void updateLikes(String content, int likes) {
-      try (Connection conn = MySqlConnectionProvider.getConnection()) {
-         String sql = "UPDATE messageboard SET likes = ? WHERE content = ?";
-         PreparedStatement preparedStatement = conn.prepareStatement(sql);
+	   String sql = "UPDATE messageboard SET likes = ? WHERE content = ?";
+      try (Connection conn = MySqlConnectionProvider.getConnection();
+    		  
+    		  PreparedStatement preparedStatement = conn.prepareStatement(sql);
+    		  ) {
          preparedStatement.setInt(1, likes);
          preparedStatement.setString(2, content);
          preparedStatement.executeUpdate();
@@ -208,18 +212,20 @@ public class MessageBoard extends JFrame {
 
    // 좋아요 버튼 누른 아이디 버튼 상태 저장
    private void saveButton(String userId, String content, boolean isLiked) {
-       try (Connection conn = MySqlConnectionProvider.getConnection()) {
+	   String insertSql = "INSERT INTO user_likes (user_id, user_content, is_liked) VALUES (?, ?, ?)";
+	   String sql = "UPDATE user_likes SET is_liked = ? WHERE user_id = ? AND user_content = ?";
+       try (Connection conn = MySqlConnectionProvider.getConnection();
+    		   PreparedStatement insertStatement = conn.prepareStatement(insertSql);
+    		   PreparedStatement preparedStatement = conn.prepareStatement(sql);
+    		   
+    		   ) {
            if (!checkExists(conn, userId, content)) {
-               String insertSql = "INSERT INTO user_likes (user_id, user_content, is_liked) VALUES (?, ?, ?)";
-               PreparedStatement insertStatement = conn.prepareStatement(insertSql);
                insertStatement.setString(1, userId);
                insertStatement.setString(2, content);
                insertStatement.setBoolean(3, isLiked);
                insertStatement.executeUpdate();
            }
            
-           String sql = "UPDATE user_likes SET is_liked = ? WHERE user_id = ? AND user_content = ?";
-           PreparedStatement preparedStatement = conn.prepareStatement(sql);
            preparedStatement.setBoolean(1, isLiked);
            preparedStatement.setString(2, userId);
            preparedStatement.setString(3, content);
