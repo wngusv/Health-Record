@@ -39,9 +39,8 @@ public class ExerciseRecords extends JFrame {
 	private String timediff;
 
 	public ExerciseRecords(String loginId) {
-		getContentPane().setBackground(Color.WHITE);
-
 		this.loginId = loginId;
+		getContentPane().setBackground(Color.WHITE);
 		System.out.println(loginId);
 		setTitle("운동기록");
 		setSize(422, 546); // 창의 너비와 높이를 설정합니다.
@@ -78,7 +77,6 @@ public class ExerciseRecords extends JFrame {
 		btn_start.setBorderPainted(false); // 테두리 제거
 		btn_start.setBounds(32, 253, 152, 120);
 		getContentPane().add(btn_start);
-
 		// 운동시작 버튼 클릭 시 이벤트 리스너
 		btn_start.addActionListener(new ActionListener() {
 			@Override
@@ -260,7 +258,7 @@ public class ExerciseRecords extends JFrame {
 		loadExerciseName();
 		loadStartTime();
 		loadHours();
-
+		setLocationRelativeTo(null);
 	}
 
 	private void loadStartTime() {

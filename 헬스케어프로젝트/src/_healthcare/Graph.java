@@ -22,6 +22,9 @@ import java.util.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.Color;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Graph extends JFrame {
 	private String user_id;
@@ -67,6 +70,16 @@ public class Graph extends JFrame {
                 chartPanel.setBackground(Color.WHITE);
                 getContentPane().add(chartPanel, BorderLayout.CENTER);
                 chartPanel.setLayout(null);
+                
+                JButton btnNewButton = new JButton("New button");
+                btnNewButton.addActionListener(new ActionListener() {
+                	public void actionPerformed(ActionEvent arg0) {
+                		dispose();
+                		new Main(loginId);
+                	}
+                });
+                btnNewButton.setBounds(538, 380, 55, 23);
+                chartPanel.add(btnNewButton);
 
                 // 프레임 속성 설정
                 setSize(621, 452);

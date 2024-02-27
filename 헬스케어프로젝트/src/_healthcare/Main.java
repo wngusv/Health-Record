@@ -323,7 +323,7 @@ public class Main extends JFrame {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+        setLocationRelativeTo(null);
     }
     
 
