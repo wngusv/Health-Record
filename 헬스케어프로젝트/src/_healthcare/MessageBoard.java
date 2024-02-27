@@ -1,6 +1,7 @@
 package _healthcare;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -74,10 +76,13 @@ public class MessageBoard extends JFrame {
    }
 
    private void addComponents() { // 프레임에 컴포넌트 추가 글쓰기 등록
+      getContentPane().setLayout(null);
       JScrollPane scrollPane = new JScrollPane(table);
-      add(scrollPane, BorderLayout.CENTER);
+      scrollPane.setBounds(0, 0, 584, 326);
+      getContentPane().add(scrollPane);
 
       JButton addButton = new JButton("글쓰기");
+      addButton.setBounds(500, 338, 84, 23);
       addButton.setContentAreaFilled(false);
       addButton.setBorderPainted(false);
       addButton.setFocusPainted(false);
@@ -89,7 +94,17 @@ public class MessageBoard extends JFrame {
          }
       });
 
-      add(addButton, BorderLayout.SOUTH);
+      getContentPane().add(addButton);
+      
+      JButton btnNewButton = new JButton("New button");
+      btnNewButton.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent arg0) {
+      		dispose();
+      		new Main(loginId);
+      	}
+      });
+      btnNewButton.setBounds(0, 338, 97, 23);
+      getContentPane().add(btnNewButton);
    }
 
    private void loadMessage() { // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
