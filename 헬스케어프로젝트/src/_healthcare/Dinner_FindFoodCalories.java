@@ -51,14 +51,15 @@ public class Dinner_FindFoodCalories extends JFrame {
 	private JTextPane lbl_list;
 	private List<String> list = new ArrayList<>();
 	private JLabel lblNewLabel_6;
+
 	public Dinner_FindFoodCalories(String loginId) {
 		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();
 		showGUI();
-		
+
 		writeTodayEat();
-		
+
 	}
 
 	private void writeTodayEat() {
@@ -72,10 +73,10 @@ public class Dinner_FindFoodCalories extends JFrame {
 			while (rs.next()) {
 				String eatenFoodList = rs.getString("dinner_meal");
 				// "단식"이 아닌 경우에만 리스트에 추가
-			    if (!"단식".equals(eatenFoodList)) {
-			        list.add(eatenFoodList);
-			    }
-				
+				if (!"단식".equals(eatenFoodList)) {
+					list.add(eatenFoodList);
+				}
+
 			}
 
 			StringBuilder stringBuilder = new StringBuilder();
@@ -146,15 +147,15 @@ public class Dinner_FindFoodCalories extends JFrame {
 	private void extracted() {
 		setTitle("저녁");
 		getContentPane().setLayout(null);
-		
-				lbl_list = new JTextPane();
-				lbl_list.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
-				lbl_list.setBackground(new Color(255, 228, 181));
-				lbl_list.setContentType("text/html");
-				lbl_list.setEditable(false);
-				JScrollPane scrollPaneForTextPane = new JScrollPane(lbl_list);
-				scrollPaneForTextPane.setBounds(66, 447, 344, 103);
-				getContentPane().add(scrollPaneForTextPane);
+
+		lbl_list = new JTextPane();
+		lbl_list.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
+		lbl_list.setBackground(new Color(255, 228, 181));
+		lbl_list.setContentType("text/html");
+		lbl_list.setEditable(false);
+		JScrollPane scrollPaneForTextPane = new JScrollPane(lbl_list);
+		scrollPaneForTextPane.setBounds(66, 447, 344, 103);
+		getContentPane().add(scrollPaneForTextPane);
 
 		lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setIcon(new ImageIcon(Snack_FindFoodCalories.class.getResource("/image/저녁해.png")));
@@ -247,34 +248,34 @@ public class Dinner_FindFoodCalories extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO 확인버튼을 누르면 디비 아침다이어트 테이블에 생성
 				String dinner_meal = foodName;
-				
+
 				if (dinner_meal != null && !dinner_meal.isEmpty()) {
-				String insertQeury = "INSERT INTO dinnerdiet (user_id, date, dinner_meal, dinner_kcal) VALUES (?,?,?,?)";
-				try (Connection conn = MySqlConnectionProvider.getConnection();
-						PreparedStatement pst = conn.prepareStatement(insertQeury)) {
-					pst.setString(1, user_id);
-					pst.setDate(2, sqlDate);
-					pst.setString(3, dinner_meal);
-					pst.setDouble(4, dinner_kcal);
+					String insertQeury = "INSERT INTO dinnerdiet (user_id, date, dinner_meal, dinner_kcal) VALUES (?,?,?,?)";
+					try (Connection conn = MySqlConnectionProvider.getConnection();
+							PreparedStatement pst = conn.prepareStatement(insertQeury)) {
+						pst.setString(1, user_id);
+						pst.setDate(2, sqlDate);
+						pst.setString(3, dinner_meal);
+						pst.setDouble(4, dinner_kcal);
 
-					// executeUpdate()를 사용하여 DML 쿼리 실행
-					int affectedRows = pst.executeUpdate();
-					
-					writeTodayEat();
+						// executeUpdate()를 사용하여 DML 쿼리 실행
+						int affectedRows = pst.executeUpdate();
 
-					if (affectedRows > 0) {
-						System.out.println("데이터가 성공적으로 삽입되었습니다.");
-					} else {
-						System.out.println("데이터 삽입에 실패했습니다.");
+						writeTodayEat();
+
+						if (affectedRows > 0) {
+							System.out.println("데이터가 성공적으로 삽입되었습니다.");
+						} else {
+							System.out.println("데이터 삽입에 실패했습니다.");
+						}
+
+					} catch (SQLException e) {
+						e.printStackTrace();
 					}
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
 				} else {
 					System.out.println("dinner_meal이 비어있습니다. 데이터를 삽입하지 않습니다.");
 				}
-				
+
 			}
 		});
 		btnNewButton_1.setContentAreaFilled(false);
