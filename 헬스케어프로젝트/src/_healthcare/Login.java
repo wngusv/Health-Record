@@ -35,7 +35,7 @@ public class Login extends JFrame {
 
       JLabel lblNewLabel_3 = new JLabel("New label");
       lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/image/요가하는 옥쓔.png")));
-      lblNewLabel_3.setBounds(33, 256, 129, 102);
+      lblNewLabel_3.setBounds(32, 264, 129, 102);
       getContentPane().add(lblNewLabel_3);
 
       JLabel lblNewLabel_4 = new JLabel("New label");
@@ -155,7 +155,7 @@ public class Login extends JFrame {
 
       JLabel lblNewLabel_2 = new JLabel("New label");
       lblNewLabel_2.setIcon(new ImageIcon(Login.class.getResource("/image/운동하는브로콜리2.png")));
-      lblNewLabel_2.setBounds(196, 256, 89, 132);
+      lblNewLabel_2.setBounds(194, 263, 89, 132);
       getContentPane().add(lblNewLabel_2);
 
       JLabel lbl_background = new JLabel("");
@@ -163,7 +163,7 @@ public class Login extends JFrame {
       lbl_background.setBounds(-106, -128, 528, 693);
       getContentPane().add(lbl_background);
       setResizable(false); // 창 크기 고정
-      setSize(343, 425);
+      setSize(343, 433);
       setLocationRelativeTo(null); // 화면 중앙에 위치
       setVisible(true);
    }
