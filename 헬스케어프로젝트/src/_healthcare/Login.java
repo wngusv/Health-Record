@@ -27,7 +27,6 @@ public class Login extends JFrame {
 	private JButton loginButton;
 	public String loginId;
 	private JLabel lblNewLabel;
-
 	public Login() {
 		setTitle("활기록");
 		getContentPane().setBackground(Color.WHITE);

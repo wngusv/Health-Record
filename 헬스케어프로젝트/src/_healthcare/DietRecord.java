@@ -42,7 +42,7 @@ public class DietRecord extends JFrame {
 	private JLabel lblNewLabel_7;
 	private JLabel lblNewLabel_9;
 	private JLabel lblNewLabel_11;
-
+	
 	public DietRecord(String loginId) {
 		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
@@ -360,6 +360,7 @@ public class DietRecord extends JFrame {
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				todayEatKcal();
+				
 				dispose();
 				new Main(user_id);
 			}
@@ -460,8 +461,4 @@ public class DietRecord extends JFrame {
 		    }
 		}
 
-	public double getTodayEatSumKacl() {
-		todayEatKcal(); // todayEatKcal() 메서드 호출하여 값을 가져옴
-		return todayEatSumKacl;
-	}
 }
