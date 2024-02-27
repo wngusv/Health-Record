@@ -296,10 +296,14 @@ private String timediff;
    }
    
    private void loadExerciseName() {
-         try (Connection conn = MySqlConnectionProvider.getConnection()) {
-         String sql = "SELECT exercise_name FROM exerciserecords WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1;";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setString(1, loginId);
+	   String sql = "SELECT exercise_name FROM exerciserecords WHERE user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1;";
+         try (Connection conn = MySqlConnectionProvider.getConnection();
+        		 PreparedStatement pst = conn.prepareStatement(sql);
+        		 
+        		 ) {
+         
+            
+        	 pst.setString(1, loginId);
 
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
