@@ -117,12 +117,15 @@ public class ExerciseRecords extends JFrame {
 		// MySQL 연결 및 데이터베이스에서 목록 불러오기
 		try (Connection connection = MySqlConnectionProvider.getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");) {
+				) {
 
 			List<String> sportsList = new ArrayList<>();
-			while (resultSet.next()) {
-				String sportsName = resultSet.getString("sports");
-				sportsList.add(sportsName);
+			try(ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");){
+				
+				while (resultSet.next()) {
+					String sportsName = resultSet.getString("sports");
+					sportsList.add(sportsName);
+				}
 			}
 
 			// 콤보 박스에 목록 추가
@@ -268,9 +271,12 @@ public class ExerciseRecords extends JFrame {
 			pst.setString(1, loginId);
 			pst.setString(2, selectedExercise2);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				startTime = rs.getString("start_time");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					startTime = rs.getString("start_time");
+				}
 			}
 
 		} catch (SQLException e) {
@@ -287,9 +293,12 @@ public class ExerciseRecords extends JFrame {
 
 			pst.setString(1, loginId);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				selectedExercise2 = rs.getString("exercise_name");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					selectedExercise2 = rs.getString("exercise_name");
+				}
 			}
 			lbl_selected.setText(selectedExercise2);
 
@@ -305,9 +314,12 @@ public class ExerciseRecords extends JFrame {
 			pst.setString(1, loginId);
 			pst.setString(2, selectedExercise2);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				timediff = rs.getString("TIME_DIFF");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					timediff = rs.getString("TIME_DIFF");
+				}
 			}
 //	        lblTimeDiff.setText(timediff); // 라벨에 값 설정
 		} catch (SQLException e) {

@@ -333,9 +333,12 @@ private int userCharacterNum;
     			) {
 			pst.setString(1, loginId);
 			
-			ResultSet rs = pst.executeQuery();
-			while(rs.next()) {
-				userCharacterNum = rs.getInt("user_char");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while(rs.next()) {
+					userCharacterNum = rs.getInt("user_char");
+				}
 			}
 			
 			switch(userCharacterNum) {
@@ -362,37 +365,39 @@ private int userCharacterNum;
     public void updateWeight(int inputValue) {
        LocalDate today = LocalDate.now();
        lblKg.setText(String.valueOf(inputValue)); // 입력 받은 몸무게 값을 라벨에 표시 
-       try {
-    	    Connection connection = MySqlConnectionProvider.getConnection();
-
-    	    // 사용자의 몸무게를 변경하기 위해 사용자의 ID를 가져오는 쿼리 실행
-    	    PreparedStatement userIdStatement = connection.prepareStatement("SELECT id FROM users WHERE id = ?");
+       try(Connection connection = MySqlConnectionProvider.getConnection();
+    		// 사용자의 몸무게를 변경하기 위해 사용자의 ID를 가져오는 쿼리 실행
+    	    PreparedStatement userIdStatement = connection.prepareStatement("SELECT id FROM users WHERE id = ?");   
+    		   ) {
     	    userIdStatement.setString(1, loginId);
-    	    ResultSet userIdResultSet = userIdStatement.executeQuery();
-
-    	    // 사용자 ID를 가져왔다면
-    	    if (userIdResultSet.next()) {
-    	        String userId = userIdResultSet.getString("id");
-
-    	        // 사용자 ID와 함께 몸무게를 weightrecords 테이블에 삽입하는 쿼리 실행
-    	        String sql = "INSERT INTO weightrecords (user_id, weight, date) VALUES (?, ?, ?)";
-    	        PreparedStatement statement = connection.prepareStatement(sql);
-    	        statement.setString(1, userId);
-    	        statement.setInt(2, inputValue);
-    	        statement.setDate(3, java.sql.Date.valueOf(today)); // 오늘 날짜를 SQL Date 형식으로 변환하여 설정
-    	        statement.executeUpdate();
-    	        System.out.println("몸무게가 성공적으로 추가되었습니다.");
-
-    	        // users 테이블의 몸무게(weight) 열을 변경하는 쿼리 실행
-    	        String updateUserWeightSql = "UPDATE users SET weight = ? WHERE id = ?";
-    	        PreparedStatement updateUserWeightStatement = connection.prepareStatement(updateUserWeightSql);
-    	        updateUserWeightStatement.setInt(1, inputValue);
-    	        updateUserWeightStatement.setString(2, userId);
-    	        updateUserWeightStatement.executeUpdate();
-    	        System.out.println("사용자의 몸무게가 성공적으로 업데이트되었습니다.");
-    	    } else {
-    	        System.out.println("사용자 ID를 가져오지 못했습니다.");
+    	    try(ResultSet userIdResultSet = userIdStatement.executeQuery();){
+    	    	
+    	    	// 사용자 ID를 가져왔다면
+    	    	if (userIdResultSet.next()) {
+    	    		String userId = userIdResultSet.getString("id");
+    	    		
+    	    		// 사용자 ID와 함께 몸무게를 weightrecords 테이블에 삽입하는 쿼리 실행
+    	    		String sql = "INSERT INTO weightrecords (user_id, weight, date) VALUES (?, ?, ?)";
+    	    		PreparedStatement statement = connection.prepareStatement(sql);
+    	    		statement.setString(1, userId);
+    	    		statement.setInt(2, inputValue);
+    	    		statement.setDate(3, java.sql.Date.valueOf(today)); // 오늘 날짜를 SQL Date 형식으로 변환하여 설정
+    	    		statement.executeUpdate();
+    	    		System.out.println("몸무게가 성공적으로 추가되었습니다.");
+    	    		
+    	    		// users 테이블의 몸무게(weight) 열을 변경하는 쿼리 실행
+    	    		String updateUserWeightSql = "UPDATE users SET weight = ? WHERE id = ?";
+    	    		PreparedStatement updateUserWeightStatement = connection.prepareStatement(updateUserWeightSql);
+    	    		updateUserWeightStatement.setInt(1, inputValue);
+    	    		updateUserWeightStatement.setString(2, userId);
+    	    		updateUserWeightStatement.executeUpdate();
+    	    		System.out.println("사용자의 몸무게가 성공적으로 업데이트되었습니다.");
+    	    	} else {
+    	    		System.out.println("사용자 ID를 가져오지 못했습니다.");
+    	    	}
     	    }
+    	    
+
     	} catch (SQLException e) {
     	    e.printStackTrace();
     	}
