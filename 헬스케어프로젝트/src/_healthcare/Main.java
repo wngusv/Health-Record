@@ -47,7 +47,7 @@ public class Main extends JFrame {
 
 		// 차트 이미지를 JLabel에 추가하여 화면에 표시
 		JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-		chartLabel.setBounds(290, 107, 64, 62); // 원하는 위치와 크기로 설정
+		chartLabel.setBounds(264, 237, 64, 62); // 원하는 위치와 크기로 설정
 		getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
 		JButton btnNewButton_1 = new JButton("");
@@ -91,7 +91,7 @@ public class Main extends JFrame {
 		boardButton.setOpaque(false); // 배경 투명하게 설정
 		boardButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		boardButton.setBorderPainted(false); // 테두리 제거
-		boardButton.setBounds(266, 419, 115, 77);
+		boardButton.setBounds(263, 440, 115, 77);
 		getContentPane().add(boardButton);
 
 		boardButton.addActionListener(new ActionListener() {
@@ -105,7 +105,7 @@ public class Main extends JFrame {
 
 		JButton exerciseButton = new JButton("");
 		exerciseButton.setIcon(new ImageIcon(Main.class.getResource("/image/운동기록버튼.png")));
-		exerciseButton.setBounds(149, 327, 101, 79);
+		exerciseButton.setBounds(146, 351, 101, 79);
 		exerciseButton.setOpaque(false); // 배경 투명하게 설정
 		exerciseButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		exerciseButton.setBorderPainted(false); // 테두리 제거
@@ -125,7 +125,7 @@ public class Main extends JFrame {
 		waterButton.setOpaque(false); // 배경 투명하게 설정
 		waterButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		waterButton.setBorderPainted(false); // 테두리 제거
-		waterButton.setBounds(266, 325, 114, 85);
+		waterButton.setBounds(263, 351, 114, 85);
 		getContentPane().add(waterButton);
 		waterButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,7 +141,7 @@ public class Main extends JFrame {
 		btnNewButton.setOpaque(false); // 배경 투명하게 설정
 		btnNewButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		btnNewButton.setBorderPainted(false); // 테두리 제거
-		btnNewButton.setBounds(28, 326, 106, 79);
+		btnNewButton.setBounds(28, 351, 106, 79);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DietRecord dietRecord = new DietRecord(loginId);
@@ -157,7 +157,7 @@ public class Main extends JFrame {
 		calButton.setOpaque(false); // 배경 투명하게 설정
 		calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		calButton.setBorderPainted(false); // 테두리 제거
-		calButton.setBounds(28, 419, 105, 76);
+		calButton.setBounds(28, 440, 105, 76);
 		calButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -172,7 +172,7 @@ public class Main extends JFrame {
 		graphButton.setOpaque(false); // 배경 투명하게 설정
 		graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		graphButton.setBorderPainted(false); // 테두리 제거
-		graphButton.setBounds(151, 416, 109, 80);
+		graphButton.setBounds(146, 437, 109, 80);
 		getContentPane().add(graphButton);
 		graphButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -184,7 +184,7 @@ public class Main extends JFrame {
 
 		// JSlider 초기화(BMI표시)
 		slider = new JSlider();
-		slider.setBounds(59, 223, 280, 46);
+		slider.setBounds(28, 237, 193, 46);
 		slider.setMinorTickSpacing(1); // 최소 틱 간격
 		slider.setMajorTickSpacing(10);
 		slider.setMinorTickSpacing(5);
@@ -311,11 +311,11 @@ public class Main extends JFrame {
 
 		JLabel lblNewLabel_8 = new JLabel("");
 		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/그림6.png")));
-		lblNewLabel_8.setBounds(64, 271, 271, 23);
+		lblNewLabel_8.setBounds(38, 293, 175, 23);
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("BMI");
-		lblNewLabel_9.setBounds(32, 273, 33, 15);
+		lblNewLabel_9.setBounds(113, 326, 33, 15);
 		getContentPane().add(lblNewLabel_9);
 
 		setResizable(false); // 창 크기 고정

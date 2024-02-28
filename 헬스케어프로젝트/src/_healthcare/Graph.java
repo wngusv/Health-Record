@@ -25,6 +25,7 @@ import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class Graph extends JFrame {
 	private String user_id;
@@ -71,7 +72,8 @@ public class Graph extends JFrame {
                 getContentPane().add(chartPanel, BorderLayout.CENTER);
                 chartPanel.setLayout(null);
                 
-                JButton btnNewButton = new JButton("New button");
+                JButton btnNewButton = new JButton("");
+                btnNewButton.setIcon(new ImageIcon(Graph.class.getResource("/image/뒤로가기.png")));
                 btnNewButton.addActionListener(new ActionListener() {
                 	public void actionPerformed(ActionEvent arg0) {
                 		dispose();
@@ -79,6 +81,9 @@ public class Graph extends JFrame {
                 	}
                 });
                 btnNewButton.setBounds(538, 380, 55, 23);
+                btnNewButton.setContentAreaFilled(false);
+                btnNewButton.setBorderPainted(false);
+                btnNewButton.setFocusPainted(false);
                 chartPanel.add(btnNewButton);
 
                 // 프레임 속성 설정

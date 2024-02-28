@@ -33,7 +33,7 @@ public class HalfRingChart extends JFrame {
 
 			try (ResultSet rs = pst.executeQuery()) {
 				if (rs.next()) {
-					todayKcal = rs.getDouble("today_kcal");
+					todayKcal = rs.getDouble("eat_kcal");
 					System.out.println(todayKcal);
 				}
 
@@ -66,18 +66,16 @@ public class HalfRingChart extends JFrame {
 
 		// Define dataset
 		DefaultPieDataset dataset = new DefaultPieDataset();
-        if (todayKcal == 0) {
-            dataset.setValue("섭취칼로리", 0); // Set the ratio of consumed calories to 0
-            dataset.setValue("권장칼로리", 100);   
-        } else if (todayKcal >= recommendedKcal) {
-            dataset.setValue("섭취칼로리", 100); // Set the ratio of consumed calories to 100
-            dataset.setValue("권장칼로리", 0);   
-        } else {
-            double consumedRatio = (todayKcal / recommendedKcal) * 100; // Calculate the ratio of consumed calories
-            double recommendedRatio = 100 - consumedRatio; // Calculate the ratio of recommended calories
-            dataset.setValue("섭취칼로리", consumedRatio); // Set the ratio of consumed calories
-            dataset.setValue("권장칼로리", recommendedRatio); // Set the ratio of recommended calories
-        }
+		
+		 if (todayKcal >= recommendedKcal) {
+	            dataset.setValue("섭취칼로리", 100); // Set the ratio of consumed calories to 100
+	            dataset.setValue("권장칼로리", 0);   // Set the ratio of recommended calories to 0
+	        } else {
+	            double consumedRatio = (todayKcal / recommendedKcal) * 100; // Calculate the ratio of consumed calories
+	            double recommendedRatio = 100 - consumedRatio; // Calculate the ratio of recommended calories
+	            dataset.setValue("섭취칼로리", consumedRatio); // Set the ratio of consumed calories
+	            dataset.setValue("권장칼로리", recommendedRatio); // Set the ratio of recommended calories
+	        }
 		// Create chart
 		JFreeChart chart = ChartFactory.createRingChart("", dataset, true, true, false);
 
@@ -101,8 +99,8 @@ public class HalfRingChart extends JFrame {
 
 		// Set section outline paint using Color objects
 		plot.setSectionOutlinePaint(new Color(135, 184, 14));
-		plot.setSectionPaint("시간", new Color(166, 203, 74));
-		plot.setSectionPaint("나머지", new Color(215, 215, 215));
+		plot.setSectionPaint("섭취칼로리", new Color(166, 203, 74));
+		plot.setSectionPaint("권장칼로리", new Color(215, 215, 215));
 
 		// Set center text
 		plot.setLabelGenerator(null); // Remove section labels
