@@ -242,59 +242,59 @@ public class EditProfile extends JFrame {
 	}
 
 	private void updateInfomation() {
-		updateName = nameField.getText();
-		updateAge = Integer.parseInt(ageField.getText());
-		updateHeight = Double.parseDouble(heightField.getText());
-		updateWeight = Double.parseDouble(weightField.getText());
-		LocalDate today = LocalDate.now();
+	    updateName = nameField.getText();
+	    updateAge = Integer.parseInt(ageField.getText());
+	    updateHeight = Double.parseDouble(heightField.getText());
+	    updateWeight = Double.parseDouble(weightField.getText());
+	    LocalDate today = LocalDate.now();
 
-		String updateSql = "UPDATE users SET name = ?, age = ?, height = ?, weight = ?, user_char = ?  WHERE id = ?";
-		
-		try (Connection conn = MySqlConnectionProvider.getConnection();
-			     PreparedStatement pst = conn.prepareStatement(updateSql);
-			) {
+	    String updateSql = "UPDATE users SET name = ?, age = ?, height = ?, weight = ?, user_char = ?  WHERE id = ?";
 
-			    pst.setString(1, updateName);
-			    pst.setInt(2, updateAge);
-			    pst.setDouble(3, updateHeight);
-			    pst.setDouble(4, updateWeight);
-			    pst.setString(6, userId);
+	    try (Connection conn = MySqlConnectionProvider.getConnection();
+	         PreparedStatement pst = conn.prepareStatement(updateSql);
+	    ) {
+	        pst.setString(1, updateName);
+	        pst.setInt(2, updateAge);
+	        pst.setDouble(3, updateHeight);
+	        pst.setDouble(4, updateWeight);
+	        pst.setString(6, userId);
 
-			    if (broccoli.isSelected()) {
-			        pst.setInt(5, 1);
-			    } else if (corn.isSelected()) {
-			        pst.setInt(5, 2);
-			    } else if (tomato.isSelected()) {
-			        pst.setInt(5, 3);
-			    } else {
-			        // 라디오 버튼이 선택되지 않은 경우 처리
-			        System.err.println("캐릭터를 선택하세요.");
-			        return;
-			    }
+	        if (broccoli.isSelected()) {
+	            pst.setInt(5, 1);
+	        } else if (corn.isSelected()) {
+	            pst.setInt(5, 2);
+	        } else if (tomato.isSelected()) {
+	            pst.setInt(5, 3);
+	        } else {
+	            // 라디오 버튼이 선택되지 않은 경우 처리
+	            System.err.println("캐릭터를 선택하세요.");
+	            return;
+	        }
 
-			    pst.executeUpdate();
+	        pst.executeUpdate();
 
-			    // 여기에 pst2에 대한 설정 추가
-			    String updateWeightSql = "INSERT INTO weightrecords (user_id, date, weight) VALUES (?, ?, ?)";
-			    try (PreparedStatement pst2 = conn.prepareStatement(updateWeightSql);) {
-			        if (updateWeight != Double.parseDouble(weightField.getText())) {
-			            pst2.setString(1, userId);
-			            pst2.setDate(2, java.sql.Date.valueOf(today));
-			            pst2.setDouble(3, updateWeight);
+	        // 여기에 pst2에 대한 설정 추가
+	        String updateWeightSql = "INSERT INTO weightrecords (user_id, date, weight) VALUES (?, ?, ?)";
+	        try (PreparedStatement pst2 = conn.prepareStatement(updateWeightSql);) {
+	        	System.out.println(updateWeight);
+	        	System.out.println(Double.parseDouble(weightField.getText()));
+	            if (updateWeight != weight) {
+	                pst2.setString(1, userId);
+	                pst2.setDate(2, java.sql.Date.valueOf(today));
+	                pst2.setDouble(3, updateWeight);
 
-			            pst2.executeUpdate();
-			        }
-			    } catch (SQLException e) {
-			        e.printStackTrace();
-			    }
+	                int rowsAffected = pst2.executeUpdate();
+	                System.out.println("pst2에 의해 영향을 받은 행 수: " + rowsAffected);
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
 
-			} catch (SQLException e) {
-			    e.printStackTrace();
-			}
-
-		
-
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 	}
+
 
 	private void selectImage() {
 		
