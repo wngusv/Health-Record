@@ -141,7 +141,7 @@ public class Snack_FindFoodCalories extends JFrame {
 
 	private void showGUI() {
 		setResizable(false);
-		setSize(491, 601);
+		setSize(482, 601);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
