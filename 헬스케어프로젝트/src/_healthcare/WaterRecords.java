@@ -93,6 +93,7 @@ public class WaterRecords extends JFrame {
 		setSize(403, 416);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		setResizable(false); 
 	}
 
 	private void updateCupCount() {

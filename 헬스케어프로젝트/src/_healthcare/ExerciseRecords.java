@@ -262,6 +262,7 @@ public class ExerciseRecords extends JFrame {
 		loadStartTime();
 		loadHours();
 		setLocationRelativeTo(null);
+		
 	}
 
 	private void loadStartTime() {

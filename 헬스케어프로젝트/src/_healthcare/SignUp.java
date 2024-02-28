@@ -268,6 +268,8 @@ public class SignUp extends JFrame {
 		});
 		setSize(360, 719);
 		setVisible(true);
+		setResizable(false); // 창 크기 고정
+		setLocationRelativeTo(null); // 화면 중앙에 위치
 	}
 
 	private void registerMember() {

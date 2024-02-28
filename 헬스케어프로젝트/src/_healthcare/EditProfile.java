@@ -76,13 +76,15 @@ public class EditProfile extends JFrame {
 		weightField.setText(String.valueOf(weight));
 
 		showgui();
-
+		setLocationRelativeTo(null); // 화면 중앙에 위치
 	}
 
 	private void showgui() {
 		setSize(346, 418);
 		setVisible(true);
 		getContentPane().setLayout(null);
+		setResizable(false); 
+		
 	}
 
 	private void extracted() {
@@ -212,6 +214,8 @@ public class EditProfile extends JFrame {
 		lblNewLabel.setBounds(0, 0, 437, 460);
 		getContentPane().add(lblNewLabel);
 		setTitle("프로필 수정");
+		
+		
 	}
 
 	private void existingInformation() { // 유저의 기본 정보들 가져오는 메소드

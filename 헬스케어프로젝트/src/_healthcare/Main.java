@@ -44,7 +44,7 @@ private int userCharacterNum;
 
         
         
-        setSize(408, 561);
+        setSize(396, 561);
         setVisible(true);
         getContentPane().setLayout(null);
         
@@ -309,6 +309,9 @@ private int userCharacterNum;
         JLabel lblNewLabel_9 = new JLabel("BMI");
         lblNewLabel_9.setBounds(32, 273, 33, 15);
         getContentPane().add(lblNewLabel_9);
+        
+        setResizable(false); // 창 크기 고정
+		setLocationRelativeTo(null); // 화면 중앙에 위치
       
         try( Connection connection = MySqlConnectionProvider.getConnection();
                 Statement statement = connection.createStatement();
