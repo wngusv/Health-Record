@@ -156,8 +156,8 @@ public class MessageBoard extends JFrame {
 	    
 	        Color customColor = new Color(255,250,215);
 	        JPanel panel = new JPanel(new BorderLayout());
-	        panel.setBackground(customColor); // RGB 값을 사용하여 배경색 설정
-	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16); // 적절한 폰트와 크기로 설정
+	        panel.setBackground(customColor);
+	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16);
 	        JLabel contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
 	        contentLabel.setFont(labelFont); // 폰트 설정
 	        contentLabel.setPreferredSize(new Dimension(contentLabel.getPreferredSize().width, 40)); // 세로 크기 조절
@@ -196,6 +196,7 @@ public class MessageBoard extends JFrame {
 	        dialog.getContentPane().add(panel);
 	        dialog.setVisible(true);
 	    }
+
 
 	    private void addMessageToTable(String content) {
 	        LocalDateTime currentDateTime = LocalDateTime.now();
