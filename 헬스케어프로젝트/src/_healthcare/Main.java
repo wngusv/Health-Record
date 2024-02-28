@@ -47,7 +47,7 @@ public class Main extends JFrame {
 
 		// 차트 이미지를 JLabel에 추가하여 화면에 표시
 		JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-		chartLabel.setBounds(264, 237, 64, 62); // 원하는 위치와 크기로 설정
+		chartLabel.setBounds(273, 237, 64, 62); // 원하는 위치와 크기로 설정
 		getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
 		JButton btnNewButton_1 = new JButton("");
@@ -317,6 +317,11 @@ public class Main extends JFrame {
 		JLabel lblNewLabel_9 = new JLabel("BMI");
 		lblNewLabel_9.setBounds(113, 326, 33, 15);
 		getContentPane().add(lblNewLabel_9);
+		
+		JLabel lblNewLabel_6 = new JLabel("");
+		lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리선.png")));
+		lblNewLabel_6.setBounds(246, 237, 6, 85);
+		getContentPane().add(lblNewLabel_6);
 
 		setResizable(false); // 창 크기 고정
 		setLocationRelativeTo(null); // 화면 중앙에 위치
