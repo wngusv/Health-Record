@@ -7,7 +7,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 import javax.swing.JLabel;
 import javax.swing.ButtonGroup;
@@ -76,15 +75,13 @@ public class EditProfile extends JFrame {
 		weightField.setText(String.valueOf(weight));
 
 		showgui();
-		setLocationRelativeTo(null); // 화면 중앙에 위치
+
 	}
 
 	private void showgui() {
 		setSize(346, 418);
 		setVisible(true);
 		getContentPane().setLayout(null);
-		setResizable(false); 
-		
 	}
 
 	private void extracted() {
@@ -214,8 +211,6 @@ public class EditProfile extends JFrame {
 		lblNewLabel.setBounds(0, 0, 437, 460);
 		getContentPane().add(lblNewLabel);
 		setTitle("프로필 수정");
-		
-		
 	}
 
 	private void existingInformation() { // 유저의 기본 정보들 가져오는 메소드
@@ -246,62 +241,61 @@ public class EditProfile extends JFrame {
 	}
 
 	private void updateInfomation() {
-	    updateName = nameField.getText();
-	    updateAge = Integer.parseInt(ageField.getText());
-	    updateHeight = Double.parseDouble(heightField.getText());
-	    updateWeight = Double.parseDouble(weightField.getText());
-	    LocalDate today = LocalDate.now();
+		updateName = nameField.getText();
+		updateAge = Integer.parseInt(ageField.getText());
+		updateHeight = Double.parseDouble(heightField.getText());
+		updateWeight = Double.parseDouble(weightField.getText());
 
-	    String updateSql = "UPDATE users SET name = ?, age = ?, height = ?, weight = ?, user_char = ?  WHERE id = ?";
+		String updateSql = "UPDATE users SET name = ?, age = ?, height = ?, weight = ?, user_char = ?  WHERE id = ?";
+		String updateWeightSql = "INSERT INTO weightrecords (user_id, weight, date) VALUES (?, ?, ?)";
 
-	    try (Connection conn = MySqlConnectionProvider.getConnection();
-	         PreparedStatement pst = conn.prepareStatement(updateSql);
-	    ) {
-	        pst.setString(1, updateName);
-	        pst.setInt(2, updateAge);
-	        pst.setDouble(3, updateHeight);
-	        pst.setDouble(4, updateWeight);
-	        pst.setString(6, userId);
+		try (Connection conn = MySqlConnectionProvider.getConnection();
+				PreparedStatement pst = conn.prepareStatement(updateSql);
+				PreparedStatement pst2 = conn.prepareStatement(updateWeightSql)) {
 
-	        if (broccoli.isSelected()) {
-	            pst.setInt(5, 1);
-	        } else if (corn.isSelected()) {
-	            pst.setInt(5, 2);
-	        } else if (tomato.isSelected()) {
-	            pst.setInt(5, 3);
-	        } else {
-	            // 라디오 버튼이 선택되지 않은 경우 처리
-	            System.err.println("캐릭터를 선택하세요.");
-	            return;
-	        }
+			pst.setString(1, updateName);
+			pst.setInt(2, updateAge);
+			pst.setDouble(3, updateHeight);
+			pst.setDouble(4, updateWeight);
+			pst.setString(6, userId);
 
-	        pst.executeUpdate();
+			if (broccoli.isSelected()) {
+				pst.setInt(5, 1);
+			} else if (corn.isSelected()) {
+				pst.setInt(5, 2);
+			} else if (tomato.isSelected()) {
+				pst.setInt(5, 3);
+			} else {
+				// 라디오 버튼이 선택되지 않은 경우 처리
+				System.err.println("캐릭터를 선택하세요.");
+				return;
+			}
 
-	        // 여기에 pst2에 대한 설정 추가
-	        String updateWeightSql = "INSERT INTO weightrecords (user_id, date, weight) VALUES (?, ?, ?)";
-	        try (PreparedStatement pst2 = conn.prepareStatement(updateWeightSql);) {
-	        	System.out.println(updateWeight);
-	        	System.out.println(Double.parseDouble(weightField.getText()));
-	            if (updateWeight != weight) {
-	                pst2.setString(1, userId);
-	                pst2.setDate(2, java.sql.Date.valueOf(today));
-	                pst2.setDouble(3, updateWeight);
+			pst.executeUpdate();
 
-	                int rowsAffected = pst2.executeUpdate();
-	                System.out.println("pst2에 의해 영향을 받은 행 수: " + rowsAffected);
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+			if (updateWeight != Double.parseDouble(weightField.getText())) {
 
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
+				pst2.setString(1, userId);
+				pst2.setDouble(2, updateWeight);
+				pst2.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis())); // Timestamp 사용
+
+				pst2.executeUpdate();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
-
 	private void selectImage() {
-		
+		/*
+		if (!broccoli.isSelected() \ !corn.isSelected() && !tomato.isSelected()) {
+			btnNewButton.setEnabled(false);
+		} else if (broccoli.isSelected() || corn.isSelected() || tomato.isSelected()) {
+
+			btnNewButton.setEnabled(true);
+		}
+		*/
 		btnNewButton.setEnabled(true);
 	}
 }

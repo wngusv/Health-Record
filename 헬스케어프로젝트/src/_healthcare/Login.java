@@ -201,7 +201,7 @@ public class Login extends JFrame {
    class LoginDialog extends JDialog {
        public LoginDialog(JFrame frame) {
            super(frame, "", true); 
-           setSize(300, 110);
+           setSize(300, 100);
            setLocationRelativeTo(frame);
 
            JPanel panel = new JPanel();
@@ -213,6 +213,7 @@ public class Login extends JFrame {
            closeButton.setContentAreaFilled(false);
            closeButton.setBorderPainted(false);
            closeButton.setFocusPainted(false);
+          
            panel.add(label);
            panel.add(closeButton);
            panel.setBackground(Color.WHITE);

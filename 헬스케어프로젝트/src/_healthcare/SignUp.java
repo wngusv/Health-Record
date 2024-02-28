@@ -2,23 +2,32 @@ package _healthcare;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import _healthcare.Login.LoginDialog;
 import dbutil.MySqlConnectionProvider;
 import java.awt.Color;
+import java.awt.Dialog;
+
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Window;
 
 public class SignUp extends JFrame {
 
@@ -40,8 +49,10 @@ public class SignUp extends JFrame {
 	private JRadioButton broccoli;
 	private JRadioButton corn;
 	private JRadioButton tomato;
+	private Onboarding onboardingPanel;
 
 	public SignUp() {
+		onboardingPanel = new Onboarding();
 		setTitle("회원가입");
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
@@ -268,8 +279,6 @@ public class SignUp extends JFrame {
 		});
 		setSize(360, 719);
 		setVisible(true);
-		setResizable(false); // 창 크기 고정
-		setLocationRelativeTo(null); // 화면 중앙에 위치
 	}
 
 	private void registerMember() {
@@ -316,8 +325,9 @@ public class SignUp extends JFrame {
 
 			int insert = preparedStatement.executeUpdate();
 			if (insert > 0) {
-				JOptionPane.showMessageDialog(this, "회원 등록 완료");
-				new Login();
+				// new Login();
+				new SignUpDialog(onboardingPanel).setVisible(true);
+				 
 				dispose();
 			} else {
 				JOptionPane.showMessageDialog(this, "회원 등록 실패");
@@ -327,6 +337,46 @@ public class SignUp extends JFrame {
 			System.out.println(ex.getMessage());
 		}
 	}
+	class SignUpDialog extends JDialog {
+	    private Onboarding onboarding;
+
+	    public SignUpDialog(Onboarding onboarding) {
+	        super((Window) null, "", Dialog.ModalityType.APPLICATION_MODAL); 
+	        this.onboarding = onboarding;
+	        setSize(300, 100);
+	        setLocationRelativeTo(onboarding);
+
+	        JPanel panel = new JPanel();
+	        JLabel label = new JLabel("회원 가입 완료");
+	        label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+	        
+	        JButton closeButton = new JButton();
+	        closeButton.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+	        closeButton.setContentAreaFilled(false);
+	        closeButton.setBorderPainted(false);
+	        closeButton.setFocusPainted(false);
+	       
+	        panel.add(label);
+	        panel.add(closeButton);
+	        panel.setBackground(Color.WHITE);
+
+	        closeButton.addActionListener(new ActionListener() {
+	            @Override
+	            public void actionPerformed(ActionEvent e) {
+	                dispose();
+	                onboarding.setVisible(true); // Onboarding 창을 보이도록 함
+	            }
+	        });
+
+	        add(panel);
+	        addWindowListener(new WindowAdapter() {
+	        	public void windowClosing(WindowEvent e) {
+	                new Onboarding();
+	        	}
+			});
+	    }
+	}
+
 
 	public static void main(String[] args) {
 		new SignUp();

@@ -67,15 +67,12 @@ public class Lunch_FindFoodCalories extends JFrame {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			
-			try(ResultSet rs = pst.executeQuery();){
-				
-				while (rs.next()) {
-					String eatenFoodList = rs.getString("lunch_meal");
-					// "단식"이 아닌 경우에만 리스트에 추가
-					if (!"단식".equals(eatenFoodList)) {
-						list.add(eatenFoodList);
-					}
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				String eatenFoodList = rs.getString("lunch_meal");
+				// "단식"이 아닌 경우에만 리스트에 추가
+				if (!"단식".equals(eatenFoodList)) {
+					list.add(eatenFoodList);
 				}
 			}
 
@@ -102,22 +99,19 @@ public class Lunch_FindFoodCalories extends JFrame {
 				PreparedStatement pst = conn.prepareStatement(selectQuery);) {
 			pst.setString(1, "%" + findFoodName + "%");
 
-			
-			try(ResultSet rs = pst.executeQuery();){
-				
-				while (rs.next()) {
-					String foodName = rs.getString("foodName");
-					
-					double oneServing = rs.getDouble("oneServing");
-					String unit = rs.getString("unit");
-					String oneServingAndUnit = oneServing + unit;
-					
-					double calories = rs.getDouble("calories");
-					
-					FoodData foodData = new FoodData(foodName, oneServingAndUnit, calories);
-					list.add(foodData);
-					
-				}
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				String foodName = rs.getString("foodName");
+
+				double oneServing = rs.getDouble("oneServing");
+				String unit = rs.getString("unit");
+				String oneServingAndUnit = oneServing + unit;
+
+				double calories = rs.getDouble("calories");
+
+				FoodData foodData = new FoodData(foodName, oneServingAndUnit, calories);
+				list.add(foodData);
+
 			}
 
 			// 검색 결과를 테이블에 업데이트

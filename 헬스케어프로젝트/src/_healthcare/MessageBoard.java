@@ -42,8 +42,6 @@ public class MessageBoard extends JFrame {
    private DefaultTableModel tableModel;
    private JTable table;
    private String loginId;
-private JLabel contentLabel;
-private JTextArea contentTextArea;
 
    public MessageBoard(String loginId) {
       this.loginId = loginId;
@@ -158,13 +156,13 @@ private JTextArea contentTextArea;
 	    
 	        Color customColor = new Color(255,250,215);
 	        JPanel panel = new JPanel(new BorderLayout());
-	        panel.setBackground(customColor); // RGB 값을 사용하여 배경색 설정
-	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16); // 적절한 폰트와 크기로 설정
-	        contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
+	        panel.setBackground(customColor);
+	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16);
+	        JLabel contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
 	        contentLabel.setFont(labelFont); // 폰트 설정
 	        contentLabel.setPreferredSize(new Dimension(contentLabel.getPreferredSize().width, 40)); // 세로 크기 조절
 	        Font labelFont2 = new Font("휴먼편지체", Font.PLAIN, 16);
-	        contentTextArea = new JTextArea();
+	        JTextArea contentTextArea = new JTextArea();
 	        contentTextArea.setFont(labelFont2); // 폰트 설정
 	        contentTextArea.setLineWrap(true); // 줄 바꿈 활성화
 	        contentTextArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈 활성화
@@ -182,7 +180,6 @@ private JTextArea contentTextArea;
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                String content = contentTextArea.getText();
-	                addMessage();
 	                if (!content.isEmpty()) {
 	                    addMessageToTable(content);
 	                    dialog.dispose();
@@ -199,6 +196,7 @@ private JTextArea contentTextArea;
 	        dialog.getContentPane().add(panel);
 	        dialog.setVisible(true);
 	    }
+
 
 	    private void addMessageToTable(String content) {
 	        LocalDateTime currentDateTime = LocalDateTime.now();
@@ -245,7 +243,7 @@ private JTextArea contentTextArea;
    private void addMessage() {
 	   LocalDateTime currentDateTime = LocalDateTime.now();
       String id = loginId; // 로그인한 아이디
-      String content = contentTextArea.getText();
+      String content = JOptionPane.showInputDialog(this, "Enter Content:");
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
          Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
          tableModel.addRow(rowData);

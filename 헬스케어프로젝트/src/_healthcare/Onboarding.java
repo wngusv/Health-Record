@@ -30,12 +30,14 @@ public class Onboarding extends JPanel {
             JLabel imageLabel = new JLabel(imageIcon);
             cardPanel.add(imageLabel);
             cardsPanel.add(cardPanel, fileName);
+            
         }
-
         add(cardsPanel, BorderLayout.CENTER);
+        
 
         // 이전 카드로 이동하는 버튼
-        JButton prevButton = new JButton("이전");
+        JButton prevButton = new JButton("<");
+        prevButton.setForeground(Color.GRAY);
         prevButton.setContentAreaFilled(false);
         prevButton.setBorderPainted(false);
         prevButton.setFocusPainted(false);
@@ -47,7 +49,8 @@ public class Onboarding extends JPanel {
         });
 
         // 다음 카드로 이동하는 버튼
-        JButton nextButton = new JButton("다음");
+        JButton nextButton = new JButton(">");
+        nextButton.setForeground(Color.GRAY);
         nextButton.setContentAreaFilled(false);
         nextButton.setBorderPainted(false);
         nextButton.setFocusPainted(false);
@@ -63,15 +66,17 @@ public class Onboarding extends JPanel {
         buttonPanel.add(nextButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
+        
+        
     }
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("운동 프로그램 온보딩");
+    	JFrame frame = new JFrame("운동 프로그램 온보딩");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(368, 620);
+        frame.setSize(380, 630);
 
         Onboarding onboardingPanel = new Onboarding();
-        frame.add(onboardingPanel);
+        frame.getContentPane().add(onboardingPanel);
 
         frame.setVisible(true);
     }
