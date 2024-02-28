@@ -62,14 +62,20 @@ public class Main extends JFrame {
 		btnNewButton_1.setBorderPainted(false);
 		btnNewButton_1.setFocusPainted(false);
 
-		JButton btnNewButton_2 = new JButton("프로필수정버튼");
+		JButton btnNewButton_2 = new JButton("");
+		btnNewButton_2.setToolTipText("프로필 수정하기 버튼");
+		btnNewButton_2.setIcon(new ImageIcon(Main.class.getResource("/image/설정버튼.png")));
+		btnNewButton_2.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new EditProfile(loginId);
 				dispose();
 			}
 		});
-		btnNewButton_2.setBounds(251, 199, 113, 23);
+		btnNewButton_2.setContentAreaFilled(false);
+		btnNewButton_2.setBorderPainted(false);
+		btnNewButton_2.setFocusPainted(false);
+		btnNewButton_2.setBounds(325, 193, 43, 23);
 		getContentPane().add(btnNewButton_2);
 
 		JLabel lblNewLabel_5 = new JLabel("활기록");
@@ -205,6 +211,7 @@ public class Main extends JFrame {
 		}
 
 		lblKg = new JLabel("New label");
+		lblKg.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblKg.setBounds(232, 168, 57, 15);
 		getContentPane().add(lblKg);
 
@@ -224,6 +231,7 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblName = new JLabel("New label");
+		lblName.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblName.setBounds(232, 93, 57, 15);
 		getContentPane().add(lblName);
 
@@ -242,6 +250,7 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblAge = new JLabel("New label");
+		lblAge.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblAge.setBounds(232, 118, 57, 15);
 		getContentPane().add(lblAge);
 
@@ -260,25 +269,26 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblHeight = new JLabel("New label");
+		lblHeight.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblHeight.setBounds(232, 143, 57, 15);
 		getContentPane().add(lblHeight);
 
-		JLabel lblNewLabel = new JLabel("이름");
+		JLabel lblNewLabel = new JLabel("이름:");
 		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblNewLabel.setBounds(180, 94, 57, 15);
 		getContentPane().add(lblNewLabel);
 
-		JLabel lblNewLabel_1 = new JLabel("나이");
+		JLabel lblNewLabel_1 = new JLabel("나이:");
 		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(180, 119, 57, 15);
 		getContentPane().add(lblNewLabel_1);
 
-		JLabel lblNewLabel_2 = new JLabel("키");
+		JLabel lblNewLabel_2 = new JLabel("키:");
 		lblNewLabel_2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblNewLabel_2.setBounds(190, 144, 57, 15);
 		getContentPane().add(lblNewLabel_2);
 
-		JLabel lblNewLabel_3 = new JLabel("몸무게");
+		JLabel lblNewLabel_3 = new JLabel("몸무게:");
 		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblNewLabel_3.setBounds(170, 169, 57, 15);
 		getContentPane().add(lblNewLabel_3);
@@ -296,7 +306,7 @@ public class Main extends JFrame {
 
 		JLabel lblNewLabel_7 = new JLabel("New label");
 		lblNewLabel_7.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리색2.png")));
-		lblNewLabel_7.setBounds(24, 58, 340, 164);
+		lblNewLabel_7.setBounds(24, 58, 340, 161);
 		getContentPane().add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("");
