@@ -49,9 +49,9 @@ public class Login extends JFrame {
 
       loginButton = new JButton("");
       loginButton.setIcon(new ImageIcon(Login.class.getResource("/image/로그인.png")));
-      loginButton.setOpaque(false);
-      loginButton.setContentAreaFilled(false); // 내용 영역을 채우지 않음
-      loginButton.setBorderPainted(false); // 테두리 제거
+      loginButton.setContentAreaFilled(false);
+      loginButton.setBorderPainted(false);
+      loginButton.setFocusPainted(false);
       loginButton.setBounds(62, 170, 215, 46);
       getContentPane().add(loginButton);
       getRootPane().setDefaultButton(loginButton);
@@ -83,9 +83,9 @@ public class Login extends JFrame {
 
       JButton signUpButton = new JButton("");
       signUpButton.setIcon(new ImageIcon(Login.class.getResource("/image/회원가입.png")));
-      signUpButton.setOpaque(false);
-      signUpButton.setContentAreaFilled(false); // 내용 영역을 채우지 않음
-      signUpButton.setBorderPainted(false); // 테두리 제거
+      signUpButton.setContentAreaFilled(false);
+      signUpButton.setBorderPainted(false);
+      signUpButton.setFocusPainted(false);
       signUpButton.setBounds(51, 209, 239, 45);
       getContentPane().add(signUpButton);
 
