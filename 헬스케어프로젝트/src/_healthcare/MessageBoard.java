@@ -47,8 +47,10 @@ private JTextArea contentTextArea;
 
    public MessageBoard(String loginId) {
       this.loginId = loginId;
+      setResizable(false); // 창 크기 고정
       setTitle("게시판");
-      setSize(947, 547);
+      setSize(934, 534);
+      setLocationRelativeTo(null); // 화면 중앙에 위치
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       System.out.println("로그인한 ID:" + loginId);
       initializeTable();
