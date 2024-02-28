@@ -233,6 +233,10 @@ public class ExerciseRecords extends JFrame {
 		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
 		lblNewLabel_3.setBounds(93, 512, 104, 41);
 		getContentPane().add(lblNewLabel_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setBounds(201, 515, 96, 28);
+		getContentPane().add(lblNewLabel_4);
 
 		ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
 		// 운동종료 버튼 클릭 시 이벤트 리스너
@@ -250,12 +254,27 @@ public class ExerciseRecords extends JFrame {
 					// MySQL에 현재 시간 삽입
 					// 운동 종료 시간을 갱신
 					String sql = "UPDATE exerciserecords SET end_time = NOW() WHERE exercise_name = ? AND start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+					String sql2 = "SELECT kcal_exercise FROM exerciserecords WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
 					try (Connection conn = MySqlConnectionProvider.getConnection();
-							PreparedStatement stmt = conn.prepareStatement(sql);) {
+							PreparedStatement stmt = conn.prepareStatement(sql);
+							PreparedStatement stmt2 = conn.prepareStatement(sql2);
+							) {
 						stmt.setString(1, selectedExercise);
 						stmt.setString(2, startTime);
 						stmt.setString(3, loginId);
 						stmt.executeUpdate();
+						
+						stmt2.setString(1, startTime);
+						stmt2.setString(2, loginId);
+						stmt2.execute();
+						
+						try(ResultSet rs = stmt2.executeQuery()){
+							Double kcal = 0.0;
+							while(rs.next()) {
+								kcal = rs.getDouble("kcal_exercise");
+							}
+							lblNewLabel_4.setText(String.valueOf(kcal));
+						}
 					} catch (SQLException ex) {
 						ex.printStackTrace();
 					} catch (Exception ex) {
@@ -336,9 +355,4 @@ public class ExerciseRecords extends JFrame {
 		System.out.println(timediff);
 //		lblTimeDiff.setText(timediff); // 라벨에 값 설정
 	}
-
-	/*
-	 * private void exerciseHourAndKcal() { String sql = "SELECT " }
-	 */
-
 }
