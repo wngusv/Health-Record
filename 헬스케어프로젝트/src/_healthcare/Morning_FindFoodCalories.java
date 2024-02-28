@@ -152,7 +152,7 @@ public class Morning_FindFoodCalories extends JFrame {
 
 	private void showGUI() {
 		setResizable(false); // 창 크기 고정
-		setSize(494, 608);
+		setSize(483, 608);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);

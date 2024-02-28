@@ -317,7 +317,8 @@ public class Main extends JFrame {
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("BMI");
-		lblNewLabel_9.setBounds(113, 326, 33, 15);
+		lblNewLabel_9.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel_9.setBounds(116, 324, 33, 15);
 		getContentPane().add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_6 = new JLabel("");
