@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
@@ -247,9 +248,15 @@ public class EditProfile extends JFrame {
 
 	private void updateInfomation() {
 	    updateName = nameField.getText();
-	    updateAge = Integer.parseInt(ageField.getText());
-	    updateHeight = Double.parseDouble(heightField.getText());
-	    updateWeight = Double.parseDouble(weightField.getText());
+	    try {
+	    	updateAge = Integer.parseInt(ageField.getText());
+		    updateHeight = Double.parseDouble(heightField.getText());
+		    updateWeight = Double.parseDouble(weightField.getText());
+	    } catch(NumberFormatException e) {
+	    	// 숫자 변환 오류 발생 시 다이얼로그 창 띄우기
+	        JOptionPane.showMessageDialog(null, "나이,키,몸무게 칸에는 숫자를 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+	    }
+	    
 	    LocalDate today = LocalDate.now();
 
 	    String updateSql = "UPDATE users SET name = ?, age = ?, height = ?, weight = ?, user_char = ?  WHERE id = ?";
