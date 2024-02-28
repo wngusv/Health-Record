@@ -118,7 +118,6 @@ public class Dinner_FindFoodCalories extends JFrame {
 
 				FoodData foodData = new FoodData(foodName, oneServingAndUnit, calories);
 				list.add(foodData);
-
 			}
 
 			// 검색 결과를 테이블에 업데이트
