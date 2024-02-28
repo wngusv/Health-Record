@@ -42,6 +42,8 @@ public class MessageBoard extends JFrame {
    private DefaultTableModel tableModel;
    private JTable table;
    private String loginId;
+private JLabel contentLabel;
+private JTextArea contentTextArea;
 
    public MessageBoard(String loginId) {
       this.loginId = loginId;
@@ -158,11 +160,11 @@ public class MessageBoard extends JFrame {
 	        JPanel panel = new JPanel(new BorderLayout());
 	        panel.setBackground(customColor); // RGB 값을 사용하여 배경색 설정
 	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16); // 적절한 폰트와 크기로 설정
-	        JLabel contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
+	        contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
 	        contentLabel.setFont(labelFont); // 폰트 설정
 	        contentLabel.setPreferredSize(new Dimension(contentLabel.getPreferredSize().width, 40)); // 세로 크기 조절
 	        Font labelFont2 = new Font("휴먼편지체", Font.PLAIN, 16);
-	        JTextArea contentTextArea = new JTextArea();
+	        contentTextArea = new JTextArea();
 	        contentTextArea.setFont(labelFont2); // 폰트 설정
 	        contentTextArea.setLineWrap(true); // 줄 바꿈 활성화
 	        contentTextArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈 활성화
@@ -180,6 +182,7 @@ public class MessageBoard extends JFrame {
 	            @Override
 	            public void actionPerformed(ActionEvent e) {
 	                String content = contentTextArea.getText();
+	                addMessage();
 	                if (!content.isEmpty()) {
 	                    addMessageToTable(content);
 	                    dialog.dispose();
@@ -242,7 +245,7 @@ public class MessageBoard extends JFrame {
    private void addMessage() {
 	   LocalDateTime currentDateTime = LocalDateTime.now();
       String id = loginId; // 로그인한 아이디
-      String content = JOptionPane.showInputDialog(this, "Enter Content:");
+      String content = contentTextArea.getText();
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
          Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
          tableModel.addRow(rowData);

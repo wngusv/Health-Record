@@ -455,7 +455,7 @@ public class ExerciseCalendar extends JFrame {
 						dayPanel.add(kcalLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가하여 텍스트 레이블 위에 표시
 						// 색상 변경
 						if (todayKcal < recommendedKcal) {
-							kcalLabel.setForeground(Color.GREEN);
+							kcalLabel.setForeground(Color.BLUE);
 							if (todayKcal == 0.0) {
 								kcalLabel.setText(todayKcalText);
 								kcalLabel.setForeground(Color.GRAY);
