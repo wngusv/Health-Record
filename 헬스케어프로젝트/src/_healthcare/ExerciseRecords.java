@@ -245,6 +245,7 @@ public class ExerciseRecords extends JFrame {
 		btn_end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
 				
 				// 현재 시간 가져오기
 				LocalDateTime now = LocalDateTime.now();
@@ -267,6 +268,10 @@ public class ExerciseRecords extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+				} catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+				
 			}
 		});
 
@@ -278,6 +283,7 @@ public class ExerciseRecords extends JFrame {
 	}
 
 	private void loadStartTime() {
+		System.out.println("DEBUG: loadStartTime() method called");
 		String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(sql);) {
@@ -295,6 +301,8 @@ public class ExerciseRecords extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		 System.out.println("DEBUG: loadStartTime() - startTime: " + startTime); // 디버깅 로그 추가
 	}
 
 	private void loadExerciseName() {
