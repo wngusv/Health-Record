@@ -31,6 +31,8 @@ public class Main extends JFrame {
 	private JLabel user_character = new JLabel();
 	private int userCharacterNum;
 	private JLabel chartLabel;
+	private double todayKcal;
+	private double recommendedKcal;
 
 	public Main(String loginId) {
 		setTitle("마이 페이지");
@@ -47,7 +49,7 @@ public class Main extends JFrame {
 
 		// 차트 이미지를 JLabel에 추가하여 화면에 표시
 		JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-		chartLabel.setBounds(273, 237, 64, 62); // 원하는 위치와 크기로 설정
+		chartLabel.setBounds(281, 238, 64, 62); // 원하는 위치와 크기로 설정
 		getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
 		JButton btnNewButton_1 = new JButton("");
@@ -322,7 +324,48 @@ public class Main extends JFrame {
 		lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리선.png")));
 		lblNewLabel_6.setBounds(246, 237, 6, 85);
 		getContentPane().add(lblNewLabel_6);
+		
+		JLabel lblNewLabel_10 = new JLabel("");
+		lblNewLabel_10.setBounds(273, 309, 112, 15);
+		getContentPane().add(lblNewLabel_10);
+		// 오늘의 섭취칼로리
+				String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
+				try (Connection conn = MySqlConnectionProvider.getConnection();
+						PreparedStatement pst = conn.prepareStatement(query)) {
 
+					pst.setString(1, loginId);
+
+					try (ResultSet rs = pst.executeQuery()) {
+						if (rs.next()) {
+							todayKcal = rs.getDouble("eat_kcal");
+							System.out.println(todayKcal);
+						}
+					}
+
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+				// 권장칼로리 불러오기
+				String query2 = "SELECT recommended_kcal FROM users WHERE id = ?";
+				try (Connection conn2 = MySqlConnectionProvider.getConnection();
+						PreparedStatement pst2 = conn2.prepareStatement(query2)) {
+
+					pst2.setString(1, loginId);
+
+					try (ResultSet rs2 = pst2.executeQuery()) {
+						if (rs2.next()) {
+							recommendedKcal = rs2.getDouble("recommended_kcal");
+							System.out.println(recommendedKcal);
+						}
+					}
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				String todayKcalText = String.format("%.0f", todayKcal);
+				String recommendedKcalText = String.format("%.0f", recommendedKcal);
+				lblNewLabel_10.setText(todayKcalText + " " + "/" + " " + recommendedKcalText + "kcal");
+				
 		setResizable(false); // 창 크기 고정
 		setLocationRelativeTo(null); // 화면 중앙에 위치
 
@@ -412,6 +455,6 @@ public class Main extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 }

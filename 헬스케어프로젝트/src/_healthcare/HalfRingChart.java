@@ -24,7 +24,7 @@ public class HalfRingChart extends JFrame {
 
 	public HalfRingChart(String loginId) {
 		this.loginId = loginId;
-		// 오늘의 섭취칼로리 - 소모칼로리 불러오기
+		// 오늘의 섭취칼로리
 		String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(query)) {
@@ -105,7 +105,12 @@ public class HalfRingChart extends JFrame {
 		// Set center text
 		plot.setLabelGenerator(null); // Remove section labels
 		plot.setInteriorGap(0.3); // Set interior gap to create a half-ring effect
+		String labelText = String.format("섭취 칼로리: %.2f, 권장 칼로리: %.2f", todayKcal, recommendedKcal);
+		JLabel label = new JLabel(labelText);
 
+
+		// Add label to the bottom of the chart panel
+		add(label, BorderLayout.SOUTH);
 		// Display chart in a panel
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new Dimension(300, 150));
