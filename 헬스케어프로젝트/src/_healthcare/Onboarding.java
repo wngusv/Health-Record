@@ -70,13 +70,14 @@ public class Onboarding extends JPanel {
         
     }
 
+
     public static void main(String[] args) {
-    	JFrame frame = new JFrame("운동 프로그램 온보딩");
+        JFrame frame = new JFrame("운동 프로그램 온보딩");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(380, 630);
+        frame.setSize(371, 620);
 
         Onboarding onboardingPanel = new Onboarding();
-        frame.getContentPane().add(onboardingPanel);
+        frame.add(onboardingPanel);
 
         frame.setVisible(true);
     }

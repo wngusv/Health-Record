@@ -42,6 +42,8 @@ public class MessageBoard extends JFrame {
    private DefaultTableModel tableModel;
    private JTable table;
    private String loginId;
+private JLabel contentLabel;
+private JTextArea contentTextArea;
 
    public MessageBoard(String loginId) {
       this.loginId = loginId;
@@ -93,125 +95,125 @@ public class MessageBoard extends JFrame {
 
 
 
-	    private void addComponents() {
-	        getContentPane().setLayout(null);
-	        
-	        JButton btnBack = new JButton("");
-	        btnBack.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/뒤로가기.png")));
-	        btnBack.setBounds(5, 13, 39, 23);
-	        btnBack.setContentAreaFilled(false);
-	        btnBack.setBorderPainted(false);
-	        btnBack.setFocusPainted(false);
-	        getContentPane().add(btnBack);
-	        btnBack.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					dispose();
-					new Main(loginId);
-				}
-			});
-	        
-	        JLabel lblNewLabel_2 = new JLabel("게시판");
-	        lblNewLabel_2.setFont(new Font("휴먼편지체", Font.BOLD, 25));
-	        lblNewLabel_2.setForeground(Color.WHITE);
-	        lblNewLabel_2.setBounds(56, 9, 73, 30);
-	        getContentPane().add(lblNewLabel_2);
-	        JScrollPane scrollPane = new JScrollPane(table);
-	        scrollPane.setBounds(0, 46, 931, 436);
-	        getContentPane().add(scrollPane);
+       private void addComponents() {
+           getContentPane().setLayout(null);
+           
+           JButton btnBack = new JButton("");
+           btnBack.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/뒤로가기.png")));
+           btnBack.setBounds(5, 13, 39, 23);
+           btnBack.setContentAreaFilled(false);
+           btnBack.setBorderPainted(false);
+           btnBack.setFocusPainted(false);
+           getContentPane().add(btnBack);
+           btnBack.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+               dispose();
+               new Main(loginId);
+            }
+         });
+           
+           JLabel lblNewLabel_2 = new JLabel("게시판");
+           lblNewLabel_2.setFont(new Font("휴먼편지체", Font.BOLD, 25));
+           lblNewLabel_2.setForeground(Color.WHITE);
+           lblNewLabel_2.setBounds(56, 9, 73, 30);
+           getContentPane().add(lblNewLabel_2);
+           JScrollPane scrollPane = new JScrollPane(table);
+           scrollPane.setBounds(0, 46, 931, 436);
+           getContentPane().add(scrollPane);
 
-	        JButton addButton = new JButton("");
-	        addButton.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/게시판글쓰기.png")));
-	        addButton.setBounds(0, 482, 931, 25);
-	        addButton.setContentAreaFilled(false);
-	        addButton.setBorderPainted(false);
-	        addButton.setFocusPainted(false);
+           JButton addButton = new JButton("");
+           addButton.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/게시판글쓰기.png")));
+           addButton.setBounds(0, 482, 931, 25);
+           addButton.setContentAreaFilled(false);
+           addButton.setBorderPainted(false);
+           addButton.setFocusPainted(false);
 
-	        addButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                // 글쓰기 다이얼로그 열기
-	                openWriteDialog();
-	            }
-	        });
+           addButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   // 글쓰기 다이얼로그 열기
+                   openWriteDialog();
+               }
+           });
 
-	        getContentPane().add(addButton);
-	        
-	        JLabel lblNewLabel = new JLabel("");
-	        lblNewLabel.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/큰초록바.png")));
-	        lblNewLabel.setBounds(0, 0, 824, 47);
-	        getContentPane().add(lblNewLabel);
-	        
-	        JLabel lblNewLabel_1 = new JLabel("");
-	        lblNewLabel_1.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/큰초록바.png")));
-	        lblNewLabel_1.setBounds(823, 0, 108, 47);
-	        getContentPane().add(lblNewLabel_1);
-	    }
+           getContentPane().add(addButton);
+           
+           JLabel lblNewLabel = new JLabel("");
+           lblNewLabel.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/큰초록바.png")));
+           lblNewLabel.setBounds(0, 0, 824, 47);
+           getContentPane().add(lblNewLabel);
+           
+           JLabel lblNewLabel_1 = new JLabel("");
+           lblNewLabel_1.setIcon(new ImageIcon(MessageBoard.class.getResource("/image/큰초록바.png")));
+           lblNewLabel_1.setBounds(823, 0, 108, 47);
+           getContentPane().add(lblNewLabel_1);
+       }
 
-	    private void openWriteDialog() {
-	        JDialog dialog = new JDialog(this, "글쓰기", true);
-	        dialog.setSize(400, 200);
-	        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-	        dialog.setLocationRelativeTo(this);
-	        
-	    
-	        Color customColor = new Color(255,250,215);
-	        JPanel panel = new JPanel(new BorderLayout());
-	        panel.setBackground(customColor);
-	        Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16);
-	        JLabel contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
-	        contentLabel.setFont(labelFont); // 폰트 설정
-	        contentLabel.setPreferredSize(new Dimension(contentLabel.getPreferredSize().width, 40)); // 세로 크기 조절
-	        Font labelFont2 = new Font("휴먼편지체", Font.PLAIN, 16);
-	        JTextArea contentTextArea = new JTextArea();
-	        contentTextArea.setFont(labelFont2); // 폰트 설정
-	        contentTextArea.setLineWrap(true); // 줄 바꿈 활성화
-	        contentTextArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈 활성화
-	        JScrollPane scrollPane = new JScrollPane(contentTextArea);
-	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 수직 스크롤 자동 표시
-	        
-	        
-	        JButton submitButton = new JButton("등록");
-	        Dimension buttonSize = new Dimension(400, 25);
-	        submitButton.setPreferredSize(buttonSize);
-	        submitButton.setContentAreaFilled(false); 
-	        ImageIcon icon = new ImageIcon(getClass().getResource("/image/글쓰기등록.png"));
-	        submitButton.setIcon(icon);
-	        submitButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                String content = contentTextArea.getText();
-	                if (!content.isEmpty()) {
-	                    addMessageToTable(content);
-	                    dialog.dispose();
-	                } else {
-	                    JOptionPane.showMessageDialog(dialog, "내용을 입력하세요.", "알림", JOptionPane.WARNING_MESSAGE);
-	                }
-	            }
-	        });
+       private void openWriteDialog() {
+           JDialog dialog = new JDialog(this, "글쓰기", true);
+           dialog.setSize(400, 200);
+           dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+           dialog.setLocationRelativeTo(this);
+           
+       
+           Color customColor = new Color(255,250,215);
+           JPanel panel = new JPanel(new BorderLayout());
+           panel.setBackground(customColor); // RGB 값을 사용하여 배경색 설정
+           Font labelFont = new Font("휴먼편지체", Font.PLAIN, 16); // 적절한 폰트와 크기로 설정
+           contentLabel = new JLabel(" 내용: (255자까지 입력 가능합니다)");
+           contentLabel.setFont(labelFont); // 폰트 설정
+           contentLabel.setPreferredSize(new Dimension(contentLabel.getPreferredSize().width, 40)); // 세로 크기 조절
+           Font labelFont2 = new Font("휴먼편지체", Font.PLAIN, 16);
+           contentTextArea = new JTextArea();
+           contentTextArea.setFont(labelFont2); // 폰트 설정
+           contentTextArea.setLineWrap(true); // 줄 바꿈 활성화
+           contentTextArea.setWrapStyleWord(true); // 단어 단위 줄 바꿈 활성화
+           JScrollPane scrollPane = new JScrollPane(contentTextArea);
+           scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); // 수직 스크롤 자동 표시
+           
+           
+           JButton submitButton = new JButton("등록");
+           Dimension buttonSize = new Dimension(400, 25);
+           submitButton.setPreferredSize(buttonSize);
+           submitButton.setContentAreaFilled(false); 
+           ImageIcon icon = new ImageIcon(getClass().getResource("/image/글쓰기등록.png"));
+           submitButton.setIcon(icon);
+           submitButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   String content = contentTextArea.getText();
+                   addMessage();
+                   if (!content.isEmpty()) {
+                       addMessageToTable(content);
+                       dialog.dispose();
+                   } else {
+                       JOptionPane.showMessageDialog(dialog, "내용을 입력하세요.", "알림", JOptionPane.WARNING_MESSAGE);
+                   }
+               }
+           });
 
-	        panel.add(contentLabel, BorderLayout.NORTH);
-	        panel.add(scrollPane, BorderLayout.CENTER);
-	        panel.add(submitButton, BorderLayout.SOUTH);
+           panel.add(contentLabel, BorderLayout.NORTH);
+           panel.add(scrollPane, BorderLayout.CENTER);
+           panel.add(submitButton, BorderLayout.SOUTH);
 
-	        dialog.getContentPane().add(panel);
-	        dialog.setVisible(true);
-	    }
+           dialog.getContentPane().add(panel);
+           dialog.setVisible(true);
+       }
 
+       private void addMessageToTable(String content) {
+           LocalDateTime currentDateTime = LocalDateTime.now();
+           String id = loginId;
 
-	    private void addMessageToTable(String content) {
-	        LocalDateTime currentDateTime = LocalDateTime.now();
-	        String id = loginId;
+           if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
+               Object[] rowData = {tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false};
+               tableModel.addRow(rowData);
 
-	        if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
-	            Object[] rowData = {tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false};
-	            tableModel.addRow(rowData);
+               // 데이터베이스에도 추가하는 로직을 여기에 추가할 수 있습니다.
 
-	            // 데이터베이스에도 추가하는 로직을 여기에 추가할 수 있습니다.
-
-	        } else {
-	            JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
-	        }
-	    }
+           } else {
+               JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+           }
+       }
 
    // 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
    private void loadMessage() { 
@@ -241,9 +243,9 @@ public class MessageBoard extends JFrame {
 
    // 글쓰기
    private void addMessage() {
-	   LocalDateTime currentDateTime = LocalDateTime.now();
+      LocalDateTime currentDateTime = LocalDateTime.now();
       String id = loginId; // 로그인한 아이디
-      String content = JOptionPane.showInputDialog(this, "Enter Content:");
+      String content = contentTextArea.getText();
       if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
          Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
          tableModel.addRow(rowData);
@@ -372,15 +374,15 @@ public class MessageBoard extends JFrame {
    private class ToggleButtonRenderer extends JToggleButton implements TableCellRenderer {
       private AbstractButton button;
 
-	public ToggleButtonRenderer(ImageIcon selectedIcon) {
-    	  super();
-    	  ImageIcon unselectedIcon = new ImageIcon("src/image/like2.png");
-    	  setIcon(unselectedIcon);
-    	  setSelectedIcon(selectedIcon);
-    	  
-    	  setHorizontalAlignment(SwingConstants.CENTER);
-    	  setBorderPainted(false);
-    	  
+   public ToggleButtonRenderer(ImageIcon selectedIcon) {
+         super();
+         ImageIcon unselectedIcon = new ImageIcon("src/image/like2.png");
+         setIcon(unselectedIcon);
+         setSelectedIcon(selectedIcon);
+         
+         setHorizontalAlignment(SwingConstants.CENTER);
+         setBorderPainted(false);
+         
       }
 
       @Override
