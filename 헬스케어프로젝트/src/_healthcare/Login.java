@@ -1,26 +1,29 @@
 package _healthcare;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import dbutil.MySqlConnectionProvider;
-import java.awt.Toolkit;
-import javax.swing.ImageIcon;
-import java.awt.Font;
 
 public class Login extends JFrame {
    private JTextField txtID;
@@ -51,6 +54,7 @@ public class Login extends JFrame {
       loginButton.setBorderPainted(false); // 테두리 제거
       loginButton.setBounds(62, 170, 215, 46);
       getContentPane().add(loginButton);
+      getRootPane().setDefaultButton(loginButton);
 
       loginButton.addActionListener(new ActionListener() {
          @Override
@@ -65,7 +69,7 @@ public class Login extends JFrame {
                dispose();
                new Main(loginId);
             } else {
-               System.out.println("로그인실패");
+                new LoginDialog(Login.this).setVisible(true);
             }
          }
       });
@@ -100,7 +104,7 @@ public class Login extends JFrame {
       txtPW.setText("비밀 번호를 입력하세요");
       getContentPane().add(txtPW);
       txtPW.setColumns(10);
-
+      
       // 텍스트 필드에 포커스를 얻었을 때 힌트가 사라지도록 함
       txtPW.addFocusListener(new FocusListener() {
          @Override
@@ -119,7 +123,15 @@ public class Login extends JFrame {
             }
          }
       });
-
+      
+      txtPW.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			loginButton.doClick();
+		}
+	});
+      
       txtID = new JTextField();
       txtID.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
       txtID.setBounds(62, 108, 215, 21);
@@ -185,6 +197,36 @@ public class Login extends JFrame {
          ex.printStackTrace();
          return false;
       }
+   }
+   class LoginDialog extends JDialog {
+       public LoginDialog(JFrame frame) {
+           super(frame, "", true); 
+           setSize(300, 100);
+           setLocationRelativeTo(frame);
+
+           JPanel panel = new JPanel();
+           JLabel label = new JLabel("아이디 또는 비밀번호가 잘못되었습니다.");
+           label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+           
+           JButton closeButton = new JButton();
+           closeButton.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+           closeButton.setContentAreaFilled(false);
+           closeButton.setBorderPainted(false);
+           closeButton.setFocusPainted(false);
+          
+           panel.add(label);
+           panel.add(closeButton);
+           panel.setBackground(Color.WHITE);
+
+           closeButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   dispose();
+               }
+           });
+
+           add(panel);
+       }
    }
 
    public static void main(String[] args) {
