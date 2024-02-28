@@ -327,6 +327,7 @@ public class Main extends JFrame {
 		getContentPane().add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_10 = new JLabel("");
+		lblNewLabel_10.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		lblNewLabel_10.setBounds(273, 309, 112, 15);
 		getContentPane().add(lblNewLabel_10);
 		// 오늘의 섭취칼로리
