@@ -13,8 +13,8 @@ public class FirstPage extends JFrame {
         extracted();
         showgui();
         
-     // 타이머를 이용하여 3초 후에 Login 창을 표시
-        Timer timer = new Timer(3000, new ActionListener() {
+     // 타이머를 이용하여 2.5초 후에 Login 창을 표시
+        Timer timer = new Timer(2500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose(); // 현재 창 숨기기

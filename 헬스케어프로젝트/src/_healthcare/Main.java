@@ -69,7 +69,7 @@ public class Main extends JFrame {
 				dispose();
 			}
 		});
-		btnNewButton_2.setBounds(190, 193, 149, 23);
+		btnNewButton_2.setBounds(251, 199, 113, 23);
 		getContentPane().add(btnNewButton_2);
 
 		JLabel lblNewLabel_5 = new JLabel("활기록");
@@ -264,19 +264,23 @@ public class Main extends JFrame {
 		getContentPane().add(lblHeight);
 
 		JLabel lblNewLabel = new JLabel("이름");
-		lblNewLabel.setBounds(180, 93, 57, 15);
+		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel.setBounds(180, 94, 57, 15);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("나이");
-		lblNewLabel_1.setBounds(180, 118, 57, 15);
+		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel_1.setBounds(180, 119, 57, 15);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("키");
-		lblNewLabel_2.setBounds(190, 143, 57, 15);
+		lblNewLabel_2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel_2.setBounds(190, 144, 57, 15);
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("몸무게");
-		lblNewLabel_3.setBounds(169, 168, 57, 15);
+		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel_3.setBounds(170, 169, 57, 15);
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("");
@@ -284,7 +288,7 @@ public class Main extends JFrame {
 		lblNewLabel_4.setBounds(-11, 0, 403, 39);
 		getContentPane().add(lblNewLabel_4);
 
-		user_character = new JLabel("New label");
+		user_character = new JLabel("");
 		// user_character.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는
 		// 브로콜리.png")));
 		user_character.setBounds(22, 59, 135, 154);
