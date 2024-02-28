@@ -90,14 +90,16 @@ public class DietRecord extends JFrame {
 		String breakfastKcal_sql = "SELECT SUM(breakfast_kcal) FROM morningdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(breakfastKcal_sql);
-				ResultSet rs = pst.executeQuery();
+				
 				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			while (rs.next()) {
-				breakfastSumKcal = rs.getDouble("SUM(breakfast_kcal)");
-
+			try(ResultSet rs = pst.executeQuery()){
+				while (rs.next()) {
+					breakfastSumKcal = rs.getDouble("SUM(breakfast_kcal)");
+					
+				}
 			}
 			lblNewLabel_4.setText(String.valueOf(breakfastSumKcal));
 
@@ -112,14 +114,16 @@ public class DietRecord extends JFrame {
 		String lunchKcal_sql = "SELECT SUM(lunch_kcal) FROM lunchdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(lunchKcal_sql);
-				ResultSet rs = pst.executeQuery();
 				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			while (rs.next()) {
-				lunchSumKcal = rs.getDouble("SUM(lunch_kcal)");
-
+			try(ResultSet rs = pst.executeQuery()){
+				
+				while (rs.next()) {
+					lunchSumKcal = rs.getDouble("SUM(lunch_kcal)");
+					
+				}
 			}
 			lblNewLabel_5.setText(String.valueOf(lunchSumKcal));
 
@@ -134,15 +138,16 @@ public class DietRecord extends JFrame {
 		String dinnerKcal_sql = "SELECT SUM(dinner_kcal) FROM dinnerdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(dinnerKcal_sql);
-				ResultSet rs = pst.executeQuery();
-				
 				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			while (rs.next()) {
-				dinnerSumKcal = rs.getDouble("SUM(dinner_kcal)");
-
+			try(ResultSet rs = pst.executeQuery()){
+				
+				while (rs.next()) {
+					dinnerSumKcal = rs.getDouble("SUM(dinner_kcal)");
+					
+				}
 			}
 			lblNewLabel_6.setText(String.valueOf(dinnerSumKcal));
 
@@ -157,14 +162,16 @@ public class DietRecord extends JFrame {
 		String snackKcal_sql = "SELECT SUM(snack_kcal) FROM snackdiet WHERE user_id = ? AND date = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(snackKcal_sql);
-				ResultSet rs = pst.executeQuery();
 				) {
 			pst.setString(1, user_id);
 			pst.setDate(2, sqlDate);
 
-			while (rs.next()) {
-				snackSumKcal = rs.getDouble("SUM(snack_kcal)");
-
+			try(ResultSet rs = pst.executeQuery()){
+				
+				while (rs.next()) {
+					snackSumKcal = rs.getDouble("SUM(snack_kcal)");
+					
+				}
 			}
 			lblNewLabel_7.setText(String.valueOf(snackSumKcal));
 
@@ -344,14 +351,15 @@ public class DietRecord extends JFrame {
 		String recommendKcalQuery = "SELECT recommended_kcal FROM users WHERE id = ?";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement ps = conn.prepareStatement(recommendKcalQuery);
-				ResultSet rs = ps.executeQuery();
-				
 				) {
 			ps.setString(1, user_id);
 
 			String recommendKcal = "";
-			while (rs.next()) {
-				recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
+			try(ResultSet rs = ps.executeQuery()){
+				
+				while (rs.next()) {
+					recommendKcal = rs.getBigDecimal("recommended_kcal").toString();
+				}
 			}
 			lblNewLabel_11.setText(recommendKcal + "kcal");
 
@@ -456,13 +464,14 @@ public class DietRecord extends JFrame {
 			 String selectKcalQuery = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC \r\n" + 
 			 		"LIMIT 1;";
 		        try (PreparedStatement selectPst = conn.prepareStatement(selectKcalQuery);
-		        		ResultSet rs = selectPst.executeQuery();
-		        		
 		        		) {
 		            selectPst.setString(1, user_id);
-		            if (rs.next()) {
-		                double todayEatSumKacl = rs.getDouble("eat_kcal");
-		                lblNewLabel_9.setText(Double.toString(todayEatSumKacl));
+		            try(ResultSet rs = selectPst.executeQuery()){
+		            	
+		            	if (rs.next()) {
+		            		double todayEatSumKacl = rs.getDouble("eat_kcal");
+		            		lblNewLabel_9.setText(Double.toString(todayEatSumKacl));
+		            	}
 		            }
 		        }
 
