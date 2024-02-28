@@ -221,6 +221,7 @@ public class ExerciseCalendar extends JFrame {
 
 		pack(); // 컴포넌트들을 적절한 크기로 정렬
 		setLocationRelativeTo(null); // 화면 중앙에 표시
+		setResizable(false); 
 
 		// 오늘의 섭취칼로리 - 소모칼로리 불러오기
 		String query = "SELECT today_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
@@ -454,7 +455,7 @@ public class ExerciseCalendar extends JFrame {
 						dayPanel.add(kcalLabel, BorderLayout.CENTER); // 이미지 레이블을 패널에 추가하여 텍스트 레이블 위에 표시
 						// 색상 변경
 						if (todayKcal < recommendedKcal) {
-							kcalLabel.setForeground(Color.GREEN);
+							kcalLabel.setForeground(Color.BLUE);
 							if (todayKcal == 0.0) {
 								kcalLabel.setText(todayKcalText);
 								kcalLabel.setForeground(Color.GRAY);

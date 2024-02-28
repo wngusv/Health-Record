@@ -43,19 +43,23 @@ public class ExerciseRecords extends JFrame {
 		getContentPane().setBackground(Color.WHITE);
 		System.out.println(loginId);
 		setTitle("운동기록");
-		setSize(422, 546); // 창의 너비와 높이를 설정합니다.
+		setSize(422, 593); // 창의 너비와 높이를 설정합니다.
 		setResizable(false); // 창의 크기를 조절할 수 없도록 설정합니다.
 		getContentPane().setLayout(null);
+		
+				lblTimeDiff = new JLabel("");
+				lblTimeDiff.setBounds(190, 456, 95, 21);
+				getContentPane().add(lblTimeDiff);
 
 		JLabel lblNewLabel_1 = new JLabel("운동 시간 :");
 		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(91, 456, 84, 24);
+		lblNewLabel_1.setBounds(94, 456, 84, 24);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lbl_end = new JLabel("운동 종료 시간");
 		lbl_end.setIcon(null);
 		lbl_end.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
-		lbl_end.setBounds(248, 377, 91, 58);
+		lbl_end.setBounds(248, 374, 91, 58);
 		getContentPane().add(lbl_end);
 
 		lbl_start = new JLabel("운동 시작 시간");
@@ -117,12 +121,15 @@ public class ExerciseRecords extends JFrame {
 		// MySQL 연결 및 데이터베이스에서 목록 불러오기
 		try (Connection connection = MySqlConnectionProvider.getConnection();
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");) {
+				) {
 
 			List<String> sportsList = new ArrayList<>();
-			while (resultSet.next()) {
-				String sportsName = resultSet.getString("sports");
-				sportsList.add(sportsName);
+			try(ResultSet resultSet = statement.executeQuery("SELECT sports FROM mets");){
+				
+				while (resultSet.next()) {
+					String sportsName = resultSet.getString("sports");
+					sportsList.add(sportsName);
+				}
 			}
 
 			// 콤보 박스에 목록 추가
@@ -214,17 +221,23 @@ public class ExerciseRecords extends JFrame {
 		JLabel lblfinishbackground = new JLabel("");
 		lblfinishbackground.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finishtime.png")));
 		lblfinishbackground.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblfinishbackground.setBounds(234, 380, 138, 48);
+		lblfinishbackground.setBounds(234, 378, 138, 48);
 		getContentPane().add(lblfinishbackground);
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/exercisehours.png")));
-		lblNewLabel.setBounds(74, 442, 271, 48);
+		lblNewLabel.setBounds(70, 442, 278, 48);
 		getContentPane().add(lblNewLabel);
-
-		lblTimeDiff = new JLabel("");
-		lblTimeDiff.setBounds(228, 462, 57, 15);
-		getContentPane().add(lblTimeDiff);
+		
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/exercisehours.png")));
+		lblNewLabel_2.setBounds(71, 500, 269, 54);
+		getContentPane().add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("소모 칼로리: ");
+		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
+		lblNewLabel_3.setBounds(93, 512, 104, 41);
+		getContentPane().add(lblNewLabel_3);
 
 		JPanel calendarPanel = new JPanel();
 		ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
@@ -232,6 +245,8 @@ public class ExerciseRecords extends JFrame {
 		btn_end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
+				
 				// 현재 시간 가져오기
 				LocalDateTime now = LocalDateTime.now();
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -243,6 +258,7 @@ public class ExerciseRecords extends JFrame {
 				// MySQL에 현재 시간 삽입
 				// 운동 종료 시간을 갱신
 				String sql = "UPDATE exerciserecords SET end_time = NOW() WHERE start_time = ? AND user_id = ? AND date = CURDATE() ORDER BY record_id DESC LIMIT 1";
+				
 				try (Connection conn = MySqlConnectionProvider.getConnection();
 						PreparedStatement stmt = conn.prepareStatement(sql);) {
 					stmt.setString(1, startTime);
@@ -252,6 +268,10 @@ public class ExerciseRecords extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
+				} catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+				
 			}
 		});
 
@@ -259,23 +279,30 @@ public class ExerciseRecords extends JFrame {
 		loadStartTime();
 		loadHours();
 		setLocationRelativeTo(null);
+		
 	}
 
 	private void loadStartTime() {
+		System.out.println("DEBUG: loadStartTime() method called");
 		String sql = "SELECT start_time FROM exerciserecords WHERE user_id = ? AND date = CURDATE() AND exercise_name = ? ORDER BY record_id DESC LIMIT 1;";
 		try (Connection conn = MySqlConnectionProvider.getConnection();
 				PreparedStatement pst = conn.prepareStatement(sql);) {
 			pst.setString(1, loginId);
 			pst.setString(2, selectedExercise2);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				startTime = rs.getString("start_time");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					startTime = rs.getString("start_time");
+				}
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		 System.out.println("DEBUG: loadStartTime() - startTime: " + startTime); // 디버깅 로그 추가
 	}
 
 	private void loadExerciseName() {
@@ -287,9 +314,12 @@ public class ExerciseRecords extends JFrame {
 
 			pst.setString(1, loginId);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				selectedExercise2 = rs.getString("exercise_name");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					selectedExercise2 = rs.getString("exercise_name");
+				}
 			}
 			lbl_selected.setText(selectedExercise2);
 
@@ -305,14 +335,23 @@ public class ExerciseRecords extends JFrame {
 			pst.setString(1, loginId);
 			pst.setString(2, selectedExercise2);
 
-			ResultSet rs = pst.executeQuery();
-			while (rs.next()) {
-				timediff = rs.getString("TIME_DIFF");
+			
+			try(ResultSet rs = pst.executeQuery();){
+				
+				while (rs.next()) {
+					timediff = rs.getString("TIME_DIFF");
+				}
 			}
 //	        lblTimeDiff.setText(timediff); // 라벨에 값 설정
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	/*
+	private void exerciseHourAndKcal() {
+		String sql = "SELECT "
+	}
+	*/
 
 }
