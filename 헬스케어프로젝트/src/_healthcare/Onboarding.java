@@ -13,7 +13,7 @@ import java.awt.event.ActionListener;
 public class Onboarding extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardsPanel;
-    private int currentCardIndex = 0; // 현재 보여지는 카드의 인덱스를 추적하는 변수 추가
+    private int currentCardIndex = 0; // 현재 보여지는 카드의 인덱스를 추적하는 변수 추가!
 
     public Onboarding() {
         setLayout(new BorderLayout());

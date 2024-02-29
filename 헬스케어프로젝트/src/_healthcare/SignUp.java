@@ -22,7 +22,7 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
-
+// ㅎㅎ
 public class SignUp extends JFrame {
 
    private JTextField idField;
