@@ -47,6 +47,7 @@ public class ExerciseRecords extends JFrame {
 		getContentPane().setLayout(null);
 
 		lblTimeDiff = new JLabel("");
+		lblTimeDiff.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
 		lblTimeDiff.setBounds(190, 456, 95, 21);
 		getContentPane().add(lblTimeDiff);
 
@@ -109,6 +110,7 @@ public class ExerciseRecords extends JFrame {
 
 		// 운동목록 comboBox
 		comboBox_Sports = new JComboBox();
+		comboBox_Sports.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		comboBox_Sports.setBackground(new Color(255, 255, 240));
 		comboBox_Sports.addItem("(운동 목록 선택)");
 		comboBox_Sports.setBounds(32, 217, 264, 29);
@@ -144,7 +146,8 @@ public class ExerciseRecords extends JFrame {
 		getContentPane().add(btn_Ok);
 
 		lbl_selected = new JLabel("");
-		lbl_selected.setBounds(32, 192, 294, 15);
+		lbl_selected.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lbl_selected.setBounds(32, 185, 294, 22);
 		getContentPane().add(lbl_selected);
 
 		// '확인' 버튼의 ActionListener 추가
@@ -235,6 +238,7 @@ public class ExerciseRecords extends JFrame {
 		getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("");
+		lblNewLabel_4.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
 		lblNewLabel_4.setBounds(201, 515, 96, 28);
 		getContentPane().add(lblNewLabel_4);
 
