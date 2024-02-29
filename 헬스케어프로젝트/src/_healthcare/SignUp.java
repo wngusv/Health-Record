@@ -21,8 +21,11 @@ import javax.swing.SpringLayout;
 import _healthcare.EditProfile.Dialog;
 import dbutil.MySqlConnectionProvider;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class SignUp extends JFrame {
 
@@ -277,77 +280,76 @@ public class SignUp extends JFrame {
 	}
 
 	private void registerMember() {
-	    String id = idField.getText();
-	    String pw = pwField.getText();
-	    String name = nameField.getText();
-	    String age = ageField.getText();
-	    String height = heightField.getText();
-	    String weight = weightField.getText();
-	    String goalWeigth = goalField.getText();
+		String id = idField.getText();
+		String pw = pwField.getText();
+		String name = nameField.getText();
+		String age = ageField.getText();
+		String height = heightField.getText();
+		String weight = weightField.getText();
+		String goalWeigth = goalField.getText();
 
-	    if (!isNumeric(age) || !isNumeric(height) || !isNumeric(weight) || !isNumeric(goalWeigth)) {
-	        duplicationDialog2();
-	    } else {
-	        String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index, user_char) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	        String sql2 = "SELECT id FROM users WHERE id = ?";
-	        try (Connection connection = MySqlConnectionProvider.getConnection();
-	             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-	             PreparedStatement pst = connection.prepareStatement(sql2);) {
-	            pst.setString(1, id);
+		if (!isNumeric(age) || !isNumeric(height) || !isNumeric(weight) || !isNumeric(goalWeigth)) {
+			duplicationDialog2();
+		} else {
+			String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index, user_char) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			String sql2 = "SELECT id FROM users WHERE id = ?";
+			try (Connection connection = MySqlConnectionProvider.getConnection();
+					PreparedStatement preparedStatement = connection.prepareStatement(sql);
+					PreparedStatement pst = connection.prepareStatement(sql2);) {
+				pst.setString(1, id);
 
-	            try (ResultSet rs = pst.executeQuery()) {
-	                String iddd = "";
-	                while (rs.next()) {
-	                    iddd = rs.getString("id");
-	                }
-	                if (id.equals(iddd)) {
-	                	duplicationDialog();
+				try (ResultSet rs = pst.executeQuery()) {
+					String iddd = "";
+					while (rs.next()) {
+						iddd = rs.getString("id");
+					}
+					if (id.equals(iddd)) {
+						duplicationDialog();
 
-	                }
-	            }
+					}
+				}
 
-	            preparedStatement.setString(1, id);
-	            preparedStatement.setString(2, pw);
-	            preparedStatement.setString(3, name);
-	            preparedStatement.setString(4, age);
-	            preparedStatement.setString(5, height);
-	            preparedStatement.setString(6, weight);
-	            preparedStatement.setString(7, goalWeigth);
+				preparedStatement.setString(1, id);
+				preparedStatement.setString(2, pw);
+				preparedStatement.setString(3, name);
+				preparedStatement.setString(4, age);
+				preparedStatement.setString(5, height);
+				preparedStatement.setString(6, weight);
+				preparedStatement.setString(7, goalWeigth);
 
-	            if (maleButton.isSelected()) {
-	                preparedStatement.setString(8, "남자");
-	            } else if (femaleButton.isSelected()) {
-	                preparedStatement.setString(8, "여자");
-	            }
+				if (maleButton.isSelected()) {
+					preparedStatement.setString(8, "남자");
+				} else if (femaleButton.isSelected()) {
+					preparedStatement.setString(8, "여자");
+				}
 
-	            if (actvityButton.isSelected()) {
-	                preparedStatement.setInt(9, 25);
-	            } else if (actvityButton2.isSelected()) {
-	                preparedStatement.setInt(9, 33);
-	            } else if (actvityButton3.isSelected()) {
-	                preparedStatement.setInt(9, 40);
-	            }
+				if (actvityButton.isSelected()) {
+					preparedStatement.setInt(9, 25);
+				} else if (actvityButton2.isSelected()) {
+					preparedStatement.setInt(9, 33);
+				} else if (actvityButton3.isSelected()) {
+					preparedStatement.setInt(9, 40);
+				}
 
-	            if (broccoli.isSelected()) {
-	                preparedStatement.setInt(10, 1);
-	            } else if (corn.isSelected()) {
-	                preparedStatement.setInt(10, 2);
-	            } else if (tomato.isSelected()) {
-	                preparedStatement.setInt(10, 3);
-	            }
+				if (broccoli.isSelected()) {
+					preparedStatement.setInt(10, 1);
+				} else if (corn.isSelected()) {
+					preparedStatement.setInt(10, 2);
+				} else if (tomato.isSelected()) {
+					preparedStatement.setInt(10, 3);
+				}
 
-	            int insert = preparedStatement.executeUpdate();
-	            if (insert > 0) {
-	            	completeDialog();
-	                new Login();
-	                dispose();
-	            } else {
-	                JOptionPane.showMessageDialog(this, "회원 등록 실패");
-	            }
-	        } catch (SQLException ex) {
-	            System.out.println(ex.getMessage());
-	        }
-	    }
+				int insert = preparedStatement.executeUpdate();
+				if (insert > 0) {
+					completeDialog();
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(this, "회원 등록 실패");
+				}
+			} catch (SQLException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
 	}
 
 	// 주어진 문자열이 유효한 숫자인지 확인하는 도우미 메소드
@@ -361,120 +363,136 @@ public class SignUp extends JFrame {
 	}
 
 	private void duplicationDialog() {
-	    // 다이얼로그 생성
-	    JDialog dialog = new JDialog(this, "", true);
-	    dialog.setSize(300, 110); // 다이얼로그 크기 설정
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
-	    dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
+		// 다이얼로그 생성
+		JDialog dialog = new JDialog(this, "", true);
+		dialog.setSize(300, 110); // 다이얼로그 크기 설정
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
+		dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
 
-	    // 다이얼로그에 추가할 컴포넌트들 생성  아이디 또는 비밀번호가 잘못되었습니다.
-	    JLabel label = new JLabel("          중복된 아이디 입니다.           ");
-	    label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
-	    
-	    JButton button = new JButton("");
-	    button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
-	    button.setContentAreaFilled(false);
-	    button.setBorderPainted(false);
-	    button.setFocusPainted(false);
-	    
-	    // 다이얼로그에 컴포넌트들 추가
-	    JPanel panel = new JPanel();
-	    panel.add(label);
-	    panel.add(button);
-	    dialog.add(panel);
-	    panel.setBackground(Color.WHITE);
+		// 다이얼로그에 추가할 컴포넌트들 생성 아이디 또는 비밀번호가 잘못되었습니다.
+		JLabel label = new JLabel("          중복된 아이디 입니다.           ");
+		label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 
-	    // 확인 버튼의 ActionListener 추가
-	    button.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            // 다이얼로그를 닫기
-	            dialog.dispose();
-	        }
-	    });
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
+		// 다이얼로그에 컴포넌트들 추가
+		JPanel panel = new JPanel();
+		panel.add(label);
+		panel.add(button);
+		dialog.add(panel);
+		panel.setBackground(Color.WHITE);
 
-	    // 다이얼로그 표시
-	    dialog.setVisible(true);
+		// 확인 버튼의 ActionListener 추가
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 다이얼로그를 닫기
+				dialog.dispose();
+			}
+		});
+
+		// 다이얼로그 표시
+		dialog.setVisible(true);
 	}
-	
+
 	private void duplicationDialog2() {
-	    // 다이얼로그 생성
-	    JDialog dialog = new JDialog(this, "", true);
-	    dialog.setSize(300, 110); // 다이얼로그 크기 설정
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
-	    dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
+		// 다이얼로그 생성
+		JDialog dialog = new JDialog(this, "", true);
+		dialog.setSize(300, 110); // 다이얼로그 크기 설정
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
+		dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
 
-	    // 다이얼로그에 추가할 컴포넌트들 생성  아이디 또는 비밀번호가 잘못되었습니다.
-	    JLabel label = new JLabel("          키 몸무게 나이를 숫자로 입력해 주세요.           ");
-	    label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
-	    
-	    JButton button = new JButton("");
-	    button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
-	    button.setContentAreaFilled(false);
-	    button.setBorderPainted(false);
-	    button.setFocusPainted(false);
-	    
-	    // 다이얼로그에 컴포넌트들 추가
-	    JPanel panel = new JPanel();
-	    panel.add(label);
-	    panel.add(button);
-	    dialog.add(panel);
-	    panel.setBackground(Color.WHITE);
+		// 다이얼로그에 추가할 컴포넌트들 생성 아이디 또는 비밀번호가 잘못되었습니다.
+		JLabel label = new JLabel("          키 몸무게 나이를 숫자로 입력해 주세요.           ");
+		label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 
-	    // 확인 버튼의 ActionListener 추가
-	    button.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            // 다이얼로그를 닫기
-	            dialog.dispose();
-	        }
-	    });
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
+		// 다이얼로그에 컴포넌트들 추가
+		JPanel panel = new JPanel();
+		panel.add(label);
+		panel.add(button);
+		dialog.add(panel);
+		panel.setBackground(Color.WHITE);
 
-	    // 다이얼로그 표시
-	    dialog.setVisible(true);
+		// 확인 버튼의 ActionListener 추가
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 다이얼로그를 닫기
+				dialog.dispose();
+			}
+		});
+
+		// 다이얼로그 표시
+		dialog.setVisible(true);
 	}
-	
+
 	private void completeDialog() {
-	    // 다이얼로그 생성
-	    JDialog dialog = new JDialog(this, "", true);
-	    dialog.setSize(300, 110); // 다이얼로그 크기 설정
-	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
-	    dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
+		// 다이얼로그 생성
+		JDialog dialog = new JDialog(this, "", true);
+		dialog.setSize(300, 110); // 다이얼로그 크기 설정
+		dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
+		dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
 
-	    // 다이얼로그에 추가할 컴포넌트들 생성  아이디 또는 비밀번호가 잘못되었습니다.
-	    JLabel label = new JLabel("          회원 등록 완료.           ");
-	    label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
-	    
-	    JButton button = new JButton("");
-	    button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/완료.png")));
-	    button.setContentAreaFilled(false);
-	    button.setBorderPainted(false);
-	    button.setFocusPainted(false);
-	    
-	    // 다이얼로그에 컴포넌트들 추가
-	    JPanel panel = new JPanel();
-	    panel.add(label);
-	    panel.add(button);
-	    dialog.add(panel);
-	    panel.setBackground(Color.WHITE);
+		// 다이얼로그에 추가할 컴포넌트들 생성 아이디 또는 비밀번호가 잘못되었습니다.
+		JLabel label = new JLabel("          회원 등록 완료.           ");
+		label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 
-	    // 확인 버튼의 ActionListener 추가
-	    button.addActionListener(new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            // 다이얼로그를 닫기
-	            dialog.dispose();
-	        }
-	    });
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/완료.png")));
+		button.setContentAreaFilled(false);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
 
+		// 다이얼로그에 컴포넌트들 추가
+		JPanel panel = new JPanel();
+		panel.add(label);
+		panel.add(button);
+		dialog.add(panel);
+		panel.setBackground(Color.WHITE);
 
-	    // 다이얼로그 표시
-	    dialog.setVisible(true);
+		// 확인 버튼의 ActionListener 추가
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// 다이얼로그를 닫기
+				dialog.dispose();
+				// 온보딩 창 띄우기
+				new Login();
+				JFrame onboardingFrame = new JFrame("운동 프로그램 온보딩");
+				onboardingFrame.setResizable(false);
+				onboardingFrame.setSize(371, 580);
+
+				Onboarding onboardingPanel = new Onboarding();
+				onboardingFrame.add(onboardingPanel);
+
+				// onboardingFrame을 화면 중앙 상단에 위치시키기
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+				int x = (screenSize.width - onboardingFrame.getWidth()) / 2;
+				int y = (screenSize.height - onboardingFrame.getHeight()) / 2;
+				onboardingFrame.setLocation(x, y);
+
+				// 나가기 버튼 숨기기
+				onboardingFrame.setUndecorated(true); // 창 장식 요소(타이틀 바, 테두리) 제거
+
+				onboardingFrame.setVisible(true);
+				dispose();
+			}
+		});
+
+		// 다이얼로그 표시
+		dialog.setVisible(true);
 	}
-	
-	
+
 	public static void main(String[] args) {
 		new SignUp();
 
