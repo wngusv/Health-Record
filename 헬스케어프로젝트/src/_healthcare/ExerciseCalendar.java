@@ -430,8 +430,6 @@ public class ExerciseCalendar extends JFrame {
 			e.printStackTrace();
 		}
 		// 기본 이미지 경로
-		String defaultImage = "/image/Date" + date.getDayOfMonth() + ".png";
-		ImageIcon defaultImage2 = new ImageIcon(ExerciseCalendar.class.getResource(defaultImage));
 		return "/image/Date" + date.getDayOfMonth() + ".png";
 	}
 
