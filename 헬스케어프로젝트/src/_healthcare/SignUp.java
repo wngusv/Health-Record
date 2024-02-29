@@ -283,7 +283,7 @@ public class SignUp extends JFrame {
 		String goalWeigth = goalField.getText();
 		
 		if (!isNumeric(age) || !isNumeric(height) || !isNumeric(weight) || !isNumeric(goalWeigth)) {
-		    JOptionPane.showMessageDialog(this, "나이, 키, 몸무게 칸에는 숫자만 입력이 가능합니다.");
+		    JOptionPane.showMessageDialog(this, "나이, 키, 몸무게 칸에는 숫자만 입력이 가능합니다. ");
 		    return;
 		}
 
