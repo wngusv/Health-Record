@@ -201,8 +201,8 @@ public class MessageBoard extends JFrame {
 		String id = loginId;
 
 		if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
-			Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
-			tableModel.addRow(rowData);
+			 Object[] rowData = {1, id, content, currentDateTime, 0, false}; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
+			 tableModel.insertRow(0, rowData);
 
 			// 데이터베이스에도 추가하는 로직을 여기에 추가할 수 있습니다.
 
