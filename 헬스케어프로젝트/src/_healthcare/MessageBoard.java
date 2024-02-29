@@ -1,7 +1,7 @@
 package _healthcare;
 
-
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -33,12 +32,10 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import dbutil.MySqlConnectionProvider;
-import javax.swing.SpringLayout;
 
 public class MessageBoard extends JFrame {
 	private DefaultTableModel tableModel;
@@ -46,6 +43,7 @@ public class MessageBoard extends JFrame {
 	private String loginId;
 	private JLabel contentLabel;
 	private JTextArea contentTextArea;
+	private Font customFont;
 
 	public MessageBoard(String loginId) {
 		this.loginId = loginId;
@@ -55,6 +53,9 @@ public class MessageBoard extends JFrame {
 		setLocationRelativeTo(null); // 화면 중앙에 위치
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		System.out.println("로그인한 ID:" + loginId);
+		
+		customFont = new Font("휴먼편지체", Font.PLAIN, 15);
+		
 		initializeTable();
 		addComponents();
 		loadMessage();
@@ -62,6 +63,7 @@ public class MessageBoard extends JFrame {
 
 	private void initializeTable() { // 테이블 설정 메서드 테이블은 게시물 등록되는
 		tableModel = new DefaultTableModel(new Object[] { "", "아이디", "내용", "날짜", "좋아요", "" }, 0) {
+			
 			@Override
 			public Class<?> getColumnClass(int columnIndex) {
 				if (columnIndex == 5) {
@@ -76,11 +78,15 @@ public class MessageBoard extends JFrame {
 				return column == 5;
 			}
 		};
-		
+
 		table = new JTable(tableModel);
 		table.setRowHeight(50); // 테이블 셀 크기 !!!!!!!!!!!!!!!!!!!!!!!!
-		table.setFont(new Font("휴면편지체", Font.PLAIN, 15)); // 원하는 폰트 설정
+		table.setFont(customFont); // 원하는 폰트 설정
 
+		for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(new CustomCellRenderer(customFont));
+        }
+		
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(300);
@@ -93,9 +99,22 @@ public class MessageBoard extends JFrame {
 		table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
 		
 		
-
 	}
+	
+	class CustomCellRenderer extends DefaultTableCellRenderer {
+	    private Font font;
 
+	    public CustomCellRenderer(Font font) {
+	        this.font = font;
+	    }
+
+	    @Override
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+	        Component cellComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+	        cellComponent.setFont(font); // 폰트 설정
+	        return cellComponent;
+	    }
+	}
 	private void addComponents() {
 		getContentPane().setLayout(null);
 
@@ -204,8 +223,8 @@ public class MessageBoard extends JFrame {
 		String id = loginId;
 
 		if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
-			 Object[] rowData = {1, id, content, currentDateTime, 0, false}; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
-			 tableModel.insertRow(0, rowData);
+			Object[] rowData = { 1, id, content, currentDateTime, 0, false }; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
+			tableModel.insertRow(0, rowData);
 
 			// 데이터베이스에도 추가하는 로직을 여기에 추가할 수 있습니다.
 
@@ -381,7 +400,6 @@ public class MessageBoard extends JFrame {
 			setFocusPainted(false); // 포커스 표시 제거
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setBorderPainted(false);
-			
 
 		}
 
