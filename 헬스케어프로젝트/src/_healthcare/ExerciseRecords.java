@@ -35,36 +35,53 @@ public class ExerciseRecords extends JFrame {
 	private JLabel lbl_start;
 	private JLabel lblTimeDiff;
 	private String timediff;
+	private JLabel lbl_image;
 
 	public ExerciseRecords(String loginId) {
 		this.loginId = loginId;
 		getContentPane().setBackground(Color.WHITE);
 		System.out.println(loginId);
 		setTitle("운동기록");
-		setSize(422, 593); // 창의 너비와 높이를 설정합니다.
+		setSize(422, 655); // 창의 너비와 높이를 설정합니다.
 		setResizable(false); // 창의 크기를 조절할 수 없도록 설정합니다.
 		getContentPane().setLayout(null);
+				
+				JLabel lblNewLabel_6 = new JLabel("선택한 운동: ");
+				lblNewLabel_6.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
+				lblNewLabel_6.setBounds(43, 100, 95, 19);
+				getContentPane().add(lblNewLabel_6);
+		
+				lbl_selected = new JLabel("");
+				lbl_selected.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+				lbl_selected.setBounds(119, 98, 185, 22);
+				getContentPane().add(lbl_selected);
+		
+		JLabel lblNewLabel_5 = new JLabel("");
+		lblNewLabel_5.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		lblNewLabel_5.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/아이보리색2.png")));
+		lblNewLabel_5.setBounds(33, 94, 358, 29);
+		getContentPane().add(lblNewLabel_5);
 
 		lblTimeDiff = new JLabel("");
 		lblTimeDiff.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
-		lblTimeDiff.setBounds(190, 456, 95, 21);
+		lblTimeDiff.setBounds(191, 505, 95, 21);
 		getContentPane().add(lblTimeDiff);
 
 		JLabel lblNewLabel_1 = new JLabel("운동 시간 :");
 		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(94, 456, 84, 24);
+		lblNewLabel_1.setBounds(95, 505, 84, 24);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lbl_end = new JLabel("운동 종료 시간");
 		lbl_end.setIcon(null);
 		lbl_end.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
-		lbl_end.setBounds(248, 374, 91, 58);
+		lbl_end.setBounds(249, 423, 91, 58);
 		getContentPane().add(lbl_end);
 
 		lbl_start = new JLabel("운동 시작 시간");
 		lbl_start.setIcon(null);
 		lbl_start.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
-		lbl_start.setBounds(70, 377, 91, 48);
+		lbl_start.setBounds(71, 426, 91, 48);
 		getContentPane().add(lbl_start);
 
 		JLabel lblTitle = new JLabel("운동 기록");
@@ -78,7 +95,7 @@ public class ExerciseRecords extends JFrame {
 		btn_start.setOpaque(false); // 배경 투명하게 설정
 		btn_start.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		btn_start.setBorderPainted(false); // 테두리 제거
-		btn_start.setBounds(32, 253, 152, 120);
+		btn_start.setBounds(33, 302, 152, 120);
 		getContentPane().add(btn_start);
 		// 운동시작 버튼 클릭 시 이벤트 리스너
 		btn_start.addActionListener(new ActionListener() {
@@ -112,7 +129,7 @@ public class ExerciseRecords extends JFrame {
 		comboBox_Sports.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		comboBox_Sports.setBackground(new Color(255, 255, 240));
 		comboBox_Sports.addItem("(운동 목록 선택)");
-		comboBox_Sports.setBounds(32, 217, 264, 29);
+		comboBox_Sports.setBounds(33, 55, 264, 29);
 		getContentPane().add(comboBox_Sports);
 
 		// MySQL 연결 및 데이터베이스에서 목록 불러오기
@@ -135,59 +152,73 @@ public class ExerciseRecords extends JFrame {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		comboBox_Sports.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String selectedExercise = (String) comboBox_Sports.getSelectedItem();
+		        loadExerciseImage(selectedExercise);
+		    }
+		});
+
+
+		
+		
 
 		btn_Ok = new JButton("");
 		btn_Ok.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/ok.png")));
-		btn_Ok.setBounds(308, 214, 91, 36);
+		btn_Ok.setBounds(311, 51, 91, 36);
 		btn_Ok.setOpaque(false); // 배경 투명하게 설정
 		btn_Ok.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		btn_Ok.setBorderPainted(false); // 테두리 제거
 		getContentPane().add(btn_Ok);
 
-		lbl_selected = new JLabel("");
-		lbl_selected.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lbl_selected.setBounds(32, 185, 294, 22);
-		getContentPane().add(lbl_selected);
-
 		// '확인' 버튼의 ActionListener 추가
-		btn_Ok.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				btn_Ok.setEnabled(false);
-				String selectedSport = (String) comboBox_Sports.getSelectedItem();
-		        if ("(운동 목록 선택)".equals(selectedSport)) {
-		        	openSportSelectionDialog();
-		        	btn_Ok.setEnabled(true);
-		        }
-				// 선택된 운동 항목 가져오기
-				selectedExercise = comboBox_Sports.getSelectedItem().toString(); // 선택된 운동 저장
+        btn_Ok.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                btn_Ok.setEnabled(false);
+                String selectedSport = (String) comboBox_Sports.getSelectedItem();
+                if ("(운동 목록 선택)".equals(selectedSport)) {
+                    openSportSelectionDialog();
+                    btn_Ok.setEnabled(true);
+                    return;
+                }
 
-				// lbl_selected에 선택된 운동 항목 표시
-				lbl_selected.setText(selectedExercise);
+                // 선택된 운동 항목 가져오기
+                selectedExercise = comboBox_Sports.getSelectedItem().toString(); // 선택된 운동 저장
 
-				// 현재 시간 가져오기
-				LocalDateTime now = LocalDateTime.now();
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-				String formattedDateTime = now.format(formatter);
+                // lbl_selected에 선택된 운동 항목 표시
+                lbl_selected.setText(selectedExercise);
 
-				// MySQL에 현재 시간과 선택된 운동 항목 추가
-				String sql = "INSERT INTO exerciserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
-				try (Connection conn = MySqlConnectionProvider.getConnection();
-						PreparedStatement stmt = conn.prepareStatement(sql);) {
-					stmt.setString(1, loginId);
-					stmt.setString(2, selectedExercise);
-					stmt.executeUpdate();
+                // 운동에 따른 이미지 로드 및 표시
+                loadExerciseImage(selectedExercise);
 
-				} catch (SQLException ex) {
-					ex.printStackTrace();
-				}
-			}
-		});
+                // 현재 시간 가져오기
+                LocalDateTime now = LocalDateTime.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                String formattedDateTime = now.format(formatter);
+
+                // MySQL에 현재 시간과 선택된 운동 항목 추가
+                String sql = "INSERT INTO exerciserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
+                try (Connection conn = MySqlConnectionProvider.getConnection();
+                        PreparedStatement stmt = conn.prepareStatement(sql);) {
+                    stmt.setString(1, loginId);
+                    stmt.setString(2, selectedExercise);
+                    stmt.executeUpdate();
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
+        
 
 		// 운동종료 버튼
 		JButton btn_end = new JButton("");
 		btn_end.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish.png")));
-		btn_end.setBounds(217, 253, 152, 120);
+		btn_end.setBounds(218, 302, 152, 120);
 		btn_end.setOpaque(false); // 배경 투명하게 설정
 		btn_end.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		btn_end.setBorderPainted(false); // 테두리 제거
@@ -217,34 +248,38 @@ public class ExerciseRecords extends JFrame {
 		JLabel lblstartbackground = new JLabel("");
 		lblstartbackground.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/starttime.png")));
 		lblstartbackground.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblstartbackground.setBounds(57, 377, 138, 48);
+		lblstartbackground.setBounds(58, 426, 138, 48);
 		getContentPane().add(lblstartbackground);
 
 		JLabel lblfinishbackground = new JLabel("");
 		lblfinishbackground.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finishtime.png")));
 		lblfinishbackground.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblfinishbackground.setBounds(234, 378, 138, 48);
+		lblfinishbackground.setBounds(235, 427, 138, 48);
 		getContentPane().add(lblfinishbackground);
 
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/exercisehours.png")));
-		lblNewLabel.setBounds(70, 442, 278, 48);
+		lblNewLabel.setBounds(71, 491, 278, 48);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/exercisehours.png")));
-		lblNewLabel_2.setBounds(71, 500, 269, 54);
+		lblNewLabel_2.setBounds(72, 549, 269, 54);
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("소모 칼로리: ");
 		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 20));
-		lblNewLabel_3.setBounds(93, 512, 104, 41);
+		lblNewLabel_3.setBounds(94, 561, 104, 41);
 		getContentPane().add(lblNewLabel_3);
 		
 		JLabel lblNewLabel_4 = new JLabel("");
 		lblNewLabel_4.setFont(new Font("휴먼편지체", Font.PLAIN, 15));
-		lblNewLabel_4.setBounds(201, 515, 96, 28);
+		lblNewLabel_4.setBounds(202, 564, 96, 28);
 		getContentPane().add(lblNewLabel_4);
+		
+		lbl_image = new JLabel("");
+		lbl_image.setBounds(33, 127, 337, 165);
+		getContentPane().add(lbl_image);
 
 		ExerciseCalendar exerciseCalendar = new ExerciseCalendar(loginId);
 		// 운동종료 버튼 클릭 시 이벤트 리스너
@@ -299,6 +334,106 @@ public class ExerciseRecords extends JFrame {
 
 		setLocationRelativeTo(null);
 	}
+	
+	// 선택된 운동에 따라 이미지 로드 및 표시하는 메서드
+    private void loadExerciseImage(String exerciseName) {
+        ImageIcon exerciseIcon = null;
+        switch (exerciseName) {
+            case "걷기":
+                exerciseIcon = new ImageIcon(getClass().getResource("/image/걷기(수정완).gif"));
+                break;
+            case "걷기(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/걷기(수정완).gif"));
+            	break;
+            case "계단 오르내리기":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/계단(수정완).gif"));
+            	break;
+            case "달리기(느린 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	break;
+            case "달리기(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	break;
+            case "달리기(빠른 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	break;
+            case "등산":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/등산(수정완).gif"));
+            	break;
+            case "러닝머신(느린 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/러닝머신(수정완).gif"));
+            	break;
+            case "러닝머신(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/러닝머신(수정완).gif"));
+            	break;
+            case "무게 트레이닝(고강도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/무게트레이닝(수정완).gif"));
+            	break;
+            case "무게 트레이닝(저강도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/무게트레이닝(수정완).gif"));
+            	break;
+            case "복싱":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/복싱(수정완).gif"));
+            	break;
+            case "수영":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/수영(수정완).gif"));
+            	break;
+            case "수영(느린 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/수영(수정완).gif"));
+            	break;
+            case "수영(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/수영(수정완).gif"));
+            	break;
+            case "스쿼시":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/스쿼시(수정완).gif"));
+            	break;
+            case "스쿼트":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/스쿼트(수정완).gif"));
+            	break;
+            case "스트레칭":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/스트레칭3(수정완).gif"));
+            	break;
+            case "실내 사이클":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/사이클(수정완).gif"));
+            	break;
+            case "에어로빅":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/에어로빅(수정완).gif"));
+            	break;
+            case "요가":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/요가(수정완).gif"));
+            	break;
+            case "윗몸일으키기(느린 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/윗몸일으키기(수정완).gif"));
+            	break;
+            case "윗몸일으키기(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/윗몸일으키기(수정완).gif"));
+            	break;
+            case "윗몸일으키기(빠른속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/윗몸일으키기(수정완).gif"));
+            	break;
+            case "자전거 타기(느린 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/자전거(수정완).gif"));
+            	break;
+            case "자전거 타기(보통 속도)":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/자전거(수정완).gif"));
+            	break;
+            case "조깅":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	break;
+            case "줄넘기":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/줄넘기(수정완).gif"));
+            	break;
+            case "훌라후프":
+            	exerciseIcon = new ImageIcon(getClass().getResource("/image/훌라후프(수정완).gif"));
+            	break;
+
+            default:
+                // 특정 이미지를 찾을 수 없는 경우 기본 이미지 설정
+                exerciseIcon = new ImageIcon(getClass().getResource("/image/default.gif"));
+                break;
+        }
+        lbl_image.setIcon(exerciseIcon);
+    }
 
 	private void loadStartTime() {
 		System.out.println("DEBUG: loadStartTime() method called");
@@ -385,7 +520,7 @@ public class ExerciseRecords extends JFrame {
 	    JPanel panel = new JPanel();
 	    panel.add(label);
 	    panel.add(button);
-	    dialog.add(panel);
+	    dialog.getContentPane().add(panel);
 	    panel.setBackground(Color.WHITE);
 
 	    // 확인 버튼의 ActionListener 추가
@@ -401,5 +536,7 @@ public class ExerciseRecords extends JFrame {
 	    // 다이얼로그 표시
 	    dialog.setVisible(true);
 	}
+	
+	
 
 }
