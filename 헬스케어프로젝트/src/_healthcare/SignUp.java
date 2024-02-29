@@ -158,6 +158,7 @@ public class SignUp extends JFrame {
 		agelbl.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		agelbl.setBounds(87, 152, 24, 15);
 		getContentPane().add(agelbl);
+		
 
 		JLabel heightlbl = new JLabel("키");
 		heightlbl.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
@@ -178,7 +179,7 @@ public class SignUp extends JFrame {
 		goalWeightlbl.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		goalWeightlbl.setBounds(64, 265, 64, 15);
 		getContentPane().add(goalWeightlbl);
-
+		
 		goalField = new JTextField();
 		goalField.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		goalField.setBounds(136, 261, 116, 21);
@@ -280,6 +281,11 @@ public class SignUp extends JFrame {
 		String height = heightField.getText();
 		String weight = weightField.getText();
 		String goalWeigth = goalField.getText();
+		
+		if (!isNumeric(age) || !isNumeric(height) || !isNumeric(weight) || !isNumeric(goalWeigth)) {
+		    JOptionPane.showMessageDialog(this, "나이, 키, 몸무게 칸에는 숫자만 입력이 가능합니다.");
+		    return;
+		}
 
 		String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index, user_char) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -326,6 +332,16 @@ public class SignUp extends JFrame {
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
 		}
+	}
+	
+	// 주어진 문자열이 유효한 숫자인지 확인하는 도우미 메소드
+	private boolean isNumeric(String str) {
+	    try {
+	        Double.parseDouble(str); // 정수 및 소수점까지 고려하기 위해 Double 사용
+	        return true;
+	    } catch (NumberFormatException e) {
+	        return false;
+	    }
 	}
 
 	public static void main(String[] args) {
