@@ -36,7 +36,7 @@ public class Graph extends JFrame {
         //super("체중 기록 차트");
 
         // 차트 생성
-        XYChart chart = new XYChart(800, 600);
+        XYChart chart = new XYChart(500, 300);
 
         // 차트 설정
         chart.setTitle("체중 기록");

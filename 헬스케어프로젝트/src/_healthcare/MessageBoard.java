@@ -382,6 +382,10 @@ private JTextArea contentTextArea;
     	  setIcon(unselectedIcon);
     	  setSelectedIcon(selectedIcon);
     	  
+    	    setOpaque(false); // 배경 투명화
+    	    setBorderPainted(false); // 테두리 제거
+    	    setContentAreaFilled(false); // 내용 영역 채우기 제거
+    	    setFocusPainted(false); // 포커스 표시 제거
     	  setHorizontalAlignment(SwingConstants.CENTER);
     	  setBorderPainted(false);
     	  
