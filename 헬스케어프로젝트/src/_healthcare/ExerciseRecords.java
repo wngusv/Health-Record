@@ -199,7 +199,6 @@ public class ExerciseRecords extends JFrame {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
                 String formattedDateTime = now.format(formatter);
 
-                // MySQL에 현재 시간과 선택된 운동 항목 추가
                 String sql = "INSERT INTO exerciserecords (user_id, date, exercise_name) VALUES (?, CURDATE(), ?)";
                 try (Connection conn = MySqlConnectionProvider.getConnection();
                         PreparedStatement stmt = conn.prepareStatement(sql);) {
