@@ -49,7 +49,7 @@ public class Main extends JFrame {
 
 		// 차트 이미지를 JLabel에 추가하여 화면에 표시
 		JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-		chartLabel.setBounds(281, 238, 64, 62); // 원하는 위치와 크기로 설정
+		chartLabel.setBounds(281, 255, 64, 62); // 원하는 위치와 크기로 설정
 		getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
 		JButton btnNewButton_1 = new JButton("");
@@ -174,7 +174,7 @@ public class Main extends JFrame {
 		graphButton.setOpaque(false); // 배경 투명하게 설정
 		graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
 		graphButton.setBorderPainted(false); // 테두리 제거
-		graphButton.setBounds(146, 437, 109, 80);
+		graphButton.setBounds(149, 437, 109, 80);
 		getContentPane().add(graphButton);
 		graphButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -186,7 +186,8 @@ public class Main extends JFrame {
 
 		// JSlider 초기화(BMI표시)
 		slider = new JSlider();
-		slider.setBounds(28, 237, 193, 46);
+		slider.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+		slider.setBounds(28, 254, 193, 46);
 		slider.setMinorTickSpacing(1); // 최소 틱 간격
 		slider.setMajorTickSpacing(10);
 		slider.setMinorTickSpacing(5);
@@ -213,8 +214,8 @@ public class Main extends JFrame {
 		}
 
 		lblKg = new JLabel("New label");
-		lblKg.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblKg.setBounds(232, 168, 57, 15);
+		lblKg.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblKg.setBounds(259, 168, 57, 20);
 		getContentPane().add(lblKg);
 
 		try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -233,8 +234,8 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblName = new JLabel("New label");
-		lblName.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblName.setBounds(232, 93, 57, 15);
+		lblName.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblName.setBounds(259, 87, 57, 22);
 		getContentPane().add(lblName);
 
 		try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -252,8 +253,8 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblAge = new JLabel("New label");
-		lblAge.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblAge.setBounds(232, 118, 57, 15);
+		lblAge.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblAge.setBounds(259, 116, 57, 18);
 		getContentPane().add(lblAge);
 
 		try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -271,28 +272,28 @@ public class Main extends JFrame {
 		}
 
 		JLabel lblHeight = new JLabel("New label");
-		lblHeight.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblHeight.setBounds(232, 143, 57, 15);
+		lblHeight.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblHeight.setBounds(259, 143, 57, 20);
 		getContentPane().add(lblHeight);
 
 		JLabel lblNewLabel = new JLabel("이름:");
-		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel.setBounds(180, 94, 57, 15);
+		lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel.setBounds(207, 88, 57, 21);
 		getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel_1 = new JLabel("나이:");
-		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel_1.setBounds(180, 119, 57, 15);
+		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel_1.setBounds(207, 117, 57, 17);
 		getContentPane().add(lblNewLabel_1);
 
 		JLabel lblNewLabel_2 = new JLabel("키:");
-		lblNewLabel_2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel_2.setBounds(190, 144, 57, 15);
+		lblNewLabel_2.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel_2.setBounds(217, 144, 57, 19);
 		getContentPane().add(lblNewLabel_2);
 
 		JLabel lblNewLabel_3 = new JLabel("몸무게:");
-		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel_3.setBounds(170, 169, 57, 15);
+		lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 16));
+		lblNewLabel_3.setBounds(197, 169, 57, 19);
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("");
@@ -303,7 +304,7 @@ public class Main extends JFrame {
 		user_character = new JLabel("");
 		// user_character.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는
 		// 브로콜리.png")));
-		user_character.setBounds(22, 59, 135, 154);
+		user_character.setBounds(49, 59, 135, 154);
 		getContentPane().add(user_character);
 
 		JLabel lblNewLabel_7 = new JLabel("New label");
@@ -313,22 +314,22 @@ public class Main extends JFrame {
 
 		JLabel lblNewLabel_8 = new JLabel("");
 		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/그림6.png")));
-		lblNewLabel_8.setBounds(36, 293, 178, 23);
+		lblNewLabel_8.setBounds(38, 306, 175, 23);
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("BMI");
 		lblNewLabel_9.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel_9.setBounds(116, 324, 33, 15);
+		lblNewLabel_9.setBounds(115, 235, 33, 15);
 		getContentPane().add(lblNewLabel_9);
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리선.png")));
-		lblNewLabel_6.setBounds(246, 237, 6, 85);
+		lblNewLabel_6.setBounds(246, 237, 6, 97);
 		getContentPane().add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_10 = new JLabel("");
 		lblNewLabel_10.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-		lblNewLabel_10.setBounds(273, 309, 112, 15);
+		lblNewLabel_10.setBounds(273, 322, 112, 15);
 		getContentPane().add(lblNewLabel_10);
 		// 오늘의 섭취칼로리
 				String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
@@ -367,6 +368,11 @@ public class Main extends JFrame {
 				String todayKcalText = String.format("%.0f", todayKcal);
 				String recommendedKcalText = String.format("%.0f", recommendedKcal);
 				lblNewLabel_10.setText(todayKcalText + " " + "/" + " " + recommendedKcalText + "kcal");
+				
+				JLabel lblNewLabel_11 = new JLabel("하루 섭취 칼로리");
+				lblNewLabel_11.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+				lblNewLabel_11.setBounds(263, 234, 105, 15);
+				getContentPane().add(lblNewLabel_11);
 				
 		setResizable(false); // 창 크기 고정
 		setLocationRelativeTo(null); // 화면 중앙에 위치
