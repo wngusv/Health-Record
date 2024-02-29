@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 public class Onboarding extends JPanel {
     private CardLayout cardLayout;
     private JPanel cardsPanel;
+    private int currentCardIndex = 0; // 현재 보여지는 카드의 인덱스를 추적하는 변수 추가
 
     public Onboarding() {
         setLayout(new BorderLayout());
@@ -30,14 +31,12 @@ public class Onboarding extends JPanel {
             JLabel imageLabel = new JLabel(imageIcon);
             cardPanel.add(imageLabel);
             cardsPanel.add(cardPanel, fileName);
-            
         }
+
         add(cardsPanel, BorderLayout.CENTER);
-        
 
         // 이전 카드로 이동하는 버튼
-        JButton prevButton = new JButton("<");
-        prevButton.setForeground(Color.GRAY);
+        JButton prevButton = new JButton("이전");
         prevButton.setContentAreaFilled(false);
         prevButton.setBorderPainted(false);
         prevButton.setFocusPainted(false);
@@ -48,9 +47,10 @@ public class Onboarding extends JPanel {
             }
         });
 
-        // 다음 카드로 이동하는 버튼
-        JButton nextButton = new JButton(">");
-        nextButton.setForeground(Color.GRAY);
+        
+
+     // 다음 카드로 이동하는 버튼
+        JButton nextButton = new JButton("다음");
         nextButton.setContentAreaFilled(false);
         nextButton.setBorderPainted(false);
         nextButton.setFocusPainted(false);
@@ -58,9 +58,16 @@ public class Onboarding extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 cardLayout.next(cardsPanel);
+                currentCardIndex++; // 다음 카드로 이동할 때 현재 카드의 인덱스를 증가시킴
+                
+                // 만약 마지막 카드라면
+                if (currentCardIndex == imageFileNames.length - 1) {
+                    // 현재 JFrame 닫기
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(Onboarding.this);
+                    frame.dispose(); // JFrame 닫기
+                }
             }
         });
-
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(prevButton);
         buttonPanel.add(nextButton);
@@ -70,17 +77,26 @@ public class Onboarding extends JPanel {
         
     }
 
-
     public static void main(String[] args) {
         JFrame frame = new JFrame("운동 프로그램 온보딩");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(371, 620);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setSize(368, 620);
+
+        // 현재 화면 크기 가져오기
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+        // JFrame을 화면 중앙에 위치시키기
+        int x = (screenSize.width - frame.getWidth()) / 2;
+        int y = (screenSize.height - frame.getHeight()) / 2;
+        frame.setLocation(x, y);
 
         Onboarding onboardingPanel = new Onboarding();
         frame.add(onboardingPanel);
+     // 나가기 버튼 숨기기
+        frame.setUndecorated(true); // 창 장식 요소(타이틀 바, 테두리) 제거
 
         frame.setVisible(true);
     }
 }
-
 
