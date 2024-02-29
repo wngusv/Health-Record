@@ -24,12 +24,12 @@ public class Onboarding extends JPanel {
         cardsPanel.setPreferredSize(preferredSize); // 크기 설정
 
         // 이미지 파일 이름
-        String[] imageFileNames = {"src/image/온보딩1.png", "src/image/온보딩2.png", "src/image/온보딩3.png", "src/image/온보딩4.png", "src/image/온보딩5.png", "src/image/온보딩6.png"};
+        String[] imageFileNames = {"/image/온보딩1.png", "/image/온보딩2.png", "/image/온보딩3.png", "/image/온보딩4.png", "/image/온보딩5.png", "/image/온보딩6.png"};
 
         // 각 이미지를 카드에 추가
         for (String fileName : imageFileNames) {
             JPanel cardPanel = new JPanel();
-            ImageIcon imageIcon = new ImageIcon(fileName);
+            ImageIcon imageIcon = new ImageIcon(FirstPage.class.getResource(fileName));
             JLabel imageLabel = new JLabel(imageIcon);
             cardPanel.add(imageLabel);
             cardsPanel.add(cardPanel, fileName);

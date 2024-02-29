@@ -340,31 +340,31 @@ public class ExerciseRecords extends JFrame {
         ImageIcon exerciseIcon = null;
         switch (exerciseName) {
             case "걷기":
-                exerciseIcon = new ImageIcon(getClass().getResource("/image/걷기(수정완).gif"));
+                exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/걷기(수정완).gif"));
                 break;
             case "걷기(보통 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/걷기(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/걷기(수정완).gif"));
             	break;
             case "계단 오르내리기":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/계단(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/계단(수정완).gif"));
             	break;
             case "달리기(느린 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/달리기(수정완).gif"));
             	break;
             case "달리기(보통 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/달리기(수정완).gif"));
             	break;
             case "달리기(빠른 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/달리기(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/달리기(수정완).gif"));
             	break;
             case "등산":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/등산(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/등산(수정완).gif"));
             	break;
             case "러닝머신(느린 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/러닝머신(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/러닝머신(수정완).gif"));
             	break;
             case "러닝머신(보통 속도)":
-            	exerciseIcon = new ImageIcon(getClass().getResource("/image/러닝머신(수정완).gif"));
+            	exerciseIcon = new ImageIcon(ExerciseRecords.class.getResource("/image/러닝머신(수정완).gif"));
             	break;
             case "무게 트레이닝(고강도)":
             	exerciseIcon = new ImageIcon(getClass().getResource("/image/무게트레이닝(수정완).gif"));

@@ -370,8 +370,8 @@ public class ExerciseCalendar extends JFrame {
 	public void changeImageOfToday() {
 		today = LocalDate.now();
 
-		newImage = "Check" + today.getDayOfMonth() + ".png";
-		newImageIcon = new ImageIcon(newImage);
+		newImage = "/image/Check" + today.getDayOfMonth() + ".png";
+		newImageIcon = new ImageIcon(ExerciseCalendar.class.getResource(newImage));
 		System.out.println(newImageIcon);
 		// 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
 		for (Component component : calendarPanel.getComponents()) {
@@ -430,7 +430,9 @@ public class ExerciseCalendar extends JFrame {
 			e.printStackTrace();
 		}
 		// 기본 이미지 경로
-		return "Date" + date.getDayOfMonth() + ".png";
+		String defaultImage = "/image/Date" + date.getDayOfMonth() + ".png";
+		ImageIcon defaultImage2 = new ImageIcon(ExerciseCalendar.class.getResource(defaultImage));
+		return "/image/Date" + date.getDayOfMonth() + ".png";
 	}
 
 	public void changeTextOfToday() {
