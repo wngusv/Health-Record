@@ -133,12 +133,12 @@ public class ExerciseCalendar extends JFrame {
 
 		SpringLayout springLayout = new SpringLayout();
 		springLayout.putConstraint(SpringLayout.NORTH, controlsPanel, 0, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 0, SpringLayout.EAST, calendarPanel);
 		springLayout.putConstraint(SpringLayout.NORTH, calendarPanel, 120, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, calendarPanel, 0, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, calendarPanel, 0, SpringLayout.SOUTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, calendarPanel, 0, SpringLayout.EAST, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, controlsPanel, 0, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, controlsPanel, 344, SpringLayout.WEST, getContentPane());
 		getContentPane().setLayout(springLayout);
 
 		getContentPane().add(controlsPanel);
@@ -182,13 +182,13 @@ public class ExerciseCalendar extends JFrame {
 		getContentPane().add(lblNewLabel_4);
 
 		JLabel lblNewLabel_5 = new JLabel("토");
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel_5, 261, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel_5, 0, SpringLayout.NORTH, lblNewLabel);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_5, -6, SpringLayout.NORTH, calendarPanel);
 		lblNewLabel_5.setForeground(Color.LIGHT_GRAY);
 		lblNewLabel_5.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 		getContentPane().add(lblNewLabel_5);
 
 		JLabel lblNewLabel_6 = new JLabel("일");
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_5, -29, SpringLayout.WEST, lblNewLabel_6);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel_6, -6, SpringLayout.NORTH, calendarPanel);
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel_6, -21, SpringLayout.EAST, getContentPane());
 		
@@ -212,7 +212,7 @@ public class ExerciseCalendar extends JFrame {
 		controlsPanel.add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_9 = new JLabel("");
-		lblNewLabel_9.setBounds(0, 0, 344, 38);
+		lblNewLabel_9.setBounds(0, 0, 354, 38);
 		lblNewLabel_9.setIcon(new ImageIcon(ExerciseCalendar.class.getResource("/image/큰초록바.png")));
 		controlsPanel.add(lblNewLabel_9);
 		lblNewLabel_6.setForeground(Color.LIGHT_GRAY);
@@ -372,7 +372,7 @@ public class ExerciseCalendar extends JFrame {
 
 		newImage = "Check" + today.getDayOfMonth() + ".png";
 		newImageIcon = new ImageIcon(newImage);
-
+		System.out.println(newImageIcon);
 		// 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
 		for (Component component : calendarPanel.getComponents()) {
 			if (component instanceof JPanel) {

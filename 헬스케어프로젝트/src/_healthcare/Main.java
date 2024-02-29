@@ -313,8 +313,8 @@ public class Main extends JFrame {
 		getContentPane().add(lblNewLabel_7);
 
 		JLabel lblNewLabel_8 = new JLabel("");
-		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/그림6.png")));
-		lblNewLabel_8.setBounds(38, 306, 175, 23);
+		lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/BMI.png")));
+		lblNewLabel_8.setBounds(37, 306, 178, 23);
 		getContentPane().add(lblNewLabel_8);
 
 		JLabel lblNewLabel_9 = new JLabel("BMI");
