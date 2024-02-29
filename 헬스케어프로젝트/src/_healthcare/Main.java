@@ -186,6 +186,7 @@ public class Main extends JFrame {
 
 		// JSlider 초기화(BMI표시)
 		slider = new JSlider();
+		slider.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
 		slider.setBounds(28, 237, 193, 46);
 		slider.setMinorTickSpacing(1); // 최소 틱 간격
 		slider.setMajorTickSpacing(10);
