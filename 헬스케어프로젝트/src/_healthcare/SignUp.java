@@ -325,7 +325,7 @@ public class SignUp extends JFrame {
             new Login();
             JFrame onboardingFrame = new JFrame("운동 프로그램 온보딩");
             onboardingFrame.setResizable(false);
-            onboardingFrame.setSize(371, 620);
+            onboardingFrame.setSize(371, 580);
 
             Onboarding onboardingPanel = new Onboarding();
             onboardingFrame.add(onboardingPanel);

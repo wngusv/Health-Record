@@ -20,6 +20,8 @@ public class Onboarding extends JPanel {
 
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
+        Dimension preferredSize = new Dimension(368, 540); // 원하는 크기로 설정
+        cardsPanel.setPreferredSize(preferredSize); // 크기 설정
 
         // 이미지 파일 이름
         String[] imageFileNames = {"src/image/온보딩1.png", "src/image/온보딩2.png", "src/image/온보딩3.png", "src/image/온보딩4.png", "src/image/온보딩5.png", "src/image/온보딩6.png"};
@@ -36,7 +38,8 @@ public class Onboarding extends JPanel {
         add(cardsPanel, BorderLayout.CENTER);
 
         // 이전 카드로 이동하는 버튼
-        JButton prevButton = new JButton("이전");
+        JButton prevButton = new JButton("<");
+        prevButton.setForeground(Color.GRAY);
         prevButton.setContentAreaFilled(false);
         prevButton.setBorderPainted(false);
         prevButton.setFocusPainted(false);
@@ -50,7 +53,8 @@ public class Onboarding extends JPanel {
         
 
      // 다음 카드로 이동하는 버튼
-        JButton nextButton = new JButton("다음");
+        JButton nextButton = new JButton(">");
+        nextButton.setForeground(Color.GRAY);
         nextButton.setContentAreaFilled(false);
         nextButton.setBorderPainted(false);
         nextButton.setFocusPainted(false);
@@ -69,6 +73,7 @@ public class Onboarding extends JPanel {
             }
         });
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
         buttonPanel.add(prevButton);
         buttonPanel.add(nextButton);
 
@@ -92,7 +97,7 @@ public class Onboarding extends JPanel {
         frame.setLocation(x, y);
 
         Onboarding onboardingPanel = new Onboarding();
-        frame.add(onboardingPanel);
+        frame.getContentPane().add(onboardingPanel);
      // 나가기 버튼 숨기기
         frame.setUndecorated(true); // 창 장식 요소(타이틀 바, 테두리) 제거
 
