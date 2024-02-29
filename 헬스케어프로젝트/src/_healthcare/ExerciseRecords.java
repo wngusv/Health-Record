@@ -285,6 +285,8 @@ public class ExerciseRecords extends JFrame {
 		btn_end.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				btn_Ok.setEnabled(true);
+				btn_start.setEnabled(true);
 				try {
 					// 현재 시간 가져오기
 					LocalDateTime now = LocalDateTime.now();
@@ -330,7 +332,6 @@ public class ExerciseRecords extends JFrame {
 			}
 		});
 		
-
 		setLocationRelativeTo(null);
 	}
 	
