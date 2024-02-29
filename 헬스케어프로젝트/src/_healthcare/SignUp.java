@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import javax.swing.ButtonGroup;
@@ -288,8 +289,28 @@ public class SignUp extends JFrame {
 		}
 
 		String sql = "INSERT INTO users (id, pw, name, age, height, weight, Goal_weight, gender, activity_index, user_char) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql2 = "SELECT id FROM users WHERE id = ?"; 
 		try (Connection connection = MySqlConnectionProvider.getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+				PreparedStatement preparedStatement = connection.prepareStatement(sql);
+				PreparedStatement pst = connection.prepareStatement(sql2);
+				) {
+			pst.setString(1, id);
+			
+			try(ResultSet rs = pst.executeQuery()){
+				String iddd = "";
+				while(rs.next()) {
+					iddd = rs.getString("id"); 
+				}
+				
+				if(id.equals(iddd)) {
+					JOptionPane.showMessageDialog(this, "이미 있는 아이디입니다. 다시 입력해주세요");
+				}
+				
+			}
+			
+			
+			
+			
 			preparedStatement.setString(1, id);
 			preparedStatement.setString(2, pw);
 			preparedStatement.setString(3, name);
@@ -328,6 +349,9 @@ public class SignUp extends JFrame {
 			} else {
 				JOptionPane.showMessageDialog(this, "회원 등록 실패");
 			}
+			
+			
+			
 
 		} catch (SQLException ex) {
 			System.out.println(ex.getMessage());
