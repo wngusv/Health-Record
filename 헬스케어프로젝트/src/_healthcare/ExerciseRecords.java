@@ -1,8 +1,7 @@
 package _healthcare;
 
-import javax.swing.JFrame;
-import javax.swing.JComboBox;
-
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -15,15 +14,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dbutil.MySqlConnectionProvider;
-import java.awt.Color;
-import javax.swing.ImageIcon;
-import java.awt.Font;
 
 public class ExerciseRecords extends JFrame {
 	private JButton btn_Ok;
@@ -154,6 +153,12 @@ public class ExerciseRecords extends JFrame {
 		btn_Ok.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				btn_Ok.setEnabled(false);
+				String selectedSport = (String) comboBox_Sports.getSelectedItem();
+		        if ("(운동 목록 선택)".equals(selectedSport)) {
+		        	openSportSelectionDialog();
+		        	btn_Ok.setEnabled(true);
+		        }
 				// 선택된 운동 항목 가져오기
 				selectedExercise = comboBox_Sports.getSelectedItem().toString(); // 선택된 운동 저장
 
@@ -176,7 +181,6 @@ public class ExerciseRecords extends JFrame {
 				} catch (SQLException ex) {
 					ex.printStackTrace();
 				}
-				btn_Ok.setEnabled(false);
 			}
 		});
 
@@ -359,4 +363,43 @@ public class ExerciseRecords extends JFrame {
 		System.out.println(timediff);
 //		lblTimeDiff.setText(timediff); // 라벨에 값 설정
 	}
+	
+	private void openSportSelectionDialog() {
+	    // 다이얼로그 생성
+	    JDialog dialog = new JDialog(this, "운동 목록 선택", true);
+	    dialog.setSize(300, 110); // 다이얼로그 크기 설정
+	    dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); // 다이얼로그 닫기 설정
+	    dialog.setLocationRelativeTo(this); // 다이얼로그를 부모 창 중앙에 위치
+
+	    // 다이얼로그에 추가할 컴포넌트들 생성  아이디 또는 비밀번호가 잘못되었습니다.
+	    JLabel label = new JLabel("          운동 목록을 선택하세요.           ");
+	    label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+	    
+	    JButton button = new JButton("");
+	    button.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+	    button.setContentAreaFilled(false);
+	    button.setBorderPainted(false);
+	    button.setFocusPainted(false);
+	    
+	    // 다이얼로그에 컴포넌트들 추가
+	    JPanel panel = new JPanel();
+	    panel.add(label);
+	    panel.add(button);
+	    dialog.add(panel);
+	    panel.setBackground(Color.WHITE);
+
+	    // 확인 버튼의 ActionListener 추가
+	    button.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            // 다이얼로그를 닫기
+	            dialog.dispose();
+	        }
+	    });
+
+
+	    // 다이얼로그 표시
+	    dialog.setVisible(true);
+	}
+
 }

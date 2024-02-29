@@ -11,6 +11,7 @@ import java.time.LocalDate;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
@@ -19,6 +20,8 @@ import javax.swing.JTextField;
 import dbutil.MySqlConnectionProvider;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -254,7 +257,8 @@ public class EditProfile extends JFrame {
           updateWeight = Double.parseDouble(weightField.getText());
        } catch(NumberFormatException e) {
           // 숫자 변환 오류 발생 시 다이얼로그 창 띄우기
-           JOptionPane.showMessageDialog(null, "나이,키,몸무게 칸에는 숫자를 입력해야 합니다.", "입력 오류", JOptionPane.ERROR_MESSAGE);
+    	   Dialog dialog = new Dialog(this);
+           dialog.setVisible(true); // 다이얼로그 창 표시
        }
        
        LocalDate today = LocalDate.now();
@@ -305,7 +309,36 @@ public class EditProfile extends JFrame {
            e.printStackTrace();
        }
    }
+  
+   class Dialog extends JDialog {
+       public Dialog(JFrame frame) {
+           super(frame, "", true); 
+           setSize(350, 110);
+           setLocationRelativeTo(frame);
 
+           JPanel panel = new JPanel();
+           JLabel label = new JLabel("나이,키,몸무게 칸에는 숫자를 입력해야 합니다.");
+           label.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+           
+           JButton closeButton = new JButton();
+           closeButton.setIcon(new ImageIcon(DietRecord.class.getResource("/image/재입력.png")));
+           closeButton.setContentAreaFilled(false);
+           closeButton.setBorderPainted(false);
+           closeButton.setFocusPainted(false);
+           panel.add(label);
+           panel.add(closeButton);
+           panel.setBackground(Color.WHITE);
+
+           closeButton.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   dispose();
+               }
+           });
+
+           add(panel);
+       }
+   }
 
    private void selectImage() {
       

@@ -33,6 +33,7 @@ import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
@@ -75,7 +76,7 @@ public class MessageBoard extends JFrame {
 				return column == 5;
 			}
 		};
-
+		
 		table = new JTable(tableModel);
 		table.setRowHeight(50); // 테이블 셀 크기 !!!!!!!!!!!!!!!!!!!!!!!!
 		table.setFont(new Font("휴면편지체", Font.PLAIN, 15)); // 원하는 폰트 설정
@@ -90,6 +91,8 @@ public class MessageBoard extends JFrame {
 		ImageIcon selectedIcon = new ImageIcon("src/image/liked2.png"); // 여기인거같아~~~~
 		table.getColumnModel().getColumn(5).setCellRenderer(new ToggleButtonRenderer(selectedIcon));
 		table.getColumnModel().getColumn(5).setCellEditor(new ToggleButtonEditor());
+		
+		
 
 	}
 
@@ -378,6 +381,7 @@ public class MessageBoard extends JFrame {
 			setFocusPainted(false); // 포커스 표시 제거
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setBorderPainted(false);
+			
 
 		}
 
