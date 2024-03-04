@@ -43,6 +43,7 @@ public class WaterRecords extends JFrame {
 	private JLabel lblNewLabel_2;
 	private JLabel lblNewLabel_5;
 	private int todayDrinkWater;
+	private JLabel lblNewLabel_1;
 
 	public WaterRecords(String loginId) {
 		// 물 기록창에 들어왔을 때 유저 아이디가 그 날에 마신 물을 양만큼 버튼 이미지 바꿔서 나오게 하기!!!!
@@ -93,6 +94,7 @@ public class WaterRecords extends JFrame {
 		setSize(403, 416);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+		setResizable(false); 
 	}
 
 	private void updateCupCount() {
@@ -268,6 +270,11 @@ public class WaterRecords extends JFrame {
 		lblNewLabel_5.setIcon(new ImageIcon(WaterRecords.class.getResource("/image/물 음용량 표시4.png")));
 		lblNewLabel_5.setBounds(36, 241, 319, 107);
 		getContentPane().add(lblNewLabel_5);
+		
+		lblNewLabel_1 = new JLabel("물을 1컵(250ml)씩 마실때마다 물컵을 클릭하면 컵의 물이 채워집니다.");
+		lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 12));
+		lblNewLabel_1.setBounds(36, 56, 346, 15);
+		getContentPane().add(lblNewLabel_1);
 	}
 	
 	
