@@ -218,11 +218,11 @@ public class ExerciseCalendar extends JFrame {
 		lblNewLabel_8.setForeground(Color.RED);
 		controlsPanel.add(lblNewLabel_8);
 		
-		JLabel lblNewLabel_10 = new JLabel("캘린더");
+		JLabel lblNewLabel_10 = new JLabel("운동 해빗 트래커");
 		lblNewLabel_10.setBackground(new Color(240, 240, 240));
 		lblNewLabel_10.setForeground(new Color(255, 255, 255));
 		lblNewLabel_10.setFont(new Font("휴먼편지체", Font.BOLD, 20));
-		lblNewLabel_10.setBounds(47, 3, 77, 32);
+		lblNewLabel_10.setBounds(47, 3, 139, 32);
 		controlsPanel.add(lblNewLabel_10);
 		
 		JLabel lblNewLabel_9 = new JLabel("");

@@ -161,7 +161,7 @@ public class Main extends JFrame {
       getContentPane().add(btnNewButton);
 
       JButton calButton = new JButton("");
-      calButton.setIcon(new ImageIcon(Main.class.getResource("/image/캘린더버튼.png")));
+      calButton.setIcon(new ImageIcon(Main.class.getResource("/image/운동해빗트래커.png")));
       calButton.setOpaque(false); // 배경 투명하게 설정
       calButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       calButton.setBorderPainted(false); // 테두리 제거
