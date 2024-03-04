@@ -28,31 +28,40 @@ import dbutil.MySqlConnectionProvider;
 
 public class UserManagement extends JFrame {
 	public UserManagement() {
+		getContentPane().setBackground(Color.WHITE);
 		SpringLayout springLayout = new SpringLayout();
 		getContentPane().setLayout(springLayout);
 
-		JButton SecessionButton = new JButton("회원탈퇴");
+		JButton SecessionButton = new JButton("");
+		springLayout.putConstraint(SpringLayout.NORTH, SecessionButton, 90, SpringLayout.NORTH, getContentPane());
+		SecessionButton.setContentAreaFilled(false);
+		SecessionButton.setBorderPainted(false);
+		SecessionButton.setFocusPainted(false);
+		SecessionButton.setIcon(new ImageIcon(UserManagement.class.getResource("/image/회원탈퇴.png")));
+		springLayout.putConstraint(SpringLayout.EAST, SecessionButton, -62, SpringLayout.EAST, getContentPane());
 		SecessionButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new SecessionDialog(UserManagement.this).setVisible(true);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, SecessionButton, 100, SpringLayout.NORTH, getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, SecessionButton, 61, SpringLayout.WEST, getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, SecessionButton, -41, SpringLayout.SOUTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, SecessionButton, -62, SpringLayout.EAST, getContentPane());
 		getContentPane().add(SecessionButton);
 
-		JButton PwButton = new JButton("비밀번호 찾기");
+		JButton PwButton = new JButton("");
+		springLayout.putConstraint(SpringLayout.NORTH, PwButton, 44, SpringLayout.NORTH, getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, PwButton, 61, SpringLayout.WEST, getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, PwButton, -6, SpringLayout.NORTH, SecessionButton);
+		springLayout.putConstraint(SpringLayout.EAST, PwButton, 0, SpringLayout.EAST, SecessionButton);
+		PwButton.setContentAreaFilled(false);
+		PwButton.setBorderPainted(false);
+		PwButton.setFocusPainted(false);
+		PwButton.setIcon(new ImageIcon(UserManagement.class.getResource("/image/비밀번호찾기.png")));
 		PwButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new PwDialog(UserManagement.this).setVisible(true);
 			}
 		});
-		springLayout.putConstraint(SpringLayout.NORTH, PwButton, 39, SpringLayout.NORTH, getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, PwButton, 61, SpringLayout.WEST, getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, PwButton, -31, SpringLayout.NORTH, SecessionButton);
-		springLayout.putConstraint(SpringLayout.EAST, PwButton, 0, SpringLayout.EAST, SecessionButton);
 		getContentPane().add(PwButton);
 
 		setResizable(false);
