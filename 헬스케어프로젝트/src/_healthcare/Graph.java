@@ -26,13 +26,15 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Graph extends JFrame {
-	private String user_id;
+   private String user_id;
     public Graph(String loginId) {
-    	getContentPane().setBackground(Color.WHITE);
-    	setTitle("몸무게 변화 추이");
-    	this.user_id = loginId;
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Graph.class.getResource("/image/_ICON.png")));
+       getContentPane().setBackground(Color.WHITE);
+       setTitle("몸무게 변화 추이");
+       this.user_id = loginId;
         //super("체중 기록 차트");
 
         // 차트 생성
@@ -46,11 +48,11 @@ public class Graph extends JFrame {
         // 데이터베이스에 연결하고 데이터 가져오기
         String sql = "SELECT date, weight FROM weightrecords WHERE user_id = ?";
         try (Connection conn = MySqlConnectionProvider.getConnection();
-        		PreparedStatement pst = conn.prepareStatement(sql)) {
+              PreparedStatement pst = conn.prepareStatement(sql)) {
             //Statement statement = conn.createStatement();
-        	pst.setString(1, user_id);
-        	
-        	try (ResultSet resultSet = pst.executeQuery()) {
+           pst.setString(1, user_id);
+           
+           try (ResultSet resultSet = pst.executeQuery()) {
                 // 데이터 포인트를 담을 리스트 생성
                 List<Date> dates = new ArrayList<>();
                 List<Double> weights = new ArrayList<>();
@@ -73,12 +75,13 @@ public class Graph extends JFrame {
                 chartPanel.setLayout(null);
                 
                 JButton btnNewButton = new JButton("");
+                btnNewButton.setToolTipText("뒤로가기");
                 btnNewButton.setIcon(new ImageIcon(Graph.class.getResource("/image/뒤로가기.png")));
                 btnNewButton.addActionListener(new ActionListener() {
-                	public void actionPerformed(ActionEvent arg0) {
-                		dispose();
-                		new Main(loginId);
-                	}
+                   public void actionPerformed(ActionEvent arg0) {
+                      dispose();
+                      new Main(loginId);
+                   }
                 });
                 btnNewButton.setBounds(538, 380, 55, 23);
                 btnNewButton.setContentAreaFilled(false);

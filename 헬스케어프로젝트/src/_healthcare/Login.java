@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class Login extends JFrame {
    private JTextField txtID;
@@ -33,6 +34,7 @@ public class Login extends JFrame {
    private JLabel lblNewLabel;
 
    public Login() {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/image/_ICON.png")));
       setTitle("활기록");
       getContentPane().setBackground(Color.WHITE);
       getContentPane().setLayout(null);

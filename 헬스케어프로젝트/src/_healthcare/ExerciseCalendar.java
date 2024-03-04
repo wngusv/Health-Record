@@ -29,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class ExerciseCalendar extends JFrame {
 	private JLabel monthLabel; // 월을 표시하는 레이블
@@ -50,6 +51,7 @@ public class ExerciseCalendar extends JFrame {
 	private final Action action = new SwingAction();
 
 	public ExerciseCalendar(String loginId) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ExerciseCalendar.class.getResource("/image/_ICON.png")));
 		getContentPane().setFont(new Font("굴림", Font.BOLD, 12));
 
 		this.loginId = loginId;

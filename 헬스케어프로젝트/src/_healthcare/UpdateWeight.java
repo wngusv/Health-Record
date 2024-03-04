@@ -6,11 +6,13 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 
 public class UpdateWeight extends JFrame {
     private Main mainInstance; // Main 클래스의 인스턴스를 저장할 필드
 
     public UpdateWeight(Main mainInstance) {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(UpdateWeight.class.getResource("/image/_ICON.png")));
         this.mainInstance = mainInstance;
         
         initializeUI();

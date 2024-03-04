@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 // 나의운동기록창
 
 public class MyExerciseRecords extends JFrame {
@@ -31,6 +32,7 @@ public class MyExerciseRecords extends JFrame {
     private String user_id;
     
    public MyExerciseRecords(String loginId) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(MyExerciseRecords.class.getResource("/image/_ICON.png")));
       this.user_id = loginId;
               getContentPane().setBackground(Color.WHITE);
               

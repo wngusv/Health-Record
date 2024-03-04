@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class ExerciseRecords extends JFrame {
    private JButton btn_Ok;
@@ -39,6 +40,7 @@ public class ExerciseRecords extends JFrame {
 private JButton btn_end;
 
    public ExerciseRecords(String loginId) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(ExerciseRecords.class.getResource("/image/_ICON.png")));
       this.loginId = loginId;
       getContentPane().setBackground(Color.WHITE);
       System.out.println(loginId);

@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class WaterRecords extends JFrame {
    int cup = 0;
@@ -46,6 +47,7 @@ public class WaterRecords extends JFrame {
    private JLabel lblNewLabel_1;
 
    public WaterRecords(String loginId) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(WaterRecords.class.getResource("/image/_ICON.png")));
       // 물 기록창에 들어왔을 때 유저 아이디가 그 날에 마신 물을 양만큼 버튼 이미지 바꿔서 나오게 하기!!!!
       getContentPane().setBackground(Color.WHITE); // 오늘 데이트와 아이디로 select해보고/ 행이 없다면 행 insert./ 행이 있다면 행 update.
       this.user_id = loginId;

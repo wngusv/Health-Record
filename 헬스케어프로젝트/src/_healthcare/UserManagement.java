@@ -25,9 +25,11 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class UserManagement extends JFrame {
 	public UserManagement() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(UserManagement.class.getResource("/image/_ICON.png")));
 		getContentPane().setBackground(Color.WHITE);
 		SpringLayout springLayout = new SpringLayout();
 		getContentPane().setLayout(springLayout);

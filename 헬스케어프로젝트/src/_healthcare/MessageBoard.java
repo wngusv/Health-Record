@@ -36,6 +36,7 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class MessageBoard extends JFrame {
 	private DefaultTableModel tableModel;
@@ -47,6 +48,7 @@ public class MessageBoard extends JFrame {
 	private int newRowNumber;
 
 	public MessageBoard(String loginId) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MessageBoard.class.getResource("/image/_ICON.png")));
 		this.loginId = loginId;
 		setResizable(false); // 창 크기 고정
 		setTitle("게시판");

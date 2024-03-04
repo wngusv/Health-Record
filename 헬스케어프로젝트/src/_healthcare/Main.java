@@ -22,6 +22,7 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 
 import dbutil.MySqlConnectionProvider;
+import java.awt.Toolkit;
 
 public class Main extends JFrame {
    private static String loginId;
@@ -34,6 +35,7 @@ public class Main extends JFrame {
    private double recommendedKcal;
 
    public Main(String loginId) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/image/_ICON.png")));
       setTitle("마이 페이지");
       getContentPane().setBackground(Color.WHITE);
       this.loginId = loginId;

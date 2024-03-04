@@ -23,6 +23,7 @@ public class HalfRingChart extends JFrame {
 	private BufferedImage chartImage;
 
 	public HalfRingChart(String loginId) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(HalfRingChart.class.getResource("/image/_ICON.png")));
 		this.loginId = loginId;
 		// 오늘의 섭취칼로리
 		String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
@@ -110,11 +111,11 @@ public class HalfRingChart extends JFrame {
 
 
 		// Add label to the bottom of the chart panel
-		add(label, BorderLayout.SOUTH);
+		getContentPane().add(label, BorderLayout.SOUTH);
 		// Display chart in a panel
 		ChartPanel chartPanel = new ChartPanel(chart);
 		chartPanel.setPreferredSize(new Dimension(300, 150));
-		add(chartPanel, BorderLayout.CENTER);
+		getContentPane().add(chartPanel, BorderLayout.CENTER);
 		
 		 this.chartImage = chart.createBufferedImage(300, 150);
 	}

@@ -22,6 +22,7 @@ import java.awt.Font;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import java.awt.event.*;
+import java.awt.Toolkit;
 
 public class DietRecord extends JFrame {
 
@@ -43,6 +44,7 @@ public class DietRecord extends JFrame {
 	private JLabel lblNewLabel_11;
 	
 	public DietRecord(String loginId) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DietRecord.class.getResource("/image/_ICON.png")));
 		getContentPane().setBackground(Color.WHITE);
 		this.user_id = loginId;
 		extracted();

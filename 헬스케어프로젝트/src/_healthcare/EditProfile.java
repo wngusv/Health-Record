@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 public class EditProfile extends JFrame {
    private String userId;
@@ -55,6 +56,7 @@ public class EditProfile extends JFrame {
 private double updateGoal_weight;
 
    public EditProfile(String loginID) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(EditProfile.class.getResource("/image/_ICON.png")));
       this.userId = loginID;
       extracted();
       // 생성자 내에서 이벤트 리스너 등록

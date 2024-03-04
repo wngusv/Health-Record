@@ -45,6 +45,7 @@ public class SignUp extends JFrame {
    private JRadioButton tomato;
 
    public SignUp() {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(SignUp.class.getResource("/image/_ICON.png")));
       setTitle("회원가입");
       getContentPane().setBackground(Color.WHITE);
       getContentPane().setLayout(null);
@@ -253,7 +254,7 @@ public class SignUp extends JFrame {
       imageButtonGroup.add(tomato);
 
       JLabel lblNewLabel_1 = new JLabel("");
-      lblNewLabel_1.setBounds(0, 0, 344, 32);
+      lblNewLabel_1.setBounds(0, 0, 359, 32);
       lblNewLabel_1.setIcon(new ImageIcon(SignUp.class.getResource("/image/큰초록바.png")));
       getContentPane().add(lblNewLabel_1);
 
@@ -269,7 +270,7 @@ public class SignUp extends JFrame {
             registerMember();
          }
       });
-      setSize(360, 719);
+      setSize(355, 719);
       setVisible(true);
       setResizable(false); // 창 크기 고정
       setLocationRelativeTo(null); // 화면 중앙에 위치
@@ -328,7 +329,7 @@ public class SignUp extends JFrame {
             onboardingFrame.setSize(371, 580);
 
             Onboarding onboardingPanel = new Onboarding();
-            onboardingFrame.add(onboardingPanel);
+            onboardingFrame.getContentPane().add(onboardingPanel);
 
             // onboardingFrame을 화면 중앙 상단에 위치시키기
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

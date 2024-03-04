@@ -32,6 +32,7 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.JScrollBar;
 import javax.swing.UIManager;
+import java.awt.Toolkit;
 
 public class Lunch_FindFoodCalories extends JFrame {
    private JTextField textField;
@@ -57,6 +58,7 @@ public class Lunch_FindFoodCalories extends JFrame {
    private List<String> list = new ArrayList<>();
 
    public Lunch_FindFoodCalories(String loginId) {
+   	setIconImage(Toolkit.getDefaultToolkit().getImage(Lunch_FindFoodCalories.class.getResource("/image/_ICON.png")));
 
       getContentPane().setBackground(Color.WHITE);
       this.user_id = loginId;

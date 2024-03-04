@@ -6,9 +6,11 @@ import javax.swing.Timer;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Toolkit;
 
 public class FirstPage extends JFrame {
     public FirstPage() {
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(FirstPage.class.getResource("/image/_ICON.png")));
     	setTitle("활기록");
         extracted();
         showgui();
