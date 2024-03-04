@@ -37,9 +37,18 @@ public class Login extends JFrame {
       getContentPane().setBackground(Color.WHITE);
       getContentPane().setLayout(null);
       
-      JButton btnNewButton = new JButton("비밀번호 찾기 / 회원탈퇴");
-      btnNewButton.setBounds(166, 371, 171, 23);
-      getContentPane().add(btnNewButton);
+      JButton managementButton = new JButton("비밀번호 찾기 / 회원탈퇴");
+      managementButton.setFont(new Font("휴먼편지체", Font.ITALIC, 12));
+      managementButton.setContentAreaFilled(false);
+      managementButton.setBorderPainted(false);
+      managementButton.setFocusPainted(false);
+      managementButton.addActionListener(new ActionListener() {
+      	public void actionPerformed(ActionEvent e) {
+      		new UserManagement();
+      	}
+      });
+      managementButton.setBounds(75, 372, 186, 23);
+      getContentPane().add(managementButton);
 
       JLabel lblNewLabel_3 = new JLabel("New label");
       lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/image/요가하는 옥쓔.png")));

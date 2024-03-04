@@ -68,40 +68,58 @@ public class Morning_FindFoodCalories extends JFrame {
    }
 
    private void writeTodayEat() {
-      String sqlSelectEatFood = "SELECT breakfast_meal FROM morningdiet WHERE user_id = ? AND date = ? ";
-      try (Connection conn = MySqlConnectionProvider.getConnection();
+       String sqlSelectEatFood = "SELECT breakfast_meal, breakfast_kcal FROM morningdiet WHERE user_id = ? AND date = ? ";
+       try (Connection conn = MySqlConnectionProvider.getConnection();
             PreparedStatement pst = conn.prepareStatement(sqlSelectEatFood);
+       ) {
+           pst.setString(1, user_id);
+           pst.setDate(2, sqlDate);
 
-      ) {
-         pst.setString(1, user_id);
-         pst.setDate(2, sqlDate);
+           try (ResultSet rs = pst.executeQuery();) {
+               while (rs.next()) { // 먹은 음식 하나
+                   String eatenFoodList = rs.getString("breakfast_meal");
+                   Double kcal = rs.getDouble("breakfast_kcal");
+                   
+                   // "단식"이 아닌 경우에만 처리
+                   if (!"단식".equals(eatenFoodList)) {
+                       String sql2 = "SELECT oneServing, unit FROM foodcalories WHERE foodName = ? AND calories = ? ";
+                       try (PreparedStatement pst2 = conn.prepareStatement(sql2)) {
+                           pst2.setString(1, eatenFoodList);
+                           pst2.setDouble(2, kcal);
+                           
+                           try (ResultSet rs2 = pst2.executeQuery()) {
+                               if (rs2.next()) {
+                                   double oneServing = rs2.getDouble("oneServing");
+                                   String unit = rs2.getString("unit");
+                                   String oneServingAndUnit = oneServing + unit; // 먹은 음식 1개에 대한 중량
 
-         try (ResultSet rs = pst.executeQuery();) {
-
-            while (rs.next()) {
-               String eatenFoodList = rs.getString("breakfast_meal");
-               // "단식"이 아닌 경우에만 리스트에 추가
-               if (!"단식".equals(eatenFoodList)) {
-                  list.add(eatenFoodList);
+                                   // 리스트에 추가
+                                   list.add(eatenFoodList + " " + oneServingAndUnit);
+                               }
+                           }
+                       }
+                   }
                }
-            }
-         }
+           }
 
-         StringBuilder stringBuilder = new StringBuilder();
-         for (String element : list) {
+           // HTML 텍스트 생성
+           StringBuilder stringBuilder = new StringBuilder();
+           for (String element : list) {
+               stringBuilder.append("<font face='휴먼편지체' size='4' color='black'>").append(element).append("<br/>");
+           }
+           String htmlText = stringBuilder.toString();
 
-            stringBuilder.append("<font face='휴먼편지체' size='4' color='black'>").append(element).append("<br/>");
-         }
-         String htmlText = stringBuilder.toString();
+           // HTML 텍스트를 레이블에 설정
+           lbl_list.setText("<html>" + htmlText + "</html>");
 
-         // HTML 텍스트를 레이블에 설정
-         lbl_list.setText("<html>" + htmlText + "</html>");
-         list.clear();
+           // 리스트 초기화
+           list.clear();
 
-      } catch (SQLException e) {
-         e.printStackTrace();
-      }
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
    }
+
 
    private void findFoodList(String findFoodName) {
       String selectQuery = "SELECT * FROM foodcalories WHERE foodName LIKE ? LIMIT 0,1000000";
@@ -152,7 +170,7 @@ public class Morning_FindFoodCalories extends JFrame {
    private void findFoodUserEatOften() {
       // 테이블 모델 초기화
       tableModel.setRowCount(0);
-      
+
       String sql = "SELECT breakfast_meal FROM morningdiet\r\n" + "WHERE user_id = ? AND breakfast_meal != '단식'\r\n"
             + "GROUP BY breakfast_meal HAVING COUNT(*) >= 2";
       try (Connection conn = MySqlConnectionProvider.getConnection();
@@ -385,6 +403,7 @@ public class Morning_FindFoodCalories extends JFrame {
       getContentPane().add(lblNewLabel_5);
 
       JButton btnNewButton_4 = new JButton("");
+      btnNewButton_4.setToolTipText("2번 이상 섭취한 음식이 표시됩니다.");
       btnNewButton_4.setIcon(new ImageIcon(Morning_FindFoodCalories.class.getResource("/image/최근에자주먹은음식보기4.png")));
       btnNewButton_4.setBounds(314, 104, 149, 23);
       btnNewButton_4.addActionListener(new ActionListener() {
