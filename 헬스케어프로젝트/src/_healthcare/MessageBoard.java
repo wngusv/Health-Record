@@ -198,17 +198,16 @@ public class MessageBoard extends JFrame {
 		ImageIcon icon = new ImageIcon(getClass().getResource("/image/글쓰기등록.png"));
 		submitButton.setIcon(icon);
 		submitButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String content = contentTextArea.getText();
-				addMessage();
-				if (!content.isEmpty()) {
-					addMessageToTable(content);
-					dialog.dispose();
-				} else {
-					JOptionPane.showMessageDialog(dialog, "내용을 입력하세요.", "알림", JOptionPane.WARNING_MESSAGE);
-				}
-			}
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        String content = contentTextArea.getText();
+		        if (!content.isEmpty()) {
+		            addMessageToTable(content);
+		            dialog.dispose();
+		        } else {
+		            JOptionPane.showMessageDialog(dialog, "내용을 입력하세요.", "알림", JOptionPane.WARNING_MESSAGE);
+		        }
+		    }
 		});
 
 		panel.add(contentLabel, BorderLayout.NORTH);
@@ -224,19 +223,17 @@ public class MessageBoard extends JFrame {
 	    String id = loginId;
 
 	    if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
-	        int rowCount = tableModel.getRowCount();
-	        newRowNumber = rowCount + 1;
+	        newRowNumber = tableModel.getRowCount() + 1; // 새로운 행 번호 설정
 	        
-	        Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false }; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
-	        tableModel.addRow(rowData);
+	        Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false }; // 새로운 행 데이터 생성
 	        tableModel.insertRow(0, rowData);
-	        
 	        return newRowNumber; // newRowNumber 값을 반환
 	    } else {
 	        JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
 	        return -1; // 유효하지 않은 newRowNumber 반환
 	    }
 	}
+
 
 
 	// 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
