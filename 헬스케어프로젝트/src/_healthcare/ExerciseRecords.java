@@ -36,6 +36,7 @@ public class ExerciseRecords extends JFrame {
    private JLabel lblTimeDiff;
    private String timediff;
    private JLabel lbl_image;
+private JButton btn_end;
 
    public ExerciseRecords(String loginId) {
       this.loginId = loginId;
@@ -124,6 +125,7 @@ public class ExerciseRecords extends JFrame {
       btn_start.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btn_start.setBorderPainted(false); // 테두리 제거
       btn_start.setBounds(39, 302, 152, 120);
+      btn_start.setEnabled(false);
       getContentPane().add(btn_start);
       // 운동시작 버튼 클릭 시 이벤트 리스너
       btn_start.addActionListener(new ActionListener() {
@@ -149,6 +151,9 @@ public class ExerciseRecords extends JFrame {
             // System.out.println("New icon: " + newIcon); // 콘솔에 이미지 아이콘 정보 출력
             // btn_start.setIcon(newIcon);
             btn_start.setEnabled(false); // 버튼을 클릭한 후에 비활성화
+            btn_Ok.setEnabled(false);
+            btn_end.setEnabled(true);
+            
          }
       });
 
@@ -205,7 +210,8 @@ public class ExerciseRecords extends JFrame {
         btn_Ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                btn_Ok.setEnabled(false);
+            	btn_start.setEnabled(true);
+                
                 String selectedSport = (String) comboBox_Sports.getSelectedItem();
                 if ("(운동 목록 선택)".equals(selectedSport)) {
                     openSportSelectionDialog();
@@ -242,13 +248,13 @@ public class ExerciseRecords extends JFrame {
         
         
 
-      // 운동종료 버튼
-      JButton btn_end = new JButton("");
+      btn_end = new JButton("");
       btn_end.setIcon(new ImageIcon(ExerciseRecords.class.getResource("/image/finish.png")));
       btn_end.setBounds(224, 302, 152, 120);
       btn_end.setOpaque(false); // 배경 투명하게 설정
       btn_end.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       btn_end.setBorderPainted(false); // 테두리 제거
+      btn_end.setEnabled(false);
       getContentPane().add(btn_end);
 
       JButton btnBack = new JButton("");
@@ -304,7 +310,7 @@ public class ExerciseRecords extends JFrame {
          @Override
          public void actionPerformed(ActionEvent e) {
             btn_Ok.setEnabled(true);
-            btn_start.setEnabled(true);
+            btn_end.setEnabled(false);
             try {
                // 현재 시간 가져오기
                LocalDateTime now = LocalDateTime.now();
