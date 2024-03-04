@@ -55,7 +55,7 @@ public class Main extends JFrame {
 
       // 차트 이미지를 JLabel에 추가하여 화면에 표시
       JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-      chartLabel.setBounds(281, 238, 64, 62); // 원하는 위치와 크기로 설정
+      chartLabel.setBounds(283, 254, 64, 62); // 원하는 위치와 크기로 설정
       getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
       JButton btnNewButton_1 = new JButton("");
@@ -99,7 +99,7 @@ public class Main extends JFrame {
       boardButton.setOpaque(false); // 배경 투명하게 설정
       boardButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       boardButton.setBorderPainted(false); // 테두리 제거
-      boardButton.setBounds(263, 440, 115, 77);
+      boardButton.setBounds(263, 439, 115, 77);
       getContentPane().add(boardButton);
 
       boardButton.addActionListener(new ActionListener() {
@@ -113,7 +113,7 @@ public class Main extends JFrame {
 
       JButton exerciseButton = new JButton("");
       exerciseButton.setIcon(new ImageIcon(Main.class.getResource("/image/운동기록버튼.png")));
-      exerciseButton.setBounds(146, 351, 101, 79);
+      exerciseButton.setBounds(148, 351, 101, 79);
       exerciseButton.setOpaque(false); // 배경 투명하게 설정
       exerciseButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       exerciseButton.setBorderPainted(false); // 테두리 제거
@@ -133,7 +133,7 @@ public class Main extends JFrame {
       waterButton.setOpaque(false); // 배경 투명하게 설정
       waterButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       waterButton.setBorderPainted(false); // 테두리 제거
-      waterButton.setBounds(263, 351, 114, 85);
+      waterButton.setBounds(263, 348, 114, 85);
       getContentPane().add(waterButton);
       waterButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent arg0) {
@@ -180,7 +180,7 @@ public class Main extends JFrame {
       graphButton.setOpaque(false); // 배경 투명하게 설정
       graphButton.setContentAreaFilled(false); // 콘텐츠 영역도 투명하게 설정
       graphButton.setBorderPainted(false); // 테두리 제거
-      graphButton.setBounds(146, 437, 109, 80);
+      graphButton.setBounds(150, 437, 109, 80);
       getContentPane().add(graphButton);
       graphButton.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent e) {
@@ -192,7 +192,8 @@ public class Main extends JFrame {
 
       // JSlider 초기화(BMI표시)
       slider = new JSlider();
-      slider.setBounds(28, 237, 193, 46);
+      slider.setFont(new Font("휴먼편지체", Font.PLAIN, 13));
+      slider.setBounds(28, 255, 193, 46);
       slider.setMinorTickSpacing(1); // 최소 틱 간격
       slider.setMajorTickSpacing(10);
       slider.setMinorTickSpacing(5);
@@ -260,7 +261,7 @@ public class Main extends JFrame {
 
       JLabel lblName = new JLabel("New label");
       lblName.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblName.setBounds(264, 77, 57, 15);
+      lblName.setBounds(264, 74, 57, 18);
       getContentPane().add(lblName);
 
       try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -329,7 +330,7 @@ public class Main extends JFrame {
       user_character = new JLabel("");
       // user_character.setIcon(new ImageIcon(Main.class.getResource("/image/운동하는
       // 브로콜리.png")));
-      user_character.setBounds(22, 59, 135, 154);
+      user_character.setBounds(28, 59, 135, 154);
       getContentPane().add(user_character);
 
       JLabel lblNewLabel_7 = new JLabel("New label");
@@ -339,22 +340,22 @@ public class Main extends JFrame {
 
       JLabel lblNewLabel_8 = new JLabel("");
       lblNewLabel_8.setIcon(new ImageIcon(Main.class.getResource("/image/BMI.png")));
-      lblNewLabel_8.setBounds(38, 293, 175, 23);
+      lblNewLabel_8.setBounds(38, 311, 175, 23);
       getContentPane().add(lblNewLabel_8);
 
       JLabel lblNewLabel_9 = new JLabel("BMI");
       lblNewLabel_9.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel_9.setBounds(116, 324, 33, 15);
+      lblNewLabel_9.setBounds(113, 236, 33, 15);
       getContentPane().add(lblNewLabel_9);
       
       JLabel lblNewLabel_6 = new JLabel("");
       lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리선.png")));
-      lblNewLabel_6.setBounds(246, 237, 6, 85);
+      lblNewLabel_6.setBounds(248, 237, 4, 104);
       getContentPane().add(lblNewLabel_6);
       
       JLabel lblNewLabel_10 = new JLabel("");
       lblNewLabel_10.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel_10.setBounds(273, 309, 112, 15);
+      lblNewLabel_10.setBounds(275, 321, 112, 15);
       getContentPane().add(lblNewLabel_10);
       // 오늘의 섭취칼로리
             String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
@@ -395,6 +396,11 @@ public class Main extends JFrame {
             String todayKcalText = String.format("%.0f", todayKcal);
             String recommendedKcalText = String.format("%.0f", recommendedKcal);
             lblNewLabel_10.setText(todayKcalText + " " + "/" + " " + recommendedKcalText + "kcal");
+            
+            JLabel lblNewLabel_12 = new JLabel("하루 섭취 칼로리");
+            lblNewLabel_12.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+            lblNewLabel_12.setBounds(270, 235, 100, 15);
+            getContentPane().add(lblNewLabel_12);
             
       setResizable(false); // 창 크기 고정
       setLocationRelativeTo(null); // 화면 중앙에 위치

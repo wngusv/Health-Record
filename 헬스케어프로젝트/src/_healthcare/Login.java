@@ -36,6 +36,10 @@ public class Login extends JFrame {
       setTitle("활기록");
       getContentPane().setBackground(Color.WHITE);
       getContentPane().setLayout(null);
+      
+      JButton btnNewButton = new JButton("비밀번호 찾기 / 회원탈퇴");
+      btnNewButton.setBounds(166, 371, 171, 23);
+      getContentPane().add(btnNewButton);
 
       JLabel lblNewLabel_3 = new JLabel("New label");
       lblNewLabel_3.setIcon(new ImageIcon(Login.class.getResource("/image/요가하는 옥쓔.png")));

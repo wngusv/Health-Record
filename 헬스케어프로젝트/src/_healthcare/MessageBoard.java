@@ -202,8 +202,8 @@ public class MessageBoard extends JFrame {
 		    public void actionPerformed(ActionEvent e) {
 		        String content = contentTextArea.getText();
 		        if (!content.isEmpty()) {
-		            addMessageToTable(content);
 		            dialog.dispose();
+		            addMessage();
 		        } else {
 		            JOptionPane.showMessageDialog(dialog, "내용을 입력하세요.", "알림", JOptionPane.WARNING_MESSAGE);
 		        }
@@ -228,10 +228,12 @@ public class MessageBoard extends JFrame {
 	        Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false }; // 새로운 행 데이터 생성
 	        tableModel.insertRow(0, rowData);
 	        return newRowNumber; // newRowNumber 값을 반환
+	        
 	    } else {
 	        JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
 	        return -1; // 유효하지 않은 newRowNumber 반환
 	    }
+	    
 	}
 
 
@@ -266,25 +268,25 @@ public class MessageBoard extends JFrame {
 
 	// 글쓰기
 	private void addMessage() {
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		String id = loginId; // 로그인한 아이디
-		String content = contentTextArea.getText();
-		int newRowNumber = addMessageToTable(content);
-		if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
-			Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false };
-			tableModel.addRow(rowData);
-			try (Connection connection = MySqlConnectionProvider.getConnection()) {
-				String sql = "INSERT INTO messageboard (user_id, num, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, ?, NOW())";
-				PreparedStatement preparedStatement = connection.prepareStatement(sql);
-				preparedStatement.setString(1, id);
-				preparedStatement.setInt(2, newRowNumber);
-				preparedStatement.setString(3, content);
-				preparedStatement.executeUpdate();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	    String id = loginId; // 로그인한 아이디
+	    String content = contentTextArea.getText();
+	    if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
+	        int newRowNumber = addMessageToTable(content);
+	        if (newRowNumber != -1) {
+	            try (Connection connection = MySqlConnectionProvider.getConnection()) {
+	                String sql = "INSERT INTO messageboard (user_id, num, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, ?, NOW())";
+	                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+	                preparedStatement.setString(1, id);
+	                preparedStatement.setInt(2, newRowNumber);
+	                preparedStatement.setString(3, content);
+	                preparedStatement.executeUpdate();
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
 	}
+
 
 	private class ToggleButtonEditor extends DefaultCellEditor implements TableCellEditor {
 		private JToggleButton button;
