@@ -44,6 +44,7 @@ public class MessageBoard extends JFrame {
 	private JLabel contentLabel;
 	private JTextArea contentTextArea;
 	private Font customFont;
+	private int newRowNumber;
 
 	public MessageBoard(String loginId) {
 		this.loginId = loginId;
@@ -218,38 +219,47 @@ public class MessageBoard extends JFrame {
 		dialog.setVisible(true);
 	}
 
-	private void addMessageToTable(String content) {
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		String id = loginId;
+	private int addMessageToTable(String content) {
+	    LocalDateTime currentDateTime = LocalDateTime.now();
+	    String id = loginId;
 
-		if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
-			Object[] rowData = { 1, id, content, currentDateTime, 0, false }; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
-			tableModel.insertRow(0, rowData);
-
-			// 데이터베이스에도 추가하는 로직을 여기에 추가할 수 있습니다.
-
-		} else {
-			JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
-		}
+	    if (id != null && !id.isEmpty() && content != null && !content.isEmpty()) {
+	        int rowCount = tableModel.getRowCount();
+	        newRowNumber = rowCount + 1;
+	        
+	        Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false }; // 새로운 글이 항상 첫 번째 행에 추가되도록 1로 설정
+	        tableModel.addRow(rowData);
+	        tableModel.insertRow(0, rowData);
+	        
+	        return newRowNumber; // newRowNumber 값을 반환
+	    } else {
+	        JOptionPane.showMessageDialog(this, "로그인 정보 또는 내용이 올바르지 않습니다.", "에러", JOptionPane.ERROR_MESSAGE);
+	        return -1; // 유효하지 않은 newRowNumber 반환
+	    }
 	}
+
 
 	// 데이터베이스에서 게시글과 좋아요 버튼 상태 불러오기
 	private void loadMessage() {
 		try (Connection connection = MySqlConnectionProvider.getConnection()) {
-			String sql = "SELECT messageboard.*, user_likes.is_liked " + "FROM messageboard " + "LEFT JOIN user_likes "
-					+ "ON messageboard.content = user_likes.user_content AND user_likes.user_id = ? ORDER BY messageboard.date DESC";
+			String sql = "SELECT messageboard.*, user_likes.is_liked " + 
+		             "FROM messageboard " + 
+		             "LEFT JOIN user_likes ON messageboard.content = user_likes.user_content AND user_likes.user_id = ? " +
+		             "ORDER BY messageboard.date DESC";
+
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			preparedStatement.setString(1, loginId);
 			ResultSet resultSet = preparedStatement.executeQuery();
 
 			while (resultSet.next()) {
+				int num = resultSet.getInt("num");
 				String id = resultSet.getString("user_id");
 				String content = resultSet.getString("content");
 				String date = resultSet.getString("date");
 				int likes = resultSet.getInt("likes");
 				boolean isLiked = resultSet.getBoolean("is_liked");
 				// 날짜 정보 등을 가져와서 테이블에 추가하는 작업
-				Object[] rowData = { tableModel.getRowCount() + 1, id, content, date, likes, isLiked };
+				Object[] rowData = { num, id, content, date, likes, isLiked };
 				tableModel.addRow(rowData);
 			}
 		} catch (SQLException e) {
@@ -262,14 +272,16 @@ public class MessageBoard extends JFrame {
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		String id = loginId; // 로그인한 아이디
 		String content = contentTextArea.getText();
+		int newRowNumber = addMessageToTable(content);
 		if (id != null && content != null && !id.isEmpty() && !content.isEmpty()) {
-			Object[] rowData = { tableModel.getRowCount() + 1, id, content, currentDateTime, 0, false };
+			Object[] rowData = { newRowNumber, id, content, currentDateTime, 0, false };
 			tableModel.addRow(rowData);
 			try (Connection connection = MySqlConnectionProvider.getConnection()) {
-				String sql = "INSERT INTO messageboard (user_id, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, NOW())";
+				String sql = "INSERT INTO messageboard (user_id, num, content, date) VALUES ((SELECT id FROM users WHERE id = ?), ?, ?, NOW())";
 				PreparedStatement preparedStatement = connection.prepareStatement(sql);
 				preparedStatement.setString(1, id);
-				preparedStatement.setString(2, content);
+				preparedStatement.setInt(2, newRowNumber);
+				preparedStatement.setString(3, content);
 				preparedStatement.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
