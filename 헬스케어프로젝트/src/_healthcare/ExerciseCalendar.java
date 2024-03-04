@@ -537,7 +537,7 @@ public class ExerciseCalendar extends JFrame {
 
 	           JPanel panel = new JPanel();
 	           JLabel label1 = new JLabel("오늘의 운동기록이 해당날짜에 초록색 날짜로 표기 됩니다.");
-	           JLabel label2 = new JLabel("날짜 아래의 수치는 오늘의 섭취칼로리 - 소모칼로리 이며 권장칼로리를 기준으로 색상이 바뀝니다.");;
+	           JLabel label2 = new JLabel("날짜 아래의 수치는 오늘의 (섭취칼로리 - 소모칼로리) 이며 권장칼로리를 기준으로 색상이 바뀝니다.");;
 	           label1.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 	           label2.setFont(new Font("HY엽서M", Font.PLAIN, 15));
 	           JButton closeButton = new JButton();
