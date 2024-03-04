@@ -15,19 +15,20 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.border.LineBorder;
 
 import dbutil.MySqlConnectionProvider;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 
 public class ExerciseCalendar extends JFrame {
 	private JLabel monthLabel; // 월을 표시하는 레이블
@@ -121,6 +122,19 @@ public class ExerciseCalendar extends JFrame {
 					new Main(loginId);
 			}
 		});
+		
+		JButton helpButton = new JButton("");
+		helpButton.setContentAreaFilled(false);
+		helpButton.setBorderPainted(false);
+		helpButton.setFocusPainted(false);
+		helpButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				 new HelpDialog(ExerciseCalendar.this).setVisible(true);
+			}
+		});
+		helpButton.setIcon(new ImageIcon(ExerciseCalendar.class.getResource("/image/Help.png")));
+		helpButton.setBounds(300, 3, 54, 40);
+		controlsPanel.add(helpButton);
 		btnBack.setBounds(4, 7, 36, 23);
 		controlsPanel.add(btnBack);
 		controlsPanel.add(leftButton); // 이전 달 버튼은 서쪽에 배치
@@ -370,8 +384,8 @@ public class ExerciseCalendar extends JFrame {
 	public void changeImageOfToday() {
 		today = LocalDate.now();
 
-		newImage = "/image/Check" + today.getDayOfMonth() + ".png";
-		newImageIcon = new ImageIcon(ExerciseCalendar.class.getResource(newImage));
+		newImage = "src/image/Check" + today.getDayOfMonth() + ".png";
+		newImageIcon = new ImageIcon(newImage);
 		System.out.println(newImageIcon);
 		// 패널을 생성하면서 오늘의 날짜인지 확인하고 이미지를 변경
 		for (Component component : calendarPanel.getComponents()) {
@@ -430,7 +444,7 @@ public class ExerciseCalendar extends JFrame {
 			e.printStackTrace();
 		}
 		// 기본 이미지 경로
-		return "/image/Date" + date.getDayOfMonth() + ".png";
+		return "src/image/Date" + date.getDayOfMonth() + ".png";
 	}
 
 	public void changeTextOfToday() {
@@ -513,6 +527,37 @@ public class ExerciseCalendar extends JFrame {
 		// 기본 텍스트
 		return "0.0";
 	}
+	class HelpDialog extends JDialog {
+	       public HelpDialog(JFrame frame) {
+	           super(frame, "", true); 
+	           setSize(750, 140);
+	           setLocationRelativeTo(frame);
+
+	           JPanel panel = new JPanel();
+	           JLabel label1 = new JLabel("오늘의 운동기록이 해당날짜에 초록색 날짜로 표기 됩니다.");
+	           JLabel label2 = new JLabel("날짜 아래의 수치는 오늘의 섭취칼로리 - 소모칼로리 이며 권장칼로리를 기준으로 색상이 바뀝니다.");;
+	           label1.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+	           label2.setFont(new Font("HY엽서M", Font.PLAIN, 15));
+	           JButton closeButton = new JButton();
+	           closeButton.setIcon(new ImageIcon(DietRecord.class.getResource("/image/완료.png")));
+	           closeButton.setContentAreaFilled(false);
+	           closeButton.setBorderPainted(false);
+	           closeButton.setFocusPainted(false);
+	           panel.add(label1);
+	           panel.add(label2);
+	           panel.add(closeButton);
+	           panel.setBackground(Color.WHITE);
+
+	           closeButton.addActionListener(new ActionListener() {
+	               @Override
+	               public void actionPerformed(ActionEvent e) {
+	                   dispose();
+	               }
+	           });
+
+	           add(panel);
+	       }
+	   }
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(() -> {
