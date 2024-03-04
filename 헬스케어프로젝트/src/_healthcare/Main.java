@@ -27,10 +27,11 @@ public class Main extends JFrame {
    private static String loginId;
    private JLabel lblKg;
    private JSlider slider;
-   private JLabel lalKg;
    private JLabel user_character = new JLabel();
    private int userCharacterNum;
    private JLabel chartLabel;
+   private double todayKcal;
+   private double recommendedKcal;
 
    public Main(String loginId) {
       setTitle("마이 페이지");
@@ -44,10 +45,17 @@ public class Main extends JFrame {
       // Main 클래스에서 HalfRingChart 객체 생성
       HalfRingChart halfRingChart = new HalfRingChart(loginId);
       BufferedImage chartImage = halfRingChart.getChartImage(); // 차트 이미지 가져오기
+      
+      
+      
+      JLabel lblNewLabel_11 = new JLabel("목표 몸무게:");
+      lblNewLabel_11.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+      lblNewLabel_11.setBounds(182, 178, 65, 15);
+      getContentPane().add(lblNewLabel_11);
 
       // 차트 이미지를 JLabel에 추가하여 화면에 표시
       JLabel chartLabel = new JLabel(new ImageIcon(chartImage));
-      chartLabel.setBounds(264, 237, 64, 62); // 원하는 위치와 크기로 설정
+      chartLabel.setBounds(281, 238, 64, 62); // 원하는 위치와 크기로 설정
       getContentPane().add(chartLabel); // 프레임에 JLabel 추가
 
       JButton btnNewButton_1 = new JButton("");
@@ -212,7 +220,7 @@ public class Main extends JFrame {
 
       lblKg = new JLabel("New label");
       lblKg.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblKg.setBounds(232, 168, 57, 15);
+      lblKg.setBounds(264, 152, 57, 15);
       getContentPane().add(lblKg);
 
       try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -229,10 +237,30 @@ public class Main extends JFrame {
       } catch (SQLException e) {
          e.printStackTrace();
       }
+      
+      JLabel lblGoalKg = new JLabel("New label");
+      lblGoalKg.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+      lblGoalKg.setBounds(263, 177, 57, 15);
+      getContentPane().add(lblGoalKg);
+      
+      try (Connection connection = MySqlConnectionProvider.getConnection();
+              Statement statement = connection.createStatement();
+              ResultSet resultSet = statement
+                    .executeQuery("SELECT Goal_weight FROM users WHERE id = '" + loginId + "'");) {
+
+           if (resultSet.next()) {
+              String Goalweight = resultSet.getString("Goal_weight"); // 몸무게 가져오기
+              System.out.println("Goal_weight from database: " + Goalweight);
+
+              lblGoalKg.setText(Goalweight); // JLabel에 몸무게 설정
+           }
+        } catch (SQLException e) {
+           e.printStackTrace();
+        }
 
       JLabel lblName = new JLabel("New label");
       lblName.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblName.setBounds(232, 93, 57, 15);
+      lblName.setBounds(264, 77, 57, 15);
       getContentPane().add(lblName);
 
       try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -251,7 +279,7 @@ public class Main extends JFrame {
 
       JLabel lblAge = new JLabel("New label");
       lblAge.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblAge.setBounds(232, 118, 57, 15);
+      lblAge.setBounds(264, 102, 57, 15);
       getContentPane().add(lblAge);
 
       try (Connection connection = MySqlConnectionProvider.getConnection();
@@ -270,27 +298,27 @@ public class Main extends JFrame {
 
       JLabel lblHeight = new JLabel("New label");
       lblHeight.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblHeight.setBounds(232, 143, 57, 15);
+      lblHeight.setBounds(264, 127, 57, 15);
       getContentPane().add(lblHeight);
 
       JLabel lblNewLabel = new JLabel("이름:");
       lblNewLabel.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel.setBounds(180, 94, 57, 15);
+      lblNewLabel.setBounds(212, 78, 57, 15);
       getContentPane().add(lblNewLabel);
 
       JLabel lblNewLabel_1 = new JLabel("나이:");
       lblNewLabel_1.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel_1.setBounds(180, 119, 57, 15);
+      lblNewLabel_1.setBounds(212, 103, 57, 15);
       getContentPane().add(lblNewLabel_1);
 
       JLabel lblNewLabel_2 = new JLabel("키:");
       lblNewLabel_2.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel_2.setBounds(190, 144, 57, 15);
+      lblNewLabel_2.setBounds(222, 128, 57, 15);
       getContentPane().add(lblNewLabel_2);
 
-      JLabel lblNewLabel_3 = new JLabel("몸무게:");
+      JLabel lblNewLabel_3 = new JLabel("현재 몸무게:");
       lblNewLabel_3.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
-      lblNewLabel_3.setBounds(170, 169, 57, 15);
+      lblNewLabel_3.setBounds(178, 153, 81, 15);
       getContentPane().add(lblNewLabel_3);
 
       JLabel lblNewLabel_4 = new JLabel("");
@@ -315,9 +343,59 @@ public class Main extends JFrame {
       getContentPane().add(lblNewLabel_8);
 
       JLabel lblNewLabel_9 = new JLabel("BMI");
-      lblNewLabel_9.setBounds(113, 326, 33, 15);
+      lblNewLabel_9.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+      lblNewLabel_9.setBounds(116, 324, 33, 15);
       getContentPane().add(lblNewLabel_9);
+      
+      JLabel lblNewLabel_6 = new JLabel("");
+      lblNewLabel_6.setIcon(new ImageIcon(Main.class.getResource("/image/아이보리선.png")));
+      lblNewLabel_6.setBounds(246, 237, 6, 85);
+      getContentPane().add(lblNewLabel_6);
+      
+      JLabel lblNewLabel_10 = new JLabel("");
+      lblNewLabel_10.setFont(new Font("휴먼편지체", Font.PLAIN, 14));
+      lblNewLabel_10.setBounds(273, 309, 112, 15);
+      getContentPane().add(lblNewLabel_10);
+      // 오늘의 섭취칼로리
+            String query = "SELECT eat_kcal FROM all_kcal WHERE user_id = ? AND date = CURRENT_DATE() ORDER BY record_id DESC LIMIT 1";
+            try (Connection conn = MySqlConnectionProvider.getConnection();
+                  PreparedStatement pst = conn.prepareStatement(query)) {
 
+               pst.setString(1, loginId);
+
+               try (ResultSet rs = pst.executeQuery()) {
+                  if (rs.next()) {
+                     todayKcal = rs.getDouble("eat_kcal");
+                     System.out.println(todayKcal);
+                  }
+               }
+
+            } catch (SQLException e) {
+               e.printStackTrace();
+            }
+            
+            // 목표 몸무게 불러오기
+
+            // 권장칼로리 불러오기
+            String query2 = "SELECT recommended_kcal FROM users WHERE id = ?";
+            try (Connection conn2 = MySqlConnectionProvider.getConnection();
+                  PreparedStatement pst2 = conn2.prepareStatement(query2)) {
+
+               pst2.setString(1, loginId);
+
+               try (ResultSet rs2 = pst2.executeQuery()) {
+                  if (rs2.next()) {
+                     recommendedKcal = rs2.getDouble("recommended_kcal");
+                     System.out.println(recommendedKcal);
+                  }
+               }
+            } catch (SQLException e1) {
+               e1.printStackTrace();
+            }
+            String todayKcalText = String.format("%.0f", todayKcal);
+            String recommendedKcalText = String.format("%.0f", recommendedKcal);
+            lblNewLabel_10.setText(todayKcalText + " " + "/" + " " + recommendedKcalText + "kcal");
+            
       setResizable(false); // 창 크기 고정
       setLocationRelativeTo(null); // 화면 중앙에 위치
 
@@ -407,6 +485,6 @@ public class Main extends JFrame {
       } catch (SQLException e) {
          e.printStackTrace();
       }
-
+      
    }
 }
