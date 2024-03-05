@@ -31,7 +31,6 @@ public class Login extends JFrame {
    private JPasswordField txtPW;
    private JButton loginButton;
    public String loginId;
-   private JLabel lblNewLabel;
 
    public Login() {
    	setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/image/_ICON.png")));

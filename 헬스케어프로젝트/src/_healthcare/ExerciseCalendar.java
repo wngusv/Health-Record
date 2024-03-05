@@ -44,7 +44,6 @@ public class ExerciseCalendar extends JFrame {
 	private ImageIcon newImageIcon;
 	private String newImage;
 	private LocalDate today;
-	private DietRecord dietRecord;
 	private double todayKcal;
 	private double recommendedKcal;
 	private JLabel kcalLabel;

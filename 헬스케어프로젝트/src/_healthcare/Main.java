@@ -30,7 +30,6 @@ public class Main extends JFrame {
    private JSlider slider;
    private JLabel user_character = new JLabel();
    private int userCharacterNum;
-   private JLabel chartLabel;
    private double todayKcal;
    private double recommendedKcal;
 

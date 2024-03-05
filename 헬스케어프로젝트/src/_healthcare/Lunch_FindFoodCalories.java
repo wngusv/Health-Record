@@ -36,7 +36,6 @@ import java.awt.Toolkit;
 
 public class Lunch_FindFoodCalories extends JFrame {
    private JTextField textField;
-   private JButton btnNewButton;
    private JTable resultTable;
    private DefaultTableModel tableModel;
    private JButton btnNewButton_1;

@@ -44,7 +44,6 @@ public class EditProfile extends JFrame {
 	private int updateAge;
 	private double updateHeight;
 	private double updateWeight;
-	private int updateImage;
 	java.util.Date currentDate = new java.util.Date();
 	Date sqlDate = new Date(currentDate.getTime());
 	private JRadioButton broccoli = new JRadioButton("1. 브로콜리");
