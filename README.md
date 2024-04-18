@@ -59,6 +59,8 @@
 
 ![캘린더](https://github.com/wngusv/Team1---healthcare/assets/154950245/a1b940ca-bdab-41d2-824a-79a445553104)
 
+![캘린더설명](https://github.com/wngusv/Team1---healthcare/assets/154950245/578df18c-7fd9-4553-aaab-c0f17cf71b36)
+
 
 ### [몸무게 변화]
 
@@ -67,6 +69,10 @@
 ### [게시판]
 
 ![게시판](https://github.com/wngusv/Team1---healthcare/assets/154950245/74f21e1a-93cc-4cb8-91f3-4874aa51e6fd)
+
+### [몸무게 활동량 BMI 계산]
+
+![계산](https://github.com/wngusv/Team1---healthcare/assets/154950245/c35c80c8-a198-4b8c-a893-db53bf951adf)
 
 
                  
