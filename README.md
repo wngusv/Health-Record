@@ -37,5 +37,18 @@
 | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------: |
 | <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/5f437697-dd6d-415a-bd65-79d7eb2d555d" weight=200 height=313>   |  <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/be8895f5-f9af-4d45-83e9-5be82cdf7406" weight=200 height=313>  | <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/552f513f-3a51-44d7-93ba-5499b7874687" weight=200 height=313>   | <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/6878562c-193d-4ae9-b8e5-a333eb9d20c2" weight=200 height=313>   |  <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/9a16ca2a-5fd2-4554-a3fe-99feb28fffbd" weight=200 height=313>  |
 
- 
+### [메인]
+
+![메인](https://github.com/wngusv/Team1---healthcare/assets/154950245/2ca79360-c9fe-4cb7-aeda-2d7059f5df9f)
+
+### [식단 기록]
+
+![식단기록](https://github.com/wngusv/Team1---healthcare/assets/154950245/a92591a5-667a-4fa5-8076-91e1ef8cd297)
+
+![음식섭취창](https://github.com/wngusv/Team1---healthcare/assets/154950245/9ed81f23-8adc-4bb6-9a8c-1625a8b0ccf0) ![섭취칼로리그래프](https://github.com/wngusv/Team1---healthcare/assets/154950245/825b232c-e1df-450c-959c-00f0456ead2c)
+
+
+
+
+
                  
