@@ -82,5 +82,13 @@
 
 ![계산](https://github.com/wngusv/Team1---healthcare/assets/154950245/c35c80c8-a198-4b8c-a893-db53bf951adf)
 
+### [트리거]
+
+![트리거1](https://github.com/wngusv/Team1---healthcare/assets/154950245/d662b3e2-df9c-43ab-87fe-5c5a21a473f7)
+
+![트리거2](https://github.com/wngusv/Team1---healthcare/assets/154950245/f7c74406-452a-462e-ad3a-c3e9d5c453ba)
+
+![트리거3](https://github.com/wngusv/Team1---healthcare/assets/154950245/b8c97dac-5046-4254-b7e0-1490b5b3f2af)
+
 
                  
