@@ -51,8 +51,22 @@
 
 <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/0359bd98-77ea-49a8-876a-21c035a9fc4a" weight =300 height=400>
 
+### [물 기록]
+
+![물기록](https://github.com/wngusv/Team1---healthcare/assets/154950245/e90ef988-4384-4658-b893-9e9d86b80349)
+
+### [해빗 트래커]
+
+![캘린더](https://github.com/wngusv/Team1---healthcare/assets/154950245/a1b940ca-bdab-41d2-824a-79a445553104)
 
 
+### [몸무게 변화]
+
+![차트](https://github.com/wngusv/Team1---healthcare/assets/154950245/cd4d53b4-2988-4a85-8780-a22457eb13cb)
+
+### [게시판]
+
+![게시판](https://github.com/wngusv/Team1---healthcare/assets/154950245/74f21e1a-93cc-4cb8-91f3-4874aa51e6fd)
 
 
                  
