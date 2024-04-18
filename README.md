@@ -57,7 +57,7 @@
 
 ### [운동 기록]
 
-<img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/0359bd98-77ea-49a8-876a-21c035a9fc4a" weight =300 height=400>
+<img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/11b9ac36-f73c-4f7b-bced-08da6d3ca402" weight =300 height=400>
 
 ### [물 기록]
 
