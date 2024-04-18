@@ -47,6 +47,10 @@
 
 ![음식섭취창](https://github.com/wngusv/Team1---healthcare/assets/154950245/9ed81f23-8adc-4bb6-9a8c-1625a8b0ccf0) ![섭취칼로리그래프](https://github.com/wngusv/Team1---healthcare/assets/154950245/825b232c-e1df-450c-959c-00f0456ead2c)
 
+### [운동 기록]
+
+<img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/0359bd98-77ea-49a8-876a-21c035a9fc4a" weight =300 height=400>
+
 
 
 
