@@ -109,15 +109,21 @@
 
 ![게시판](https://github.com/wngusv/Team1---healthcare/assets/154950245/74f21e1a-93cc-4cb8-91f3-4874aa51e6fd)
 
-### [몸무게 활동량 BMI 계산]
+### [몸무게 활동량 BMI Expression 계산]
 
 ![계산](https://github.com/wngusv/Team1---healthcare/assets/154950245/c35c80c8-a198-4b8c-a893-db53bf951adf)
 
 ### [트리거]
 
+- 두 개의 시간 필드인 start_time과 end_time을 기반으로 운동 기간을 계산하고, 이를 시간 단위로 표시하여 hours_exercise 필드에 저장합니다.
+
 ![트리거1](https://github.com/wngusv/Team1---healthcare/assets/154950245/d662b3e2-df9c-43ab-87fe-5c5a21a473f7)
 
+- 각 운동 레코드에 대해 운동 기간과 사용자의 몸무게를 기반으로 칼로리 소모량을 계산하고, 이 값을 kcal_exercise 필드에 저장합니다.
+
 ![트리거2](https://github.com/wngusv/Team1---healthcare/assets/154950245/f7c74406-452a-462e-ad3a-c3e9d5c453ba)
+
+- 새로운 시작 시간과 종료 시간이 제공될 경우, 두 시간 사이의 차이를 계산하고 이를 TIME_DIFF 필드에 저장합니다.
 
 ![트리거3](https://github.com/wngusv/Team1---healthcare/assets/154950245/b8c97dac-5046-4254-b7e0-1490b5b3f2af)
 
