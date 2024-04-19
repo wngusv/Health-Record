@@ -62,7 +62,7 @@
 ### [식단 기록]
 - 이 기능은 메인화면 반원그래프에 사용자의 하루 섭취 칼로리를 직관적으로 시각화하여 사용자가 자신의 식단 상태를 한눈에 파악할 수 있도록 합니다.
 - 권장 칼로리는 회원의 몸무게와 활동량으로 계산합니다.
-- 
+  
 ![식단기록](https://github.com/wngusv/Team1---healthcare/assets/154950245/a92591a5-667a-4fa5-8076-91e1ef8cd297)
 
 ![음식섭취창](https://github.com/wngusv/Team1---healthcare/assets/154950245/9ed81f23-8adc-4bb6-9a8c-1625a8b0ccf0) ![섭취칼로리그래프](https://github.com/wngusv/Team1---healthcare/assets/154950245/825b232c-e1df-450c-959c-00f0456ead2c)
