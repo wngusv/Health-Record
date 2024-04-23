@@ -1,4 +1,4 @@
-<h1 align = "center">일상 활동을 기록하다 활기록</h1>
+## <h1 align = "center">일상 활동을 기록하다 활기록</h1>
 <p align = "center">
 <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/2f65216c-c9e2-4a50-a7dc-07a754925232">
 </p>
