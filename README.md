@@ -65,7 +65,7 @@
 
 ![메인](https://github.com/wngusv/Team1---healthcare/assets/154950245/2ca79360-c9fe-4cb7-aeda-2d7059f5df9f)
 
-### [식단 기록]
+### [식단 기록 및 운동 기록]
 - 아침/점심/저녁/간식 검색 메뉴를 통해, 각각 먹은 음식들을 검색하여 기록
       - 편의 제공을 위해, 두 번이상 입력된 음식은 즐겨찾기에 자동 추가
     - 식약처에서 제공하는 8만 여개의 식품 영양성분 데이터를 활용해 섭취칼로리를 계산
@@ -85,10 +85,6 @@
 ![최근에 자주 먹은 음식 보기](https://github.com/wngusv/Team1---healthcare/assets/154950245/f9d6accb-bf8d-48d5-9b25-372627488d01)
 
 ![섭취칼로리그래프](https://github.com/wngusv/Team1---healthcare/assets/154950245/825b232c-e1df-450c-959c-00f0456ead2c)
-
-### [운동 기록]
-
-- 운동 기록은 운동 종목에 따라 초당 소모 칼로리를 테이블에 등록하여 계산하며, 이를 통해 소모 칼로리를 추적합니다. 그러나 timediff 함수는 Expression으로 계산할 수 없기 때문에 트리거를 사용하여 계산합니다.
 
 <img src = "https://github.com/wngusv/Team1---healthcare/assets/154950245/11b9ac36-f73c-4f7b-bced-08da6d3ca402" weight =300 height=400>
 
